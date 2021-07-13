@@ -100,6 +100,7 @@ class PushNotificationsDataProvider {
         let subdomain = "en"
         let urlKey: URL? = try? echoFetcher.key(notwikis: notwikis, subdomain: subdomain)
         
+        //todo: don't cancel tasks so frequently, instead run this entire method as an operation (fetch remote, create local objects, pull oldest from local objects and save it's continue id, save local objects to store) serially. this will hopefully result in fewer cancelled tasks and more consistent data. if an operation fails in some way (i.e. server or database is messing up) end recursive fetch calling and cancel tasks.
         if let cancellationKey = getCancellationKey(for: urlKey) {
             self.echoFetcher.cancel(taskFor: cancellationKey)
         }
@@ -137,7 +138,7 @@ class PushNotificationsDataProvider {
                             let identifier = oldestLocalNotification.id
                             let newContinueId = unix + String(identifier)
                             let oldContinueId = self.getContinueId(for: urlKey)
-                            if newContinueId == oldContinueId { //nothing new, remove key to stop auto-fetching
+                            if newContinueId == oldContinueId && fetchType == .page { //nothing new, remove key to stop auto-fetching
                                 self.setContinueId(nil, for: urlKey)
                             } else {
                                 self.setContinueId(unix + String(identifier), for: urlKey)

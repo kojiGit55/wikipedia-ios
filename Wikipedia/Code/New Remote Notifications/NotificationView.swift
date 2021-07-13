@@ -6,7 +6,7 @@ struct NotificationView: View {
     let notification: EchoNotification
     private let identifier = UUID()
     var body: some View {
-        Text(notification.agentName ?? "Unknown agent name")
+        Text(notification.type ?? "Unknown type name")
     }
 }
 

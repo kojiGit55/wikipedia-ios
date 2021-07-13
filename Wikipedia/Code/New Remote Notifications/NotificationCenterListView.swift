@@ -6,7 +6,8 @@ struct NotificationCenterListView: View {
     
     let dataProvider: PushNotificationsDataProvider
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \EchoNotification.timestamp, ascending: false)])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \EchoNotification.timestamp, ascending: false)], predicate: NSPredicate(format: "type IN %@", ["edit-user-talk"])) //edit-user-talk, reverted, thank-you-edit
+    //@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \EchoNotification.timestamp, ascending: false)])
     private var notifications: FetchedResults<EchoNotification>
     
     @SwiftUI.State var loading = false
@@ -53,9 +54,11 @@ struct NotificationCenterListView: View {
                 case .success():
                     print("success!")
                     
-                        if let lastNotificationId = notifications.last?.id,
-                           fetchType == .page,
+                    let notificationsOfType = notifications.filter { $0.type == "edit-user-talk" }
+                        if let lastNotificationId = notificationsOfType.last?.id,
                            onScreenNotificationIds.contains(lastNotificationId) {
+                            fetchNotifications(fetchType: .page)
+                        } else if notificationsOfType.count == 0 {
                             fetchNotifications(fetchType: .page)
                         }
                     
