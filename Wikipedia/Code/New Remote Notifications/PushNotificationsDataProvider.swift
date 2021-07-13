@@ -1,8 +1,16 @@
-
-
 import Foundation
+import WMF
+
+enum PushNotificationsDataProviderError: Error {
+    case attemptingToPageButNoContinueId
+}
 
 class PushNotificationsDataProvider {
+    
+    enum FetchType {
+        case reload
+        case page
+    }
     
     //for use with SwiftUI canvas previews
     static let preview: PushNotificationsDataProvider = {
@@ -13,6 +21,9 @@ class PushNotificationsDataProvider {
 
     private let echoFetcher: EchoNotificationsFetcher
     private let inMemory: Bool
+    private var cancellationKeys: [URL: String] = [:] //TODO: why won't CancellationKey type here work
+    private var continueIds: [URL: String] = [:]
+    private let queue = DispatchQueue(label: "PushNotificationsDataProvider-" + UUID().uuidString)
     
     init(echoFetcher: EchoNotificationsFetcher, inMemory: Bool) {
         self.echoFetcher = echoFetcher
@@ -33,6 +44,8 @@ class PushNotificationsDataProvider {
         if inMemory {
             description.url = URL(fileURLWithPath: "/dev/null")
         }
+        
+        print("Push Notification Persistent Store location: \(description.url)")
 //
 //        // Enable persistent store remote change notifications
 //        /// - Tag: persistentStoreRemoteChange
@@ -52,8 +65,7 @@ class PushNotificationsDataProvider {
 
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.name = "viewContext"
-        //do we need this?
-        //container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         return container
     }()
     
@@ -63,29 +75,79 @@ class PushNotificationsDataProvider {
         let taskContext = container.newBackgroundContext()
         taskContext.automaticallyMergesChangesFromParent = true
         taskContext.name = "backgroundContext"
-        //do we need this?
-        //taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
         return taskContext
     }()
     
-    func fetchNotifications(completion: @escaping (Result<Void, Error>) -> Void) {
+    func oldestNotificationOfWikis(wikis: [String]) throws -> EchoNotification? {
+        
+        let moc = backgroundContext
+        let fetchRequest: NSFetchRequest<EchoNotification> = EchoNotification.fetchRequest()
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "wiki IN %@", wikis)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        return try moc.fetch(fetchRequest).first
+    }
+    
+    func fetchNotifications(fetchType: FetchType = .reload, completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard !inMemory else {
             return
         }
         
+        let notwikis = "enwiki"
+        let subdomain = "en"
+        let urlKey: URL? = try? echoFetcher.key(notwikis: notwikis, subdomain: subdomain)
+        
+        if let cancellationKey = getCancellationKey(for: urlKey) {
+            self.echoFetcher.cancel(taskFor: cancellationKey)
+        }
+        
+        var continueId: String? = nil
+        if fetchType == .page {
+            continueId = getContinueId(for: urlKey)
+            if continueId == nil {
+                print("end of page, bail")
+                completion(.failure(PushNotificationsDataProviderError.attemptingToPageButNoContinueId))
+                return
+            }
+        }
+        
         let moc = backgroundContext
-        echoFetcher.fetchNotifications { result in
+        let cancellationKey = echoFetcher.fetchNotifications(notwikis: notwikis, subdomain: subdomain, continueId: continueId) { [weak self] result in
+            
+            guard let self = self else { return }
+            
+            self.setCancellationKey(nil, for: urlKey)
+            
             switch result {
-            case .success(let remoteNotifications):
+            case .success(let response):
+                
                 moc.perform {
-                    for remoteNotification in remoteNotifications {
+                    for remoteNotification in response.notifications {
                         let _ = EchoNotification.init(remoteNotification: remoteNotification, moc: moc)
                     }
                     
                     do {
+                        
+                        //by pulling the oldest local notification for continue value instead of going by the network response, we are potentialy reducing the number of network calls for objects we already have locally.
+                        if let oldestLocalNotification = try? self.oldestNotificationOfWikis(wikis: [notwikis]) {
+                            let unix = oldestLocalNotification.timestampUnix == nil ? "" : "\(oldestLocalNotification.timestampUnix!)|"
+                            let identifier = oldestLocalNotification.id
+                            let newContinueId = unix + String(identifier)
+                            let oldContinueId = self.getContinueId(for: urlKey)
+                            if newContinueId == oldContinueId { //nothing new, remove key to stop auto-fetching
+                                self.setContinueId(nil, for: urlKey)
+                            } else {
+                                self.setContinueId(unix + String(identifier), for: urlKey)
+                            }
+                        } else {
+                            self.setContinueId(response.continueString, for: urlKey)
+                        }
+                        
                         try self.save(moc: moc)
+                        
                         completion(.success(()))
                     } catch (let error) {
                         completion(.failure(error))
@@ -94,8 +156,9 @@ class PushNotificationsDataProvider {
             case .failure(let error):
                 completion(.failure(error))
             }
-        
         }
+        
+        setCancellationKey(cancellationKey, for: urlKey)
     }
     
     func save(moc: NSManagedObjectContext) throws {
@@ -104,5 +167,56 @@ class PushNotificationsDataProvider {
         }
         
         try moc.save()
+    }
+}
+
+//MARK: Thread-safe accessors for collection properties
+private extension PushNotificationsDataProvider {
+    func setCancellationKey(_ cancellationKey: String?, for url: URL?) {
+        
+        guard let url = url else {
+            return
+        }
+        
+        queue.async {
+            self.cancellationKeys[url] = cancellationKey
+        }
+    }
+    
+    func getCancellationKey(for url: URL?) -> String? {
+        guard let url = url else {
+            return nil
+        }
+        
+        var cancellationKey: String?
+        queue.sync {
+            cancellationKey = self.cancellationKeys[url]
+        }
+        
+        return cancellationKey
+    }
+    
+    func setContinueId(_ continueId: String?, for url: URL?) {
+        
+        guard let url = url else {
+            return
+        }
+        
+        queue.async {
+            self.continueIds[url] = continueId
+        }
+    }
+    
+    func getContinueId(for url: URL?) -> String? {
+        guard let url = url else {
+            return nil
+        }
+        
+        var continueId: String?
+        queue.sync {
+            continueId = self.continueIds[url]
+        }
+        
+        return continueId
     }
 }

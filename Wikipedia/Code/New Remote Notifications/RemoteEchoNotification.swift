@@ -11,6 +11,12 @@ struct RemoteEchoNotificationQuery: Decodable {
 
 struct RemoteEchoNotificationsList: Decodable {
     let list: [RemoteEchoNotification]
+    let continueString: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case list = "list"
+        case continueString = "continue"
+    }
 }
 
 struct RemoteEchoNotification: Decodable {
@@ -25,10 +31,11 @@ struct RemoteEchoNotification: Decodable {
     let id: UInt
     let type: RemoteEchoNotification.EchoType
     let timestamp: Date
+    let timestampUnix: String
     let title: String
     let agentId: UInt
     let agentName: String
-    let revId: UInt
+    let revId: UInt?
     let readDate: Date?
     let header: String
     
@@ -50,6 +57,7 @@ struct RemoteEchoNotification: Decodable {
     
     enum TimestampKeys: String, CodingKey {
         case utciso8601
+        case unix
     }
     
     enum TitleKeys: String, CodingKey {
@@ -75,11 +83,19 @@ struct RemoteEchoNotification: Decodable {
         self.wiki = try outerContainer.decode(String.self, forKey: .wiki)
         self.id = try outerContainer.decode(UInt.self, forKey: .id)
         self.type = try outerContainer.decode(EchoType.self, forKey: .type)
-        self.revId = try outerContainer.decode(UInt.self, forKey: .revId)
-        let readDate = try outerContainer.decode(String.self, forKey: .readDate)
-        self.readDate = nil //for now, convert readDate above
+        self.revId = try? outerContainer.decode(UInt.self, forKey: .revId)
+        let readDateString = try? outerContainer.decode(String.self, forKey: .readDate)
+        
+        if let readDateString = readDateString {
+            self.readDate = DateFormatter.wmf_englishUTCNonDelimitedYearMonthDayHourMinuteSecond()?.date(from: readDateString)
+        } else {
+            self.readDate = nil
+        }
+        
         let timestampDate = try timestampContainer.decode(String.self, forKey: .utciso8601)
-        self.timestamp = Date() //for now, convert timestampDate above
+        let timestampUnixString = try timestampContainer.decode(String.self, forKey: .unix)
+        self.timestamp = (timestampDate as NSString).wmf_iso8601Date()
+        self.timestampUnix = timestampUnixString
         self.title = try titleContainer.decode(String.self, forKey: .full)
         self.agentId = try agentContainer.decode(UInt.self, forKey: .id)
         self.agentName = try agentContainer.decode(String.self, forKey: .name)

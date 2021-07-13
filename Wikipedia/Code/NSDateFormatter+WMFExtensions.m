@@ -134,6 +134,16 @@ static NSString *const WMF_ISO8601_FORMAT = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
     return _dateFormatter;
 }
 
++ (instancetype)wmf_englishUTCNonDelimitedYearMonthDayHourMinuteSecondFormatter {
+    static NSDateFormatter *_dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _dateFormatter = [self wmf_newEnglishYearMonthDayHourMinuteSecondFormatter];
+        _dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    });
+    return _dateFormatter;
+}
+
 + (instancetype)wmf_englishUTCSlashDelimitedYearMonthDayFormatter {
     static NSDateFormatter *_dateFormatter;
     static dispatch_once_t onceToken;
@@ -155,6 +165,13 @@ static NSString *const WMF_ISO8601_FORMAT = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 + (instancetype)wmf_newEnglishYearMonthDayFormatter {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyyMMdd";
+    dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en"];
+    return dateFormatter;
+}
+
++ (instancetype)wmf_newEnglishYearMonthDayHourMinuteSecondFormatter {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyyMMddHHmmss";
     dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en"];
     return dateFormatter;
 }

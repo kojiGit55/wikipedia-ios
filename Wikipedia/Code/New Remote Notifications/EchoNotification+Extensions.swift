@@ -28,12 +28,17 @@ extension EchoNotification {
     convenience init(remoteNotification: RemoteEchoNotification, moc: NSManagedObjectContext) {
         self.init(entity: EchoNotification.entity(), insertInto: moc)
         self.id = Int64(remoteNotification.id)
-        self.revId = Int64(remoteNotification.revId)
+        if let revId = remoteNotification.revId {
+            self.revId = Int64(revId)
+        } else {
+            self.revId = -1 //todo: maybe NSNumber here to handle optional
+        }
         self.agentId = Int64(remoteNotification.agentId)
         self.agentName = remoteNotification.agentName
         self.header = remoteNotification.header
         self.readDate = remoteNotification.readDate
         self.timestamp = remoteNotification.timestamp
+        self.timestampUnix = remoteNotification.timestampUnix
         self.title = remoteNotification.title
         self.type = remoteNotification.type.rawValue
         self.wiki = remoteNotification.wiki

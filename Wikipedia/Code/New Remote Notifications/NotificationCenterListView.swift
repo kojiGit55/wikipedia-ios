@@ -6,32 +6,59 @@ struct NotificationCenterListView: View {
     
     let dataProvider: PushNotificationsDataProvider
     
-    @FetchRequest(sortDescriptors: [])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \EchoNotification.timestamp, ascending: false)])
     private var notifications: FetchedResults<EchoNotification>
     
-    @SwiftUI.State var initiallyLoaded = false
+    @SwiftUI.State var loading = false
+    @SwiftUI.State var onScreenNotificationIds: [Int64] = []
     
     var body: some View {
         List {
-            if !initiallyLoaded {
-                if #available(iOS 14.0, *) {
-                    ProgressView()
-                } else {
-                    // Fallback on earlier versions
-                }
-            }
             ForEach(notifications, id: \.self) { notification in
-                Text(notification.agentName ?? "Unknown agent name")
+                NotificationView(notification: notification)
+                    .onAppear() {
+                        self.onScreenNotificationIds.append(notification.id)
+                        let isLast = notifications.last == notification
+                        if isLast {
+                            fetchNotifications(fetchType: .page)
+                        }
+                    }
+                    .onDisappear {
+                        self.onScreenNotificationIds.removeAll(where: { $0 == notification.id })
+                    }
             }
         }
+        .navigationBarItems(trailing:
+                        HStack {
+                            loading ? LoadingIconView() : nil
+                            Button {
+                                fetchNotifications()
+                            } label: {
+                                Image(systemName: "arrow.clockwise")
+                            }
+
+                        })
         .onAppear {
-            dataProvider.fetchNotifications { result in
+            fetchNotifications()
+        }
+    }
+    
+    private func fetchNotifications(fetchType: PushNotificationsDataProvider.FetchType = .reload) {
+        loading = true
+        dataProvider.fetchNotifications(fetchType: fetchType) { result in
+            DispatchQueue.main.async {
+                loading = false
+                
                 switch result {
                 case .success():
                     print("success!")
-                    DispatchQueue.main.async {
-                        initiallyLoaded = true
-                    }
+                    
+                        if let lastNotificationId = notifications.last?.id,
+                           fetchType == .page,
+                           onScreenNotificationIds.contains(lastNotificationId) {
+                            fetchNotifications(fetchType: .page)
+                        }
+                    
                 case .failure(let error):
                     print(error)
                 }

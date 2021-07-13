@@ -52,6 +52,8 @@
 
 + (instancetype)wmf_englishUTCNonDelimitedYearMonthDayHourFormatter;
 
++ (instancetype)wmf_englishUTCNonDelimitedYearMonthDayHourMinuteSecondFormatter;
+
 + (instancetype)wmf_dayNameMonthNameDayOfMonthNumberDateFormatter;
 
 + (instancetype)wmf_utcDayNameMonthNameDayOfMonthNumberDateFormatter;
