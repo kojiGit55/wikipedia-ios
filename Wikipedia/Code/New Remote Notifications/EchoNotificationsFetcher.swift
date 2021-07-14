@@ -5,6 +5,8 @@ class EchoNotificationsFetcher: Fetcher {
     
     enum EchoError: Error {
         case failureToGenerateUrl
+        case failureToPullNotificationIdForMarkAsRead
+        case serverFailureMarkingAsRead
     }
     
     func registerForEchoNotificationsWithDeviceTokenString(deviceTokenString: String, completion: @escaping (Bool, Error?) -> Void) {
@@ -85,7 +87,7 @@ class EchoNotificationsFetcher: Fetcher {
             "action": "query",
             "meta": "notifications",
             "notwikis": paramWikis,
-            "notlimit": 5,
+            "notlimit": 50,
             "notprop": "count|list|seenTime",
             "notformat": "model",
             "format": "json"]
@@ -138,6 +140,47 @@ class EchoNotificationsFetcher: Fetcher {
             case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+    
+    func markNotificationAsRead(subdomain: String, notification: EchoNotification, completion: @escaping (Result<Void, Error>) -> Void) -> CancellationKey? {
+        
+        guard let url = url(subdomain: subdomain) else {
+            completion(.failure(EchoError.failureToGenerateUrl))
+            return nil
+        }
+        
+        var notificationId: Int64? = nil
+        notification.managedObjectContext?.performAndWait {
+            notificationId = notification.id
+        }
+        
+        guard let notificationId = notificationId else {
+            completion(.failure(EchoError.failureToPullNotificationIdForMarkAsRead))
+            return nil
+        }
+        
+        let bodyParameters = ["action": "echomarkread",
+                               "list": String(notificationId),
+                               "format": "json"]
+        
+        return self.performTokenizedMediaWikiAPIPOST(to: url, with: bodyParameters) { result, response, error in
+            
+            if let error = error {
+                completion(.failure(EchoError.serverFailureMarkingAsRead))
+                return
+            }
+            
+            if let queryDict = result?["query"] as? [String: Any],
+               let echoMarkReadDict = queryDict["echomarkread"] as? [String: Any],
+               let result = echoMarkReadDict["result"] as? String {
+                if result == "success" {
+                    completion(.success(()))
+                    return
+                }
+            }
+            
+            completion(.failure(EchoError.serverFailureMarkingAsRead))
         }
     }
 }

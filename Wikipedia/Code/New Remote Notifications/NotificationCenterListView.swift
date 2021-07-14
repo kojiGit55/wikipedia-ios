@@ -62,7 +62,7 @@ struct NotificationCenterListView: View {
     var body: some View {
         List {
             ForEach(notifications, id: \.self) { notification in
-                NotificationView(notification: notification)
+                NotificationView(notification: notification, dataProvider: dataProvider)
                     .onAppear() {
                         self.onScreenNotificationIds.append(notification.id)
                         let isLast = notifications.last == notification

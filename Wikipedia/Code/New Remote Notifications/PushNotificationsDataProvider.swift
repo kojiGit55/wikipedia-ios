@@ -175,7 +175,18 @@ class PushNotificationsDataProvider {
         //setCancellationKey(cancellationKey, for: urlKey)
     }
     
-    
+    func markNotificationAsRead(notification: EchoNotification, completion: @escaping (Result<Void, Error>) -> Void) {
+        echoFetcher.markNotificationAsRead(subdomain: "en", notification: notification) { result in
+            switch result {
+            case .success:
+                notification.managedObjectContext?.perform {
+                    notification.readDate = Date()
+                }
+            case .failure(let error):
+            completion(.failure(error))
+            }
+        }
+    }
 }
 
 //MARK: Thread-safe accessors for collection properties

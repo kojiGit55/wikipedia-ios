@@ -5,13 +5,14 @@ extension PushNotificationsController {
     
     var deviceTokenString: String? {
         guard let deviceToken = deviceToken else {
-            assertionFailure("Must have device token to register for echo notifications")
+            //assertionFailure("Must have device token to register for echo notifications")
             return nil
         }
         
         //convert to string
         let tokenComponents = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let deviceTokenString = tokenComponents.joined()
+        print("‼️deviceTokenString: \(deviceTokenString)‼️")
         return deviceTokenString
     }
     
