@@ -3,6 +3,7 @@ import WMF
 
 enum PushNotificationsDataProviderError: Error {
     case attemptingToPageButNoContinueId
+    case alreadyFetching
 }
 
 class PushNotificationsDataProvider {
@@ -24,10 +25,14 @@ class PushNotificationsDataProvider {
     private var cancellationKeys: [URL: String] = [:] //TODO: why won't CancellationKey type here work
     private var continueIds: [URL: String] = [:]
     private let queue = DispatchQueue(label: "PushNotificationsDataProvider-" + UUID().uuidString)
+    private var continueIdInProgress: String? = nil
+    private let operationQueue: OperationQueue
     
     init(echoFetcher: EchoNotificationsFetcher, inMemory: Bool) {
         self.echoFetcher = echoFetcher
         self.inMemory = inMemory
+        operationQueue = OperationQueue()
+        operationQueue.maxConcurrentOperationCount = 1
         //kick off persistent container upon init
         let _ = container
     }
@@ -80,15 +85,7 @@ class PushNotificationsDataProvider {
         return taskContext
     }()
     
-    func oldestNotificationOfWikis(wikis: [String]) throws -> EchoNotification? {
-        
-        let moc = backgroundContext
-        let fetchRequest: NSFetchRequest<EchoNotification> = EchoNotification.fetchRequest()
-        fetchRequest.fetchLimit = 1
-        fetchRequest.predicate = NSPredicate(format: "wiki IN %@", wikis)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
-        return try moc.fetch(fetchRequest).first
-    }
+    
     
     func fetchNotifications(fetchType: FetchType = .reload, completion: @escaping (Result<Void, Error>) -> Void) {
         
@@ -98,12 +95,14 @@ class PushNotificationsDataProvider {
         
         let notwikis = "enwiki"
         let subdomain = "en"
-        let urlKey: URL? = try? echoFetcher.key(notwikis: notwikis, subdomain: subdomain)
+        
         
         //todo: don't cancel tasks so frequently, instead run this entire method as an operation (fetch remote, create local objects, pull oldest from local objects and save it's continue id, save local objects to store) serially. this will hopefully result in fewer cancelled tasks and more consistent data. if an operation fails in some way (i.e. server or database is messing up) end recursive fetch calling and cancel tasks.
-        if let cancellationKey = getCancellationKey(for: urlKey) {
-            self.echoFetcher.cancel(taskFor: cancellationKey)
-        }
+//        if let cancellationKey = getCancellationKey(for: urlKey) {
+//            self.echoFetcher.cancel(taskFor: cancellationKey)
+//        }
+        
+        let urlKey: URL? = try? echoFetcher.key(notwikis: notwikis, subdomain: subdomain)
         
         var continueId: String? = nil
         if fetchType == .page {
@@ -113,62 +112,36 @@ class PushNotificationsDataProvider {
                 completion(.failure(PushNotificationsDataProviderError.attemptingToPageButNoContinueId))
                 return
             }
-        }
-        
-        let moc = backgroundContext
-        let cancellationKey = echoFetcher.fetchNotifications(notwikis: notwikis, subdomain: subdomain, continueId: continueId) { [weak self] result in
             
-            guard let self = self else { return }
-            
-            self.setCancellationKey(nil, for: urlKey)
-            
-            switch result {
-            case .success(let response):
-                
-                moc.perform {
-                    for remoteNotification in response.notifications {
-                        let _ = EchoNotification.init(remoteNotification: remoteNotification, moc: moc)
-                    }
-                    
-                    do {
-                        
-                        //by pulling the oldest local notification for continue value instead of going by the network response, we are potentialy reducing the number of network calls for objects we already have locally.
-                        if let oldestLocalNotification = try? self.oldestNotificationOfWikis(wikis: [notwikis]) {
-                            let unix = oldestLocalNotification.timestampUnix == nil ? "" : "\(oldestLocalNotification.timestampUnix!)|"
-                            let identifier = oldestLocalNotification.id
-                            let newContinueId = unix + String(identifier)
-                            let oldContinueId = self.getContinueId(for: urlKey)
-                            if newContinueId == oldContinueId && fetchType == .page { //nothing new, remove key to stop auto-fetching
-                                self.setContinueId(nil, for: urlKey)
-                            } else {
-                                self.setContinueId(unix + String(identifier), for: urlKey)
-                            }
-                        } else {
-                            self.setContinueId(response.continueString, for: urlKey)
-                        }
-                        
-                        try self.save(moc: moc)
-                        
-                        completion(.success(()))
-                    } catch (let error) {
-                        completion(.failure(error))
-                    }
-                }
-            case .failure(let error):
-                completion(.failure(error))
+            let continueIdInProgress = getContinueIdInProgress()
+            print("checking continue id in progress: \(continueId), \(continueIdInProgress)")
+            if continueId == getContinueIdInProgress() {
+                print("already fetching this")
+                completion(.failure(PushNotificationsDataProviderError.alreadyFetching))
+                return
             }
         }
         
-        setCancellationKey(cancellationKey, for: urlKey)
+        let fetchOperation = PushNotificationFetchOperation(continueId: continueId, moc: backgroundContext, echoFetcher: echoFetcher, notwikis: ["enwiki"], subdomain: "en", setContinueIdBlock: { continueId, urlKey in
+            self.setContinueId(continueId, for: urlKey)
+        }, getContinueIdBlock: { urlKey in
+            return self.getContinueId(for: urlKey)
+        }, fetchType: fetchType, urlKey: urlKey, completion: { result in
+            self.setContinueIdInProgress(continueId: nil)
+            completion(result)
+        }, startBlock: {
+            print("setting continue id in progress: \(continueId)")
+            self.setContinueIdInProgress(continueId: continueId)
+        })
+        
+        fetchOperation.queuePriority = .veryHigh
+        
+        operationQueue.addOperation(fetchOperation)
+        
+        //setCancellationKey(cancellationKey, for: urlKey)
     }
     
-    func save(moc: NSManagedObjectContext) throws {
-        guard moc.hasChanges else {
-            return
-        }
-        
-        try moc.save()
-    }
+    
 }
 
 //MARK: Thread-safe accessors for collection properties
@@ -218,6 +191,20 @@ private extension PushNotificationsDataProvider {
             continueId = self.continueIds[url]
         }
         
+        return continueId
+    }
+    
+    func setContinueIdInProgress(continueId: String?) {
+        queue.async {
+            self.continueIdInProgress = continueId
+        }
+    }
+    
+    func getContinueIdInProgress() -> String? {
+        var continueId: String?
+        queue.sync {
+            continueId = self.continueIdInProgress
+        }
         return continueId
     }
 }

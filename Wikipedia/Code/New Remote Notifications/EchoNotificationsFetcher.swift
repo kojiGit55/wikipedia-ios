@@ -83,7 +83,7 @@ class EchoNotificationsFetcher: Fetcher {
             "action": "query",
             "meta": "notifications",
             "notwikis": notwikis,
-            "notlimit": 10,
+            "notlimit": 3,
             "notprop": "count|list|seenTime",
             "notformat": "model",
             "format": "json"]

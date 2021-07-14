@@ -302,6 +302,10 @@
 		673220B2269CDC0100AC466E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B0269CDC0100AC466E /* NotificationView.swift */; };
 		673220B3269CDC0100AC466E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B0269CDC0100AC466E /* NotificationView.swift */; };
 		673220B4269CDC0100AC466E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B0269CDC0100AC466E /* NotificationView.swift */; };
+		673220B6269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
+		673220B7269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
+		673220B8269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
+		673220B9269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
 		6734115422735788005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
 		6734115522735789005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
 		673411562273578A005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
@@ -3687,6 +3691,7 @@
 		672F0557222F24FB00FB1084 /* IconBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconBarButtonItem.swift; sourceTree = "<group>"; };
 		673220AB269CA12800AC466E /* LoadingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIconView.swift; sourceTree = "<group>"; };
 		673220B0269CDC0100AC466E /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationFetchOperation.swift; sourceTree = "<group>"; };
 		6734114F22700A95005B31DA /* TalkPageControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageControllerTests.swift; sourceTree = "<group>"; };
 		6734115122700C47005B31DA /* TalkPageTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageTestHelpers.swift; sourceTree = "<group>"; };
 		6734116322739CA2005B31DA /* TalkPageLocalHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageLocalHandler.swift; sourceTree = "<group>"; };
@@ -6676,6 +6681,7 @@
 			children = (
 				67CD3856267CF9A50026DDD1 /* PushNotificationsController.swift */,
 				67C287DA268D154900DFA9D0 /* PushNotificationsDataProvider.swift */,
+				673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */,
 				67C287D5268D121100DFA9D0 /* PushNotificationsController+Setup.swift */,
 				67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */,
 				67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */,
@@ -10787,6 +10793,7 @@
 				8382F8D920D9371E00AE5250 /* WMFContentGroup+DetailViewControllers.swift in Sources */,
 				D8B1668C1FD97FE000097D8B /* WMFViewController.m in Sources */,
 				D82E95851F16502E007BD960 /* WMFLanguagesViewController.m in Sources */,
+				673220B6269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */,
 				677129A024FFF43000E89CA5 /* ArticleAsLivingDocHorizontallyScrollingCell.swift in Sources */,
 				0022DD2925829D8C00790EC1 /* ScribbleIgnoringInteractionDelegate.swift in Sources */,
 				7A82898C21B34B86005D7EC1 /* TextFormattingCustomViewTableViewCell.swift in Sources */,
@@ -11653,6 +11660,7 @@
 				8361474E24223689003E49D3 /* ArticleViewController+Announcements.swift in Sources */,
 				D8B1668F1FD97FE000097D8B /* WMFViewController.m in Sources */,
 				D82E95881F16502E007BD960 /* WMFLanguagesViewController.m in Sources */,
+				673220B9269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */,
 				67E0690E22399D2E008550AC /* ReadingThemesControlsProtocols.swift in Sources */,
 				0022DD2C25829D8C00790EC1 /* ScribbleIgnoringInteractionDelegate.swift in Sources */,
 				7A82898F21B34B86005D7EC1 /* TextFormattingCustomViewTableViewCell.swift in Sources */,
@@ -12199,6 +12207,7 @@
 				D8CE25831E698E2400DAE2E0 /* WMFWelcomeIntroductionViewController.swift in Sources */,
 				832A7A5C23EA138C00D0A750 /* ArticleViewController+References.swift in Sources */,
 				7A49A20221231510005C574C /* CollectionViewFooter.swift in Sources */,
+				673220B8269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */,
 				7A28126420D3F84A009B42B5 /* FeedCardSettingsViewController.swift in Sources */,
 				D80ED25D1EE18D0900CE8C50 /* PlacesSearchSuggestionTableViewCell.swift in Sources */,
 				BA4524251F32500C00439C42 /* TextSizeChangeExampleViewController.swift in Sources */,
@@ -12699,6 +12708,7 @@
 				7A28126520D3F84A009B42B5 /* FeedCardSettingsViewController.swift in Sources */,
 				D8EC3E7E1E9BDA35006712EB /* WMFCompassView.m in Sources */,
 				D8EC3E7F1E9BDA35006712EB /* WMFWelcomeIntroductionViewController.swift in Sources */,
+				673220B7269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */,
 				D8703DC11EE84533001A4BAB /* PreviewingViewController.swift in Sources */,
 				D8EC3E851E9BDA35006712EB /* UIImageView+WMFFaceDetectionBasedOnUIApplicationSharedApplication.m in Sources */,
 				D8EC3E8A1E9BDA35006712EB /* UIView+WMFFrameUtils.m in Sources */,
