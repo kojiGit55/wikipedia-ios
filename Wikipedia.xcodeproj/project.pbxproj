@@ -306,6 +306,10 @@
 		673220B7269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
 		673220B8269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
 		673220B9269E54DB00AC466E /* PushNotificationFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */; };
+		673220BB269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */; };
+		673220BC269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */; };
+		673220BD269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */; };
+		673220BE269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */; };
 		6734115422735788005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
 		6734115522735789005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
 		673411562273578A005B31DA /* TalkPageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8B0A7226A654D00537BC9 /* TalkPageFetcher.swift */; };
@@ -3692,6 +3696,7 @@
 		673220AB269CA12800AC466E /* LoadingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIconView.swift; sourceTree = "<group>"; };
 		673220B0269CDC0100AC466E /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationFetchOperation.swift; sourceTree = "<group>"; };
+		673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTypePickerView.swift; sourceTree = "<group>"; };
 		6734114F22700A95005B31DA /* TalkPageControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageControllerTests.swift; sourceTree = "<group>"; };
 		6734115122700C47005B31DA /* TalkPageTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageTestHelpers.swift; sourceTree = "<group>"; };
 		6734116322739CA2005B31DA /* TalkPageLocalHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageLocalHandler.swift; sourceTree = "<group>"; };
@@ -6691,6 +6696,7 @@
 				673220B0269CDC0100AC466E /* NotificationView.swift */,
 				673220AB269CA12800AC466E /* LoadingIconView.swift */,
 				67C287E5268D1A3900DFA9D0 /* EchoNotification+Extensions.swift */,
+				673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */,
 				67C287DF268D188700DFA9D0 /* EchoNotifications.xcdatamodeld */,
 			);
 			path = "New Remote Notifications";
@@ -10776,6 +10782,7 @@
 				7A0161E01FE8B4CA00AEDC3D /* TagCollectionViewCell.swift in Sources */,
 				83E52BB41F681F940045E776 /* ShareAFactViewController.swift in Sources */,
 				B0267CF31E32A0CB006B6D8D /* WMFPasswordResetter.swift in Sources */,
+				673220BB269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */,
 				FF921857252E8F4F00C39A8F /* ThanksGiving.swift in Sources */,
 				BAA0D91C1F4F165A00091284 /* PageIssuesTableViewController.swift in Sources */,
 				B0E802B81C0CD2140065EBC0 /* UIBarButtonItem+WMFButtonConvenience.m in Sources */,
@@ -11643,6 +11650,7 @@
 				67471181250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift in Sources */,
 				D818D3841ED7254D0076110D /* ColumnarCollectionViewController.swift in Sources */,
 				D8A42AD11E815A9C00D8E281 /* WMFPasswordResetter.swift in Sources */,
+				673220BE269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */,
 				7A0161E31FE8B4CA00AEDC3D /* TagCollectionViewCell.swift in Sources */,
 				D8A42AD41E815A9C00D8E281 /* UIBarButtonItem+WMFButtonConvenience.m in Sources */,
 				83E52BB71F681F940045E776 /* ShareAFactViewController.swift in Sources */,
@@ -12061,6 +12069,7 @@
 				7A715668226974D10066FEC4 /* InsertMediaImageSizeSettingsViewController.swift in Sources */,
 				D8CE25231E698E2400DAE2E0 /* UIVIewController+WMFCommonRotationSupport.swift in Sources */,
 				7ADF498821B45E42009EA338 /* TextFormattingGroupedToolbarView.swift in Sources */,
+				673220BD269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */,
 				D8CE25241E698E2400DAE2E0 /* (null) in Sources */,
 				D818D3821ED7254D0076110D /* ColumnarCollectionViewController.swift in Sources */,
 				6734EE7B22976BA300F00B05 /* TalkPageHintViewController.swift in Sources */,
@@ -12562,6 +12571,7 @@
 				7A715669226974D10066FEC4 /* InsertMediaImageSizeSettingsViewController.swift in Sources */,
 				D8EC3E121E9BDA35006712EB /* LoggingDefaults.swift in Sources */,
 				7ADF498921B45E42009EA338 /* TextFormattingGroupedToolbarView.swift in Sources */,
+				673220BC269F2ECB00AC466E /* NotificationsTypePickerView.swift in Sources */,
 				D8EC3E171E9BDA35006712EB /* MWKTitleLanguageController.m in Sources */,
 				B0016CC521362DB300FA1096 /* SetupGradientView.swift in Sources */,
 				6734EE7C22976BA300F00B05 /* TalkPageHintViewController.swift in Sources */,

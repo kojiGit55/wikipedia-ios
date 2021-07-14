@@ -7,7 +7,7 @@ class PushNotificationFetchOperation: AsyncOperation {
     private let continueId: String?
     private let moc: NSManagedObjectContext
     private let echoFetcher: EchoNotificationsFetcher
-    private let notwikis: [String]
+    private let projectFilters: [String]
     private let subdomain: String
     private let setContinueIdBlock: (String?, URL?) -> Void
     private let getContinueIdBlock: (URL?) -> String?
@@ -16,11 +16,11 @@ class PushNotificationFetchOperation: AsyncOperation {
     private let startBlock: () -> Void
     private let completion: (Result<Void, Error>) -> Void
         
-    init(continueId: String?, moc: NSManagedObjectContext, echoFetcher: EchoNotificationsFetcher, notwikis: [String], subdomain: String, setContinueIdBlock: @escaping (String?, URL?) -> Void, getContinueIdBlock: @escaping (URL?) -> String?, fetchType: PushNotificationsDataProvider.FetchType, urlKey: URL?, completion: @escaping (Result<Void, Error>) -> Void, startBlock: @escaping () -> Void) {
+    init(continueId: String?, moc: NSManagedObjectContext, echoFetcher: EchoNotificationsFetcher, projectFilters: [String], subdomain: String, setContinueIdBlock: @escaping (String?, URL?) -> Void, getContinueIdBlock: @escaping (URL?) -> String?, fetchType: PushNotificationsDataProvider.FetchType, urlKey: URL?, completion: @escaping (Result<Void, Error>) -> Void, startBlock: @escaping () -> Void) {
         self.continueId = continueId
         self.moc = moc
         self.echoFetcher = echoFetcher
-        self.notwikis = notwikis
+        self.projectFilters = projectFilters
         self.subdomain = subdomain
         self.setContinueIdBlock = setContinueIdBlock
         self.getContinueIdBlock = getContinueIdBlock
@@ -54,7 +54,7 @@ class PushNotificationFetchOperation: AsyncOperation {
     
     override func execute() {
         
-        let cancellationKey = echoFetcher.fetchNotifications(notwikis: notwikis.first!, subdomain: subdomain, continueId: continueId) { result in
+        let cancellationKey = echoFetcher.fetchNotifications(projectFilters: projectFilters, subdomain: subdomain, continueId: continueId) { result in
             
             switch result {
             case .success(let response):
@@ -67,7 +67,7 @@ class PushNotificationFetchOperation: AsyncOperation {
                     do {
                         
                         //by pulling the oldest local notification for continue value instead of going by the network response, we are potentialy reducing the number of network calls for objects we already have locally.
-                        if let oldestLocalNotification = try? self.oldestNotificationOfWikis(wikis: self.notwikis) {
+                        if let oldestLocalNotification = try? self.oldestNotificationOfWikis(wikis: self.projectFilters) {
                             let unix = oldestLocalNotification.timestampUnix == nil ? "" : "\(oldestLocalNotification.timestampUnix!)|"
                             let identifier = oldestLocalNotification.id
                             let newContinueId = unix + String(identifier)

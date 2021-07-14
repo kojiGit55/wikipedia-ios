@@ -78,12 +78,14 @@ class EchoNotificationsFetcher: Fetcher {
         }
     }
     
-    private func queryParameters(notwikis: String) -> [String: Any] {
+    private func queryParameters(projectFilters: [String]) -> [String: Any] {
+        
+        let paramWikis = projectFilters.joined(separator: "|")
         return [
             "action": "query",
             "meta": "notifications",
-            "notwikis": notwikis,
-            "notlimit": 3,
+            "notwikis": paramWikis,
+            "notlimit": 5,
             "notprop": "count|list|seenTime",
             "notformat": "model",
             "format": "json"]
@@ -93,9 +95,9 @@ class EchoNotificationsFetcher: Fetcher {
         return URL(string: "https://\(subdomain).wikipedia.org/w/api.php")
     }
     
-    func key(notwikis: String, subdomain: String) throws -> URL {
+    func key(projectFilters: [String], subdomain: String) throws -> URL {
 
-        let queryParameters = queryParameters(notwikis: notwikis)
+        let queryParameters = queryParameters(projectFilters: projectFilters)
         
         guard let url = url(subdomain: subdomain) else {
             throw EchoError.failureToGenerateUrl
@@ -113,11 +115,11 @@ class EchoNotificationsFetcher: Fetcher {
         let continueString: String?
     }
     
-    func fetchNotifications(notwikis: String, subdomain: String, continueId: String?, completion: @escaping (Result<RemoteEchoNotificationFetchResponse, Error>) -> Void) -> CancellationKey? {
+    func fetchNotifications(projectFilters: [String], subdomain: String, continueId: String?, completion: @escaping (Result<RemoteEchoNotificationFetchResponse, Error>) -> Void) -> CancellationKey? {
         
         //TODO: Use Configuration.swift, which wiki do we use, which targetwikis
         
-        var queryParameters = queryParameters(notwikis: notwikis)
+        var queryParameters = queryParameters(projectFilters: projectFilters)
         
         if let continueId = continueId {
             queryParameters["notcontinue"] = continueId

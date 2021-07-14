@@ -138,7 +138,7 @@ class AccountViewController: SubSettingsViewController {
             
             if #available(iOS 13.0, *) {
                 let hostingVC = UIHostingController(
-                    rootView: NotificationCenterListView(dataProvider: pushNotificationsController.dataProvider)
+                    rootView: NotificationCenterListContainerView(dataProvider: pushNotificationsController.dataProvider)
                         .environment(\.managedObjectContext, pushNotificationsController.dataProvider.container.viewContext)
                 )
                 self.navigationController?.pushViewController(hostingVC, animated: true)

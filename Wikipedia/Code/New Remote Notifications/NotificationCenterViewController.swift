@@ -53,7 +53,7 @@ class NotificationCenterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        dataProvider.fetchNotifications { result in
+        dataProvider.fetchNotifications(projectFilters: ["enwiki"]) { result in
             switch result {
             case .success():
                 print("success!")

@@ -85,24 +85,58 @@ class PushNotificationsDataProvider {
         return taskContext
     }()
     
+    @available(iOS 13.0, *)
+    func fetchAggregateNotifications(aggregateDictionary: EchoNotificationAggregateDictionary) {
+        
+        let keypathExp = NSExpression(forKeyPath: "wiki") // can be any column
+        let expression = NSExpression(forFunction: "count:", arguments: [keypathExp])
+
+        let countDesc = NSExpressionDescription()
+        countDesc.expression = expression
+        countDesc.name = "count"
+        countDesc.expressionResultType = .integer64AttributeType
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "EchoNotification")
+        request.returnsObjectsAsFaults = false
+        request.propertiesToGroupBy = ["wiki"]
+        request.propertiesToFetch = ["wiki", countDesc]
+        request.resultType = .dictionaryResultType
+        
+        let moc = backgroundContext
+        moc.perform {
+            do {
+                    let results = try moc.fetch(request)
+                    if results.count > 0 {
+                        DispatchQueue.main.async {
+                            aggregateDictionary.result = results as? [[String: Any]] ?? []
+                            aggregateDictionary.numProjects = results.count
+                            var numNotifications = 0
+                            if let resultsDict = results as? [[String: Any]] {
+                                for dict in resultsDict {
+                                    if let countValue = dict["count"] as? Int {
+                                        numNotifications += countValue
+                                    }
+                                }
+                            }
+                            aggregateDictionary.numNotifications = numNotifications
+                        }
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+        }
+        
+    }
     
-    
-    func fetchNotifications(fetchType: FetchType = .reload, completion: @escaping (Result<Void, Error>) -> Void) {
+    func fetchNotifications(fetchType: FetchType = .reload, projectFilters: [String], completion: @escaping (Result<Void, Error>) -> Void) {
         
         guard !inMemory else {
             return
         }
         
-        let notwikis = "enwiki"
         let subdomain = "en"
         
-        
-        //todo: don't cancel tasks so frequently, instead run this entire method as an operation (fetch remote, create local objects, pull oldest from local objects and save it's continue id, save local objects to store) serially. this will hopefully result in fewer cancelled tasks and more consistent data. if an operation fails in some way (i.e. server or database is messing up) end recursive fetch calling and cancel tasks.
-//        if let cancellationKey = getCancellationKey(for: urlKey) {
-//            self.echoFetcher.cancel(taskFor: cancellationKey)
-//        }
-        
-        let urlKey: URL? = try? echoFetcher.key(notwikis: notwikis, subdomain: subdomain)
+        let urlKey: URL? = try? echoFetcher.key(projectFilters: projectFilters, subdomain: subdomain)
         
         var continueId: String? = nil
         if fetchType == .page {
@@ -122,7 +156,7 @@ class PushNotificationsDataProvider {
             }
         }
         
-        let fetchOperation = PushNotificationFetchOperation(continueId: continueId, moc: backgroundContext, echoFetcher: echoFetcher, notwikis: ["enwiki"], subdomain: "en", setContinueIdBlock: { continueId, urlKey in
+        let fetchOperation = PushNotificationFetchOperation(continueId: continueId, moc: backgroundContext, echoFetcher: echoFetcher, projectFilters: projectFilters, subdomain: "en", setContinueIdBlock: { continueId, urlKey in
             self.setContinueId(continueId, for: urlKey)
         }, getContinueIdBlock: { urlKey in
             return self.getContinueId(for: urlKey)
