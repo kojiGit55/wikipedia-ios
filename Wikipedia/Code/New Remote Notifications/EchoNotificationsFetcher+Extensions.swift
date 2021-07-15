@@ -1,14 +1,7 @@
 
 import Foundation
 
-class EchoNotificationsFetcher: Fetcher {
-    
-    enum EchoError: Error {
-        case failureToGenerateUrl
-        case failureToPullNotificationIdForMarkAsRead
-        case serverFailureMarkingAsRead
-    }
-    
+extension EchoNotificationsFetcher {
     func registerForEchoNotificationsWithDeviceTokenString(deviceTokenString: String, completion: @escaping (Bool, Error?) -> Void) {
         //TODO: Use Configuration.swift, which wiki do we use
         //working: https://en.wikipedia.org/w/api.php?action=echopushsubscriptions&format=json&command=create&token=9a49637fab9cd98c0327849ef757fec760cd0091%2B%5C&provider=apns&providertoken=115414e7a529c0b2fb9ed65a6d26d29c6882b2c5264a9e5e4d9ce8ea43e96a2b&topic=org.wikimedia.wikipedia
@@ -77,69 +70,6 @@ class EchoNotificationsFetcher: Fetcher {
             }
             
             completion(true, nil)
-        }
-    }
-    
-    private func queryParameters(projectFilters: [String]) -> [String: Any] {
-        
-        let paramWikis = projectFilters.joined(separator: "|")
-        return [
-            "action": "query",
-            "meta": "notifications",
-            "notwikis": paramWikis,
-            "notlimit": 50,
-            "notprop": "count|list|seenTime",
-            "notformat": "model",
-            "format": "json"]
-    }
-    
-    private func url(subdomain: String) -> URL? {
-        return URL(string: "https://\(subdomain).wikipedia.org/w/api.php")
-    }
-    
-    func key(projectFilters: [String], subdomain: String) throws -> URL {
-
-        let queryParameters = queryParameters(projectFilters: projectFilters)
-        
-        guard let url = url(subdomain: subdomain) else {
-            throw EchoError.failureToGenerateUrl
-        }
-        
-        guard let fullURL = configuration.mediaWikiAPIURLForURL(url, with: queryParameters) else {
-            throw EchoError.failureToGenerateUrl
-        }
-        
-        return fullURL
-    }
-    
-    struct RemoteEchoNotificationFetchResponse {
-        let notifications: [RemoteEchoNotification]
-        let continueString: String?
-    }
-    
-    func fetchNotifications(projectFilters: [String], subdomain: String, continueId: String?, completion: @escaping (Result<RemoteEchoNotificationFetchResponse, Error>) -> Void) -> CancellationKey? {
-        
-        //TODO: Use Configuration.swift, which wiki do we use, which targetwikis
-        
-        var queryParameters = queryParameters(projectFilters: projectFilters)
-        
-        if let continueId = continueId {
-            queryParameters["notcontinue"] = continueId
-        }
-        
-        guard let url = url(subdomain: subdomain) else {
-            completion(.failure(EchoError.failureToGenerateUrl))
-            return nil
-        }
-        
-        return self.performTokenizedDecodableMediaWikiAPIGET(tokenType: .csrf, to: url, with: queryParameters, cancellationKey: nil, reattemptLoginOn401Response: true) { (result: Result<RemoteEchoNotificationResponse, Error>) in
-            switch result {
-            case .success(let response):
-                let fetchResponse = RemoteEchoNotificationFetchResponse(notifications: response.query.notifications.list, continueString: response.query.notifications.continueString)
-                completion(.success(fetchResponse))
-            case .failure(let error):
-                completion(.failure(error))
-            }
         }
     }
     

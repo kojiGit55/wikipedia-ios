@@ -98,7 +98,7 @@ open class Fetcher: NSObject {
                 self.untrack(taskFor: key)
             case .success(let token):
                 var mutableQueryParameters = queryParameters ?? [:]
-                //mutableQueryParameters[tokenType.parameterName] = token.value
+                mutableQueryParameters[tokenType.parameterName] = token.value
                 let updatedURL = self.configuration.mediaWikiAPIURLForURL(URL, with: mutableQueryParameters)
                 let innerKey = cancellationKey ?? UUID().uuidString
                 let task = self.session.jsonDecodableTask(with: updatedURL) { (result: T?, response: URLResponse?, error: Error?) in

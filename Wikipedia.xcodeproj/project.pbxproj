@@ -334,6 +334,15 @@
 		6734EE7D22976BA300F00B05 /* TalkPageHintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6706A21822927D63004774E2 /* TalkPageHintViewController.swift */; };
 		6734F052227B634900BDDB94 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6734F051227B634900BDDB94 /* ActionButton.swift */; };
 		673612F224FD7210002A1989 /* ArticleAsLivingDocViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673612F124FD7210002A1989 /* ArticleAsLivingDocViewModelTests.swift */; };
+		673E81C8269F9E4C0094B8FF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E81C7269F9E4C0094B8FF /* NotificationService.swift */; };
+		673E81CC269F9E4C0094B8FF /* NotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 673E81C5269F9E4C0094B8FF /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		673E81D9269F9E7F0094B8FF /* WMF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D844D96C1D6CB2600042D692 /* WMF.framework */; };
+		673E81DF269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */; };
+		673E81E0269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */; };
+		673E81E1269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */; };
+		673E81E2269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */; };
+		673E81E3269FA0620094B8FF /* EchoNotificationsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */; };
+		673E81E4269FA0EB0094B8FF /* RemoteEchoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */; };
 		6747117E250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6747117D250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift */; };
 		6747117F250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6747117D250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift */; };
 		67471180250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6747117D250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift */; };
@@ -570,13 +579,9 @@
 		67B64D5D2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B64D5B2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift */; };
 		67B64D5E2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B64D5B2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift */; };
 		67B64D5F2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B64D5B2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift */; };
-		67C287B4268CE05B00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */; };
 		67C287B5268CE05B00DFA9D0 /* PushNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3856267CF9A50026DDD1 /* PushNotificationsController.swift */; };
-		67C287B6268CE05B00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */; };
 		67C287B7268CE05B00DFA9D0 /* PushNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3856267CF9A50026DDD1 /* PushNotificationsController.swift */; };
-		67C287B8268CE05C00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */; };
 		67C287B9268CE05C00DFA9D0 /* PushNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3856267CF9A50026DDD1 /* PushNotificationsController.swift */; };
-		67C287BA268CE05C00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */; };
 		67C287BB268CE05C00DFA9D0 /* PushNotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD3856267CF9A50026DDD1 /* PushNotificationsController.swift */; };
 		67C287C2268CE79400DFA9D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287C1268CE79400DFA9D0 /* NotificationCenterViewController.swift */; };
 		67C287C3268CE79400DFA9D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287C1268CE79400DFA9D0 /* NotificationCenterViewController.swift */; };
@@ -586,10 +591,6 @@
 		67C287CD268CE7F800DFA9D0 /* NotificationCenterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287CB268CE7F800DFA9D0 /* NotificationCenterListView.swift */; };
 		67C287CE268CE7F800DFA9D0 /* NotificationCenterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287CB268CE7F800DFA9D0 /* NotificationCenterListView.swift */; };
 		67C287CF268CE7F800DFA9D0 /* NotificationCenterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287CB268CE7F800DFA9D0 /* NotificationCenterListView.swift */; };
-		67C287D1268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */; };
-		67C287D2268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */; };
-		67C287D3268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */; };
-		67C287D4268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */; };
 		67C287D6268D121100DFA9D0 /* PushNotificationsController+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D5268D121100DFA9D0 /* PushNotificationsController+Setup.swift */; };
 		67C287D7268D121100DFA9D0 /* PushNotificationsController+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D5268D121100DFA9D0 /* PushNotificationsController+Setup.swift */; };
 		67C287D8268D121100DFA9D0 /* PushNotificationsController+Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C287D5268D121100DFA9D0 /* PushNotificationsController+Setup.swift */; };
@@ -3168,6 +3169,20 @@
 			remoteGlobalIDString = 0E8380621D64989F0076EDE4;
 			remoteInfo = ContinueReadingWidget;
 		};
+		673E81CA269F9E4C0094B8FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D499142D181D51DE00E6073C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 673E81C4269F9E4C0094B8FF;
+			remoteInfo = "Notification Service Extension";
+		};
+		673E81DB269F9E7F0094B8FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D499142D181D51DE00E6073C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D844D96B1D6CB2600042D692;
+			remoteInfo = WMF;
+		};
 		B018501920BC85E400A508F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D499142D181D51DE00E6073C /* Project object */;
@@ -3330,6 +3345,7 @@
 				00021DEE24D48EFE00476F97 /* WidgetsExtension.appex in Embed App Extensions */,
 				D8BD029F1F3A389F007AE7B2 /* FeaturedArticleWidget.appex in Embed App Extensions */,
 				D895D0911D9C1EB8005418C1 /* InTheNewsNotification.appex in Embed App Extensions */,
+				673E81CC269F9E4C0094B8FF /* NotificationServiceExtension.appex in Embed App Extensions */,
 				D85D34D01D74D07500845125 /* TopReadWidget.appex in Embed App Extensions */,
 				0E8380701D64989F0076EDE4 /* ContinueReadingWidget.appex in Embed App Extensions */,
 				D8479FB21F222FE90025FD7A /* Wikipedia Stickers.appex in Embed App Extensions */,
@@ -3704,6 +3720,10 @@
 		6734116F22773122005B31DA /* TalkPageReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkPageReplyCell.swift; sourceTree = "<group>"; };
 		6734F051227B634900BDDB94 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		673612F124FD7210002A1989 /* ArticleAsLivingDocViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAsLivingDocViewModelTests.swift; sourceTree = "<group>"; };
+		673E81C5269F9E4C0094B8FF /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		673E81C7269F9E4C0094B8FF /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		673E81C9269F9E4C0094B8FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EchoNotificationsFetcher+Extensions.swift"; sourceTree = "<group>"; };
 		6747117D250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAsLivingDocReferenceCollectionViewCell.swift; sourceTree = "<group>"; };
 		674711822507253500287951 /* ArticleAsLivingDocSnippetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAsLivingDocSnippetCollectionViewCell.swift; sourceTree = "<group>"; };
 		6747118725072D1500287951 /* IconTitleBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTitleBadge.swift; sourceTree = "<group>"; };
@@ -5178,6 +5198,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		673E81C2269F9E4C0094B8FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				673E81D9269F9E7F0094B8FF /* WMF.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B0606EAB20AA6FF0006EC6B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -6522,6 +6550,15 @@
 			path = "Article Description Tests";
 			sourceTree = "<group>";
 		};
+		673E81C6269F9E4C0094B8FF /* Notification Service Extension */ = {
+			isa = PBXGroup;
+			children = (
+				673E81C7269F9E4C0094B8FF /* NotificationService.swift */,
+				673E81C9269F9E4C0094B8FF /* Info.plist */,
+			);
+			path = "Notification Service Extension";
+			sourceTree = "<group>";
+		};
 		6782DB8F2343B691003FA21B /* Diff */ = {
 			isa = PBXGroup;
 			children = (
@@ -6688,8 +6725,6 @@
 				67C287DA268D154900DFA9D0 /* PushNotificationsDataProvider.swift */,
 				673220B5269E54DB00AC466E /* PushNotificationFetchOperation.swift */,
 				67C287D5268D121100DFA9D0 /* PushNotificationsController+Setup.swift */,
-				67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */,
-				67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */,
 				67C287C1268CE79400DFA9D0 /* NotificationCenterViewController.swift */,
 				67820E54268D3DD3007B7EF7 /* NotificationCenterTableViewCell.swift */,
 				67C287CB268CE7F800DFA9D0 /* NotificationCenterListView.swift */,
@@ -6698,6 +6733,7 @@
 				67C287E5268D1A3900DFA9D0 /* EchoNotification+Extensions.swift */,
 				673220BA269F2ECA00AC466E /* NotificationsTypePickerView.swift */,
 				67C287DF268D188700DFA9D0 /* EchoNotifications.xcdatamodeld */,
+				673E81DE269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift */,
 			);
 			path = "New Remote Notifications";
 			sourceTree = "<group>";
@@ -8236,6 +8272,7 @@
 				83ACAA9F24E6DC8E003B3035 /* Command Line Tools */,
 				B0606EAF20AA6FF0006EC6B9 /* WikipediaUITests */,
 				00021DE624D48EFD00476F97 /* Widgets */,
+				673E81C6269F9E4C0094B8FF /* Notification Service Extension */,
 				D4991437181D51DE00E6073C /* Frameworks */,
 				D4991436181D51DE00E6073C /* Products */,
 				67D6C0152405A3E2005709B1 /* Recovered References */,
@@ -8260,6 +8297,7 @@
 				B0606EAE20AA6FF0006EC6B9 /* WikipediaUITests.xctest */,
 				00021DE124D48EFD00476F97 /* WidgetsExtension.appex */,
 				D8B589A521CD05070027083A /* languages */,
+				673E81C5269F9E4C0094B8FF /* NotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -8484,6 +8522,8 @@
 		D844D96D1D6CB2600042D692 /* WMF Framework */ = {
 			isa = PBXGroup;
 			children = (
+				67C287D0268CF6CE00DFA9D0 /* RemoteEchoNotification.swift */,
+				67CD3858267D1BD70026DDD1 /* EchoNotificationsFetcher.swift */,
 				67E9A11B25536B6F00C5ED31 /* ABTestsController.swift */,
 				0E28C4611D74AA55000C5919 /* Article Content */,
 				D87F1D3C1EC0ACC400575CF8 /* AsyncOperation.swift */,
@@ -9194,6 +9234,24 @@
 			productReference = 0E8380631D64989F0076EDE4 /* ContinueReadingWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		673E81C4269F9E4C0094B8FF /* NotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 673E81D8269F9E4C0094B8FF /* Build configuration list for PBXNativeTarget "NotificationServiceExtension" */;
+			buildPhases = (
+				673E81C1269F9E4C0094B8FF /* Sources */,
+				673E81C2269F9E4C0094B8FF /* Frameworks */,
+				673E81C3269F9E4C0094B8FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				673E81DC269F9E7F0094B8FF /* PBXTargetDependency */,
+			);
+			name = NotificationServiceExtension;
+			productName = "Notification Service Extension";
+			productReference = 673E81C5269F9E4C0094B8FF /* NotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B0606EAD20AA6FF0006EC6B9 /* WikipediaUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0606EC320AA6FF0006EC6B9 /* Build configuration list for PBXNativeTarget "WikipediaUITests" */;
@@ -9254,6 +9312,7 @@
 				D895D0901D9C1EB8005418C1 /* PBXTargetDependency */,
 				D8479FB11F222FE90025FD7A /* PBXTargetDependency */,
 				00021DED24D48EFE00476F97 /* PBXTargetDependency */,
+				673E81CB269F9E4C0094B8FF /* PBXTargetDependency */,
 			);
 			name = Wikipedia;
 			productName = "Wikipedia-iOS";
@@ -9465,7 +9524,7 @@
 					WMFWelcome,
 				);
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Wikimedia Foundation";
 				TargetAttributes = {
@@ -9485,6 +9544,9 @@
 								enabled = 1;
 							};
 						};
+					};
+					673E81C4269F9E4C0094B8FF = {
+						CreatedOnToolsVersion = 12.5.1;
 					};
 					B0606EAD20AA6FF0006EC6B9 = {
 						CreatedOnToolsVersion = 9.3.1;
@@ -9759,6 +9821,7 @@
 				B0606EAD20AA6FF0006EC6B9 /* WikipediaUITests */,
 				D8B589A421CD05070027083A /* languages */,
 				00021DE024D48EFD00476F97 /* WidgetsExtension */,
+				673E81C4269F9E4C0094B8FF /* NotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -9778,6 +9841,13 @@
 			files = (
 				0E83806C1D64989F0076EDE4 /* MainInterface.storyboard in Resources */,
 				D890C85D1D772ED3007132C9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		673E81C3269F9E4C0094B8FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10454,6 +10524,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		673E81C1269F9E4C0094B8FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				673E81C8269F9E4C0094B8FF /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B0606EAA20AA6FF0006EC6B9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -10595,7 +10673,6 @@
 				6782DB9D2343B7DB003FA21B /* DiffHeaderTitleView.swift in Sources */,
 				830D71CF1F704DD40080078B /* ArticleFetchedResultsViewController.swift in Sources */,
 				6747117E250703BB00287951 /* ArticleAsLivingDocReferenceCollectionViewCell.swift in Sources */,
-				67C287B4268CE05B00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */,
 				B0EFCD6D1EBF12E5008F36E5 /* LibrariesUsed.swift in Sources */,
 				67DC5BE923A03FE700B03A84 /* ArticleToolbarController.swift in Sources */,
 				B0CD9DD61F70997300051843 /* WMFWelcomeAnimationView.swift in Sources */,
@@ -10659,7 +10736,6 @@
 				8350FC4C20DA937B00C19D60 /* ArticleLocationAuthorizationCollectionViewCell.swift in Sources */,
 				8382F8C720D844C600AE5250 /* ArticleLocationCollectionViewCell.swift in Sources */,
 				B37B38F01E5F432F00FE11BD /* WMFDatabaseHouseKeeper.swift in Sources */,
-				67C287D1268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */,
 				6771299424FF775E00E89CA5 /* ArticleAsLivingDocLargeEventCollectionViewCell.swift in Sources */,
 				7A6CA28E2289AF2200C7FD47 /* EditLinkViewController.swift in Sources */,
 				7AEC9859219F529000BEF62B /* DefaultEditToolbarView.swift in Sources */,
@@ -10872,6 +10948,7 @@
 				BA7683C21F30C56300A487AA /* ImageDimmingExampleViewController.swift in Sources */,
 				674E8AB92382DEFF0053D206 /* DiffTransformer.swift in Sources */,
 				67A5E657236775C3007749FB /* GlobalUserInfoFetcher.swift in Sources */,
+				673E81DF269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */,
 				83B01F9023DB41BE001185F4 /* ArticleViewController+Sharing.swift in Sources */,
 				B0E8054D1C0CE0DC0065EBC0 /* UIScrollView+ScrollSubviewToLocation.m in Sources */,
 				B0E806331C0CE7680065EBC0 /* MTLValueTransformer+WMFNumericValueTransformer.m in Sources */,
@@ -11208,6 +11285,7 @@
 				0E728D1D1DAEE2B50074EB4B /* WMFFeedTopReadResponse.m in Sources */,
 				7A0312FF215422960095C953 /* RemoteNotificationsMarkAsReadOperation.swift in Sources */,
 				B0B4237A1F0211AB00D3DC4C /* WMFFeedArticlePreview+DescriptionOrSnippet.swift in Sources */,
+				673E81E3269FA0620094B8FF /* EchoNotificationsFetcher.swift in Sources */,
 				D8FA18BC1E1BD891009675C3 /* NSFileManager+WMFGroup.m in Sources */,
 				D844D97D1D6CB29B0042D692 /* MWKDataObject.m in Sources */,
 				678C7C3623BE7779001AC4D5 /* FileManager+CacheExtensions.swift in Sources */,
@@ -11318,6 +11396,7 @@
 				D84C36441F3245E600895FA1 /* WMFContentGroup+WMFFeedContentDisplaying.m in Sources */,
 				D8FA18F11E1BDA35009675C3 /* UIImage+WMFImageProcessing.m in Sources */,
 				D8FA18E71E1BD8AF009675C3 /* NSProcessInfo+WMFOperatingSystemVersionChecks.m in Sources */,
+				673E81E4269FA0EB0094B8FF /* RemoteEchoNotification.swift in Sources */,
 				7A3159CF206458B000143119 /* ReadingListAlertType.swift in Sources */,
 				7A3AD05820ADB1A900C92E04 /* WMFAuthenticationManager.swift in Sources */,
 				D87F1D3D1EC0ACC400575CF8 /* AsyncOperation.swift in Sources */,
@@ -11463,7 +11542,6 @@
 				67B64D5A2507DE3E00FA27F3 /* ArticleAsLivingDocSectionHeaderView.swift in Sources */,
 				6782DBA02343B7DB003FA21B /* DiffHeaderTitleView.swift in Sources */,
 				830D71D21F704DD40080078B /* ArticleFetchedResultsViewController.swift in Sources */,
-				67C287BA268CE05C00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */,
 				83AE1C831F34BB5A004B62E0 /* ImageDimmingExampleViewController.swift in Sources */,
 				67DC5BEC23A03FE700B03A84 /* ArticleToolbarController.swift in Sources */,
 				B0EFCD701EBF12E5008F36E5 /* LibrariesUsed.swift in Sources */,
@@ -11527,7 +11605,6 @@
 				83E3E7282440F1FE00AA2E9A /* LoadingAnimationViewController.swift in Sources */,
 				8382F8CA20D844C800AE5250 /* ArticleLocationCollectionViewCell.swift in Sources */,
 				B0B423641EF9D6A400D3DC4C /* OnThisDayViewController.swift in Sources */,
-				67C287D4268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */,
 				D8A42A771E815A9C00D8E281 /* WMFTableHeaderFooterLabelView.m in Sources */,
 				7A6CA2912289AF2200C7FD47 /* EditLinkViewController.swift in Sources */,
 				7AEC985C219F529000BEF62B /* DefaultEditToolbarView.swift in Sources */,
@@ -11740,6 +11817,7 @@
 				674E8ABC2382DF030053D206 /* DiffTransformer.swift in Sources */,
 				D8A42B101E815A9C00D8E281 /* MTLValueTransformer+WMFNumericValueTransformer.m in Sources */,
 				671F5E022367EDC600111116 /* GlobalUserInfoFetcher.swift in Sources */,
+				673E81E2269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */,
 				67985A572523D80100EBF353 /* ArticleAsLivingDocController.swift in Sources */,
 				83B01F9323DB41BE001185F4 /* ArticleViewController+Sharing.swift in Sources */,
 				7ADF498A21B45E42009EA338 /* TextFormattingGroupedToolbarView.swift in Sources */,
@@ -12061,6 +12139,7 @@
 				67DC5BF023A1427D00B03A84 /* ActionHandlerScript.swift in Sources */,
 				D8CE251B1E698E2400DAE2E0 /* LoggingDefaults.swift in Sources */,
 				D8CE25201E698E2400DAE2E0 /* MWKTitleLanguageController.m in Sources */,
+				673E81E1269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */,
 				678D79F7235E599B006161FF /* DiffListContextViewModel.swift in Sources */,
 				7A60E9D7215D511600F2D325 /* ReadMoreAboutRevertedEditViewController.swift in Sources */,
 				D8CE25211E698E2400DAE2E0 /* UIView+WMFSnapshotting.m in Sources */,
@@ -12285,7 +12364,6 @@
 				B3F21D101EB0EBB4000ED0BB /* PlaceSearchService.swift in Sources */,
 				D8CE25BC1E698E2400DAE2E0 /* WikiTextSectionUploader.m in Sources */,
 				7A0DE50120CEEC760032AB57 /* ExploreFeedSettingsViewController.swift in Sources */,
-				67C287D3268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */,
 				7A9F060E2266425700856321 /* InsertMediaSettingsViewController.swift in Sources */,
 				67C287C4268CE79400DFA9D0 /* NotificationCenterViewController.swift in Sources */,
 				7A27E85321B19767001B2D21 /* TextStyleFormattingTableViewController.swift in Sources */,
@@ -12348,7 +12426,6 @@
 				D8A47C8B23D728A4002AA823 /* ArticleTableOfContentsDisplayController.swift in Sources */,
 				67C287E3268D188700DFA9D0 /* EchoNotifications.xcdatamodeld in Sources */,
 				D8CE25DF1E698E2400DAE2E0 /* WMFFirstRandomViewController.m in Sources */,
-				67C287B8268CE05C00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */,
 				D8E6FF7824058AC600686272 /* WMFWebView.m in Sources */,
 				D8CE25E11E698E2400DAE2E0 /* ArticlePopoverViewController.swift in Sources */,
 				7ABE170D2239B5A0006BA309 /* WelcomePageViewController.swift in Sources */,
@@ -12563,6 +12640,7 @@
 				67DC5BF123A1427D00B03A84 /* ActionHandlerScript.swift in Sources */,
 				D8EC3E0C1E9BDA35006712EB /* WMFSettingsTableViewCell.m in Sources */,
 				D8EC3E0D1E9BDA35006712EB /* UIView+WMFSubviews.swift in Sources */,
+				673E81E0269F9F8D0094B8FF /* EchoNotificationsFetcher+Extensions.swift in Sources */,
 				678D79F8235E599B006161FF /* DiffListContextViewModel.swift in Sources */,
 				D8EC3E0F1E9BDA35006712EB /* WMFReferencePopoverMessageViewController.m in Sources */,
 				7A60E9D8215D511700F2D325 /* ReadMoreAboutRevertedEditViewController.swift in Sources */,
@@ -12787,7 +12865,6 @@
 				B3F21D111EB0EBB4000ED0BB /* PlaceSearchService.swift in Sources */,
 				D8EC3EB91E9BDA35006712EB /* WikiTextSectionUploader.m in Sources */,
 				7A0DE50220CEEC760032AB57 /* ExploreFeedSettingsViewController.swift in Sources */,
-				67C287D2268CF6CE00DFA9D0 /* RemoteEchoNotification.swift in Sources */,
 				D8EC3EBB1E9BDA35006712EB /* WMFAuthLinkLabel.swift in Sources */,
 				67C287C3268CE79400DFA9D0 /* NotificationCenterViewController.swift in Sources */,
 				7A9F060F2266425700856321 /* InsertMediaSettingsViewController.swift in Sources */,
@@ -12850,7 +12927,6 @@
 				D8E6FF7924058AC600686272 /* WMFWebView.m in Sources */,
 				67C287E2268D188700DFA9D0 /* EchoNotifications.xcdatamodeld in Sources */,
 				D8EC3EDD1E9BDA35006712EB /* WMFFirstRandomViewController.m in Sources */,
-				67C287B6268CE05B00DFA9D0 /* EchoNotificationsFetcher.swift in Sources */,
 				67B64D5D2507E9FD00FA27F3 /* ArticleAsLivingDocSmallEventCollectionViewCell.swift in Sources */,
 				7ABE170E2239B5A0006BA309 /* WelcomePageViewController.swift in Sources */,
 				D8EC3EDF1E9BDA35006712EB /* ArticlePopoverViewController.swift in Sources */,
@@ -12977,6 +13053,16 @@
 			isa = PBXTargetDependency;
 			target = 0E8380621D64989F0076EDE4 /* ContinueReadingWidget */;
 			targetProxy = 0E83806E1D64989F0076EDE4 /* PBXContainerItemProxy */;
+		};
+		673E81CB269F9E4C0094B8FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 673E81C4269F9E4C0094B8FF /* NotificationServiceExtension */;
+			targetProxy = 673E81CA269F9E4C0094B8FF /* PBXContainerItemProxy */;
+		};
+		673E81DC269F9E7F0094B8FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D844D96B1D6CB2600042D692 /* WMF */;
+			targetProxy = 673E81DB269F9E7F0094B8FF /* PBXContainerItemProxy */;
 		};
 		B018501A20BC85E400A508F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -14086,6 +14172,363 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wikipedia.app/Wikipedia";
 			};
 			name = Test;
+		};
+		673E81CD269F9E4C0094B8FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		673E81CE269F9E4C0094B8FF /* LocalDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = LocalDebug;
+		};
+		673E81CF269F9E4C0094B8FF /* UITest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = UITest;
+		};
+		673E81D0269F9E4C0094B8FF /* UserTestingDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = UserTestingDebug;
+		};
+		673E81D1269F9E4C0094B8FF /* StagingDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = StagingDebug;
+		};
+		673E81D2269F9E4C0094B8FF /* ExperimentalDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = ExperimentalDebug;
+		};
+		673E81D3269F9E4C0094B8FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		673E81D4269F9E4C0094B8FF /* UserTesting */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = UserTesting;
+		};
+		673E81D5269F9E4C0094B8FF /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Staging;
+		};
+		673E81D6269F9E4C0094B8FF /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Test;
+		};
+		673E81D7269F9E4C0094B8FF /* Experimental */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = AKK7J2GV64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.wikimedia.wikipedia.Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Experimental;
 		};
 		8350FC3B20DA7F0200C19D60 /* UITest */ = {
 			isa = XCBuildConfiguration;
@@ -19102,6 +19545,24 @@
 				D8A42A421E814FAA00D8E281 /* Staging */,
 				0E8380741D64989F0076EDE4 /* Test */,
 				D858A7FD1DA6DBC8009C3DEB /* Experimental */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		673E81D8269F9E4C0094B8FF /* Build configuration list for PBXNativeTarget "NotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				673E81CD269F9E4C0094B8FF /* Debug */,
+				673E81CE269F9E4C0094B8FF /* LocalDebug */,
+				673E81CF269F9E4C0094B8FF /* UITest */,
+				673E81D0269F9E4C0094B8FF /* UserTestingDebug */,
+				673E81D1269F9E4C0094B8FF /* StagingDebug */,
+				673E81D2269F9E4C0094B8FF /* ExperimentalDebug */,
+				673E81D3269F9E4C0094B8FF /* Release */,
+				673E81D4269F9E4C0094B8FF /* UserTesting */,
+				673E81D5269F9E4C0094B8FF /* Staging */,
+				673E81D6269F9E4C0094B8FF /* Test */,
+				673E81D7269F9E4C0094B8FF /* Experimental */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

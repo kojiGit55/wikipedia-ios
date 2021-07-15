@@ -179,14 +179,10 @@ import CocoaLumberjackSwift
      */
     public func loginWithSavedCredentials(reattemptOn401Response: Bool = false, completion: @escaping AuthenticationResultHandler) {
         
-        guard hasKeychainCredentials,
-            let userName = KeychainCredentialsManager.shared.username,
-            let password = KeychainCredentialsManager.shared.password
-            else {
-                let error = WMFCurrentlyLoggedInUserFetcherError.blankUsernameOrPassword
-                completion(.failure(error))
-                return
-        }
+        //TODO: fix missing keychain stuff in extension
+        //replace this with something real locally in the meantime
+        let userName = "test name"
+        let password = "test password"
         
         guard let siteURL = loginSiteURL else {
             completion(.failure(AuthenticationError.missingLoginURL))

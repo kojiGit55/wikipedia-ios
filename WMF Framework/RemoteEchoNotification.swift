@@ -1,17 +1,17 @@
 
 import Foundation
 
-struct RemoteEchoNotificationResponse: Decodable {
-    let query: RemoteEchoNotificationQuery
+public struct RemoteEchoNotificationResponse: Decodable {
+    public let query: RemoteEchoNotificationQuery
 }
 
-struct RemoteEchoNotificationQuery: Decodable {
-    let notifications: RemoteEchoNotificationsList
+public struct RemoteEchoNotificationQuery: Decodable {
+    public let notifications: RemoteEchoNotificationsList
 }
 
-struct RemoteEchoNotificationsList: Decodable {
-    let list: [RemoteEchoNotification]
-    let continueString: String?
+public struct RemoteEchoNotificationsList: Decodable {
+    public let list: [RemoteEchoNotification]
+    public let continueString: String?
     
     enum CodingKeys: String, CodingKey {
         case list = "list"
@@ -19,25 +19,36 @@ struct RemoteEchoNotificationsList: Decodable {
     }
 }
 
-struct RemoteEchoNotification: Decodable {
+public struct RemoteEchoNotification: Decodable {
     
-    enum EchoType: String, Decodable {
+    public enum EchoType: String, Decodable {
         case thankYouEdit = "thank-you-edit"
         case reverted
         case editUserTalk = "edit-user-talk"
+        
+        public var notificationTitle: String {
+            switch self {
+            case .thankYouEdit:
+                return "Someone said thanks!"
+            case .editUserTalk:
+                return "Someone left you a message."
+            case .reverted:
+                return "Someone has reverted your edit."
+            }
+        }
     }
     
-    let wiki: String
-    let id: UInt
-    let type: RemoteEchoNotification.EchoType
-    let timestamp: Date
-    let timestampUnix: String
-    let title: String
-    let agentId: UInt
-    let agentName: String
-    let revId: UInt?
-    let readDate: Date?
-    let header: String
+    public let wiki: String
+    public let id: UInt
+    public let type: RemoteEchoNotification.EchoType
+    public let timestamp: Date
+    public let timestampUnix: String
+    public let title: String
+    public let agentId: UInt
+    public let agentName: String
+    public let revId: UInt?
+    public let readDate: Date?
+    public let header: String
     
     enum OuterKeys: String, CodingKey {
         case wiki
@@ -69,7 +80,7 @@ struct RemoteEchoNotification: Decodable {
         case name
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let outerContainer = try decoder.container(keyedBy: OuterKeys.self)
         let timestampContainer = try outerContainer.nestedContainer(keyedBy: TimestampKeys.self,
                                                                     forKey: .timestamp)
