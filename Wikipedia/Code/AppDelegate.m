@@ -89,6 +89,7 @@ static NSString *const WMFBackgroundAppRefreshTaskIdentifier = @"org.wikimedia.w
 
     [[UIApplication sharedApplication] registerForRemoteNotifications];
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+    [self registerNotificationCategory];
 
     return YES;
 }
@@ -266,6 +267,11 @@ static NSString *const WMFBackgroundAppRefreshTaskIdentifier = @"org.wikimedia.w
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
     completionHandler((UNNotificationPresentationOptionSound | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert));
+}
+
+-(void)registerNotificationCategory {
+    UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:@"awesomeNotification" actions:@[] intentIdentifiers:@[] options: 0];
+    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories: [NSSet setWithArray:@[category]]];
 }
 
 @end

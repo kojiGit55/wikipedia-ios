@@ -51,7 +51,8 @@ class NotificationService: UNNotificationServiceExtension {
                                 
                                 if neverDisplayedNotifications.count > 1 {
                                     bestAttemptContent.title = self.fallbackTitle
-                                    bestAttemptContent.subtitle = ""
+                                    bestAttemptContent.subtitle = "subtitle"
+                                    bestAttemptContent.categoryIdentifier = "awesomeNotification"
                                     bestAttemptContent.body = self.fallbackBodyMultiple
                                     
                                     for notification in neverDisplayedNotifications {
@@ -64,22 +65,26 @@ class NotificationService: UNNotificationServiceExtension {
                                 } else if let mostRecentNotification = neverDisplayedNotifications.last {
                                     bestAttemptContent.title = mostRecentNotification.type.notificationTitle
                                     bestAttemptContent.body = mostRecentNotification.header
-                                    bestAttemptContent.subtitle = ""
+                                    bestAttemptContent.subtitle = "subtitle"
+                                    bestAttemptContent.categoryIdentifier = "awesomeNotification"
                                     if displayedPushIds == nil {
                                         displayedPushIds = []
                                     }
                                     displayedPushIds?.append(mostRecentNotification.id)
                                     UserDefaults.standard.setValue(displayedPushIds, forKey: self.displayedPushIdKey)
                                 } else {
-                                    bestAttemptContent.title = self.fallbackTitle
-                                    bestAttemptContent.subtitle = ""
+                                    bestAttemptContent.title = "" //self.fallbackTitle
+                                    bestAttemptContent.subtitle = "" //"subtitle"
                                     bestAttemptContent.body = self.fallbackBody
+                                    bestAttemptContent.categoryIdentifier = "awesomeNotification"
                                 }
                                 contentHandler(bestAttemptContent)
                             case .failure(let error):
+                                print(error)
                                 bestAttemptContent.title = self.fallbackTitle
-                                bestAttemptContent.subtitle = ""
+                                bestAttemptContent.subtitle = "subtitle"
                                 bestAttemptContent.body = self.fallbackBody
+                                bestAttemptContent.categoryIdentifier = "awesomeNotification"
                                 contentHandler(bestAttemptContent)
                             }
                         }
@@ -87,8 +92,9 @@ class NotificationService: UNNotificationServiceExtension {
                 case .failure(let error):
                     print(error)
                     bestAttemptContent.title = self.fallbackTitle
-                    bestAttemptContent.subtitle = ""
+                    bestAttemptContent.subtitle = "subtitle"
                     bestAttemptContent.body = self.fallbackBody
+                    bestAttemptContent.categoryIdentifier = "awesomeNotification"
                     contentHandler(bestAttemptContent)
                 }
             })

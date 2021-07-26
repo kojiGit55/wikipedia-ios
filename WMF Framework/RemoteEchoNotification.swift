@@ -22,18 +22,42 @@ public struct RemoteEchoNotificationsList: Decodable {
 public struct RemoteEchoNotification: Decodable {
     
     public enum EchoType: String, Decodable {
-        case thankYouEdit = "thank-you-edit"
+        case editMilestone = "thank-you-edit"
         case reverted
         case editUserTalk = "edit-user-talk"
+        case editThank = "edit-thank"
+        case flowPostReply = "flow-post-reply"
+        case mentionSummary = "mention-summary"
+        case mentionTalk = "mention"
+        case loginFailKnown = "login-fail-known"
+        case mentionFail = "mention-failure"
+        case mentionSuccess = "mention-success"
+        case welcome = "welcome"
         
         public var notificationTitle: String {
             switch self {
-            case .thankYouEdit:
+            case .editMilestone:
+                return "You just made your Nth edit, keep going!"
+            case .editThank:
                 return "Someone said thanks!"
             case .editUserTalk:
                 return "Someone left you a message."
+            case .flowPostReply:
+                return "Someone left a message via Flow."
             case .reverted:
                 return "Someone has reverted your edit."
+            case .mentionSummary:
+                return "Someone mentioned you in an edit summary."
+            case .mentionTalk:
+                return "Someone mentioned you on a talk page."
+            case .loginFailKnown:
+                return "There have been N attempts to log into your account from a known device."
+            case .mentionFail:
+                return "Your mention of [username] was not sent."
+            case .mentionSuccess:
+                return "Your mention to [username] was successfully sent."
+            case .welcome:
+                return "Welcome to Wikipedia!"
             }
         }
     }
