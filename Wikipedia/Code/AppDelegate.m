@@ -266,12 +266,44 @@ static NSString *const WMFBackgroundAppRefreshTaskIdentifier = @"org.wikimedia.w
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *_Nonnull settings) {
+        NSString *localIdentifier = [NSString stringWithFormat:@"%@-local", notification.request.identifier];
+        if (settings.authorizationStatus == UNAuthorizationStatusDenied && ![notification.request.identifier isEqualToString:localIdentifier]) {
+            //            NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            //
+            //            [calendar setTimeZone:[NSTimeZone localTimeZone]];
+            //
+            //            NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond|NSCalendarUnitTimeZone fromDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+            //
+            //            UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:NO];
+            //
+            //
+            //            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:localIdentifier content:notification.request.content trigger:trigger];
+            //            /// 3. schedule localNotification
+            //            [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+            //                if (!error) {
+            //                    NSLog(@"Local Notification succeeded");
+            //                }
+            //                else {
+            //                    NSLog(@"Local Notification failed");
+            //                }
+            //            }];
+            [[WMFAlertManager sharedInstance] showAlert:notification.request.content.body
+                                                 sticky:NO
+                                  dismissPreviousAlerts:YES
+                                            tapCallBack:^{
+                                                NSLog(@"tapped it");
+                                            }];
+        }
+    }];
+
     completionHandler((UNNotificationPresentationOptionSound | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert));
 }
 
--(void)registerNotificationCategory {
-    UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:@"awesomeNotification" actions:@[] intentIdentifiers:@[] options: 0];
-    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories: [NSSet setWithArray:@[category]]];
+- (void)registerNotificationCategory {
+    UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:@"awesomeNotification" actions:@[] intentIdentifiers:@[] options:0];
+    [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithArray:@[category]]];
 }
 
 @end
