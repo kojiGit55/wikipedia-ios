@@ -81,7 +81,7 @@ extension PushNotificationsController {
         UserDefaults.standard.wmf_setEchoPushNotificationsRegistered(false)
         
         guard let deviceTokenString = deviceTokenString else {
-            assertionFailure("Must have device token to register for echo notifications")
+            //assertionFailure("Must have device token to register for echo notifications")
             completion(false, nil)
             return
         }

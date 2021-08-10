@@ -33,7 +33,13 @@ extension EchoNotification {
         } else {
             self.revId = -1 //todo: maybe NSNumber here to handle optional
         }
-        self.agentId = Int64(remoteNotification.agentId)
+        
+        if let remoteAgentId = remoteNotification.agentId {
+            self.agentId = Int64(remoteAgentId)
+        } else {
+            self.agentId = 0
+        }
+        
         self.agentName = remoteNotification.agentName
         self.header = remoteNotification.header
         self.readDate = remoteNotification.readDate

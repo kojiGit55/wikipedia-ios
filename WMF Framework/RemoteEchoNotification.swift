@@ -67,9 +67,9 @@ public struct RemoteEchoNotification: Decodable {
     public let type: RemoteEchoNotification.EchoType
     public let timestamp: Date
     public let timestampUnix: String
-    public let title: String
-    public let agentId: UInt
-    public let agentName: String
+    public let title: String?
+    public let agentId: UInt?
+    public let agentName: String?
     public let revId: UInt?
     public let readDate: Date?
     public let header: String
@@ -108,9 +108,9 @@ public struct RemoteEchoNotification: Decodable {
         let outerContainer = try decoder.container(keyedBy: OuterKeys.self)
         let timestampContainer = try outerContainer.nestedContainer(keyedBy: TimestampKeys.self,
                                                                     forKey: .timestamp)
-        let titleContainer = try outerContainer.nestedContainer(keyedBy: TitleKeys.self,
+        let titleContainer = try? outerContainer.nestedContainer(keyedBy: TitleKeys.self,
                                                                       forKey: .title)
-        let agentContainer = try outerContainer.nestedContainer(keyedBy: AgentKeys.self,
+        let agentContainer = try? outerContainer.nestedContainer(keyedBy: AgentKeys.self,
                                                                 forKey: .agent)
         
         let infoContainer = try outerContainer.nestedContainer(keyedBy: InfoKeys.self, forKey: .info)
@@ -131,9 +131,9 @@ public struct RemoteEchoNotification: Decodable {
         let timestampUnixString = try timestampContainer.decode(String.self, forKey: .unix)
         self.timestamp = (timestampDate as NSString).wmf_iso8601Date()
         self.timestampUnix = timestampUnixString
-        self.title = try titleContainer.decode(String.self, forKey: .full)
-        self.agentId = try agentContainer.decode(UInt.self, forKey: .id)
-        self.agentName = try agentContainer.decode(String.self, forKey: .name)
+        self.title = try? titleContainer?.decode(String.self, forKey: .full)
+        self.agentId = try? agentContainer?.decode(UInt.self, forKey: .id)
+        self.agentName = try? agentContainer?.decode(String.self, forKey: .name)
         self.header = try infoContainer.decode(String.self, forKey: .header)
       }
 }
