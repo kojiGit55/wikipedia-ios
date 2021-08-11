@@ -46,6 +46,7 @@ final class RemoteNotificationsModelController: NSObject {
     public static let didLoadPersistentStoresNotification = NSNotification.Name(rawValue: "ModelControllerDidLoadPersistentStores")
     
     let managedObjectContext: NSManagedObjectContext
+    let viewContext: NSManagedObjectContext
 
     enum InitializationError: Error {
         case unableToCreateModelURL(String, String, Bundle)
@@ -78,6 +79,8 @@ final class RemoteNotificationsModelController: NSObject {
             return nil
         }
         let container = NSPersistentContainer(name: modelName, managedObjectModel: model)
+        self.viewContext = container.viewContext
+        self.viewContext.automaticallyMergesChangesFromParent = true
         let sharedAppContainerURL = FileManager.default.wmf_containerURL()
         let remoteNotificationsStorageURL = sharedAppContainerURL.appendingPathComponent(modelName)
         let description = NSPersistentStoreDescription(url: remoteNotificationsStorageURL)
@@ -156,10 +159,10 @@ final class RemoteNotificationsModelController: NSObject {
         return hoursPassed <= maxHoursPassed
     }
 
-    public func createNewNotifications(from notificationsFetchedFromTheServer: Set<RemoteNotificationsAPIController.NotificationsResult.Notification>, completion: @escaping () -> Void) throws {
+    public func createNewNotifications(from notificationsFetchedFromTheServer: Set<RemoteNotificationsAPIController.NotificationsResult.Notification>, bypassValidation: Bool = false, completion: @escaping () -> Void) throws {
         managedObjectContext.perform {
             for notification in notificationsFetchedFromTheServer {
-                self.createNewNotification(from: notification)
+                self.createNewNotification(from: notification, bypassValidation: bypassValidation)
             }
             self.save()
             completion()
@@ -169,7 +172,7 @@ final class RemoteNotificationsModelController: NSObject {
     // Reminder: Methods that access managedObjectContext should perform their operations
     // inside the perform(_:) or the performAndWait(_:) methods.
     // https://developer.apple.com/documentation/coredata/using_core_data_in_the_background
-    private func createNewNotification(from notification: RemoteNotificationsAPIController.NotificationsResult.Notification) {
+    private func createNewNotification(from notification: RemoteNotificationsAPIController.NotificationsResult.Notification, bypassValidation: Bool = false) {
         guard let date = date(from: notification.timestamp?.utciso8601) else {
             assertionFailure("Notification should have a date")
             return
@@ -178,12 +181,16 @@ final class RemoteNotificationsModelController: NSObject {
             assertionFailure("Notification must have an id")
             return
         }
-        guard self.validateCategory(of: notification) else {
-            return
+        
+        if !bypassValidation {
+            guard self.validateCategory(of: notification) else {
+                return
+            }
+            guard self.validateAge(ofNotificationDated: date) else {
+                return
+            }
         }
-        guard self.validateAge(ofNotificationDated: date) else {
-            return
-        }
+        
         let message = notification.message?.header?.wmf_stringByRemovingHTML()
         let _ = managedObjectContext.wmf_create(entityNamed: "RemoteNotification",
                                                 withKeysAndValues: ["id": id,

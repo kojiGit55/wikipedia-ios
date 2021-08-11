@@ -4,8 +4,13 @@ class RemoteNotificationsOperationsController: NSObject {
     private let apiController: RemoteNotificationsAPIController
     private let modelController: RemoteNotificationsModelController?
     private let deadlineController: RemoteNotificationsOperationsDeadlineController?
-    private let operationQueue: OperationQueue
+    private let legacyOperationQueue: OperationQueue
+    private let importAndRefreshOperationQueue: OperationQueue
     private let preferredLanguageCodesProvider: WMFPreferredLanguageInfoProvider
+    
+    var viewContext: NSManagedObjectContext? {
+        return modelController?.viewContext
+    }
 
     private var isLocked: Bool = false {
         didSet {
@@ -25,8 +30,10 @@ class RemoteNotificationsOperationsController: NSObject {
             isLocked = true
         }
 
-        operationQueue = OperationQueue()
-        operationQueue.maxConcurrentOperationCount = 1
+        legacyOperationQueue = OperationQueue()
+        legacyOperationQueue.maxConcurrentOperationCount = 1
+        
+        importAndRefreshOperationQueue = OperationQueue()
         
         self.preferredLanguageCodesProvider = preferredLanguageCodesProvider
         
@@ -39,14 +46,47 @@ class RemoteNotificationsOperationsController: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    public func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
+        
+        //TODO: This should probably represent some irrecoverable state in the Notification Center UI
+        guard let modelController = modelController else {
+            assertionFailure("Failure setting up notifications core data stack.")
+            return
+        }
+        
+        preferredLanguageCodesProvider.getPreferredLanguageCodes({ [weak self] (languageCodes) in
+            
+            guard let self = self else {
+                return
+            }
+            
+            let wikis = languageCodes + ["wikidata"]
+            var importOperations: [RemoteNotificationsImportOperation] = []
+            for wiki in wikis {
+                importOperations.append(RemoteNotificationsImportOperation(with: self.apiController, modelController: modelController, wiki: wiki))
+            }
+            
+            let completionOperation = BlockOperation(block: completion)
+            
+            for importOperation in importOperations {
+                completionOperation.addDependency(importOperation)
+            }
+            
+            for importOperation in importOperations {
+                self.importAndRefreshOperationQueue.addOperation(importOperation)
+            }
+        })
+    }
 
     public func stop() {
-        operationQueue.cancelAllOperations()
+        legacyOperationQueue.cancelAllOperations()
+        importAndRefreshOperationQueue.cancelAllOperations()
     }
 
     @objc private func sync(_ completion: @escaping () -> Void) {
         let completeEarly = {
-            self.operationQueue.addOperation(completion)
+            self.legacyOperationQueue.addOperation(completion)
         }
 
         guard !isLocked else {
@@ -56,7 +96,7 @@ class RemoteNotificationsOperationsController: NSObject {
 
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(sync), object: nil)
 
-        guard operationQueue.operationCount == 0 else {
+        guard legacyOperationQueue.operationCount == 0 else {
             completeEarly()
             return
         }
@@ -86,9 +126,9 @@ class RemoteNotificationsOperationsController: NSObject {
             fetchOperation.addDependency(markAsReadOperation)
             completionOperation.addDependency(fetchOperation)
             
-            self.operationQueue.addOperation(markAsReadOperation)
-            self.operationQueue.addOperation(fetchOperation)
-            self.operationQueue.addOperation(completionOperation)
+            self.legacyOperationQueue.addOperation(markAsReadOperation)
+            self.legacyOperationQueue.addOperation(fetchOperation)
+            self.legacyOperationQueue.addOperation(completionOperation)
         })
     }
 

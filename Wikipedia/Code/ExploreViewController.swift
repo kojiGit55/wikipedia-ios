@@ -87,7 +87,9 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
     // MARK - NavBar
     
     @objc func titleBarButtonPressed(_ sender: UIButton?) {
-        scrollToTop()
+        //scrollToTop()
+        let notificationCenterViewController = NotificationCenterViewController(nibName: nil, bundle: nil)
+        push(notificationCenterViewController)
     }
     
     @objc public var titleButton: UIView {
@@ -97,7 +99,11 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
     lazy var longTitleButton: UIButton = {
         let longTitleButton = UIButton(type: .custom)
         longTitleButton.adjustsImageWhenHighlighted = true
-        longTitleButton.setImage(UIImage(named: "wikipedia"), for: .normal)
+        if #available(iOS 13.0, *) {
+            longTitleButton.setImage(UIImage(systemName: "bell"), for: .normal)
+        } else {
+            longTitleButton.setImage(UIImage(named: "wikipedia"), for: .normal)
+        }
         longTitleButton.sizeToFit()
         longTitleButton.addTarget(self, action: #selector(titleBarButtonPressed), for: .touchUpInside)
         longTitleButton.isAccessibilityElement = false

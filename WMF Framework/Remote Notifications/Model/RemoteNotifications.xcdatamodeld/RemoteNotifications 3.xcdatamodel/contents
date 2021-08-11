@@ -13,6 +13,12 @@
         <fetchIndex name="byPropertyIndex">
             <fetchIndexElement property="stateNumber" type="Binary" order="ascending"/>
         </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+                <constraint value="wiki"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="WMFKeyValue" representedClassName="WMFKeyValue" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

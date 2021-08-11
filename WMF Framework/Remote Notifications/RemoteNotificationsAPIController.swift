@@ -59,6 +59,7 @@ class RemoteNotificationsAPIController: Fetcher {
         }
         struct Notifications: Decodable {
             let list: [Notification]
+            let `continue`: String?
         }
         struct Query: Decodable {
             let notifications: Notifications?
@@ -118,6 +119,17 @@ class RemoteNotificationsAPIController: Fetcher {
             return nil
         }
         return Set(list)
+    }
+    
+    public func getAllNotifications(from subdomain: String, continueId: String?, completion: @escaping (NotificationsResult.Notifications?, Error?) -> Void) {
+        let completion: (NotificationsResult?, URLResponse?, Error?) -> Void = { result, _, error in
+            guard error == nil else {
+                completion(nil, error)
+                return
+            }
+            completion(result?.query?.notifications, result?.error)
+        }
+        request(Query.notifications(from: [subdomain], limit: .max, filter: .none, continueId: continueId), completion: completion)
     }
 
     public func getAllUnreadNotifications(from subdomains: [String], completion: @escaping (Set<NotificationsResult.Notification>?, Error?) -> Void) {
@@ -210,7 +222,7 @@ class RemoteNotificationsAPIController: Fetcher {
             case none = "read|!read"
         }
 
-        static func notifications(from subdomains: [String] = [], limit: Limit = .max, filter: Filter = .none) -> Parameters {
+        static func notifications(from subdomains: [String] = [], limit: Limit = .max, filter: Filter = .none, continueId: String? = nil) -> Parameters {
             var dictionary = ["action": "query",
                     "format": "json",
                     "formatversion": "2",
@@ -218,6 +230,10 @@ class RemoteNotificationsAPIController: Fetcher {
                     "meta": "notifications",
                     "notlimit": limit.value,
                     "notfilter": filter.rawValue]
+            
+            if let continueId = continueId {
+                dictionary["notcontinue"] = continueId
+            }
 
             let wikis = subdomains.compactMap { $0.replacingOccurrences(of: "-", with: "_").appending("wiki") }
             dictionary["notwikis"] = wikis.joined(separator: "|")
