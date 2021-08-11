@@ -91,6 +91,7 @@ extension NotificationCenterViewController: UITableViewDataSource {
         
         let notification = fetchedResultsController.object(at: indexPath)
         
+        notificationCell.delegate = self
         notificationCell.configure(notification: notification)
         return notificationCell
     }
@@ -135,5 +136,11 @@ extension NotificationCenterViewController: NSFetchedResultsControllerDelegate {
         @unknown default:
             break
         }
+    }
+}
+
+extension NotificationCenterViewController: NotificationCenterTableViewCellDelegate {
+    func markNotificationAsRead(_ notification: RemoteNotification) {
+        //self.dataStore.remoteNotificationsController.mark
     }
 }

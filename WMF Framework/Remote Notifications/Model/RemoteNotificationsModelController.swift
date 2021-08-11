@@ -200,6 +200,7 @@ final class RemoteNotificationsModelController: NSObject {
         }
         
         let message = notification.message?.header?.wmf_stringByRemovingHTML()
+        let stateNumber = notification.readDateString != nil ? NSNumber(value: RemoteNotification.State.read.rawValue) : nil
         let _ = managedObjectContext.wmf_create(entityNamed: "RemoteNotification",
                                                 withKeysAndValues: ["id": id,
                                                                     "categoryString" : notification.category,
@@ -208,6 +209,7 @@ final class RemoteNotificationsModelController: NSObject {
                                                                     "affectedPageID": notification.affectedPageID?.full,
                                                                     "message": message,
                                                                     "wiki": notification.wiki,
+                                                                    "stateNumber": stateNumber,
                                                                     "date": date])
     }
 

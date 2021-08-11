@@ -29,6 +29,7 @@ class RemoteNotificationsAPIController: Fetcher {
             let timestamp: Timestamp?
             let agent: Agent?
             let affectedPageID: AffectedPageID?
+            let readDateString: String?
 
             enum CodingKeys: String, CodingKey {
                 case wiki
@@ -39,12 +40,14 @@ class RemoteNotificationsAPIController: Fetcher {
                 case timestamp
                 case agent
                 case affectedPageID = "title"
+                case readDateString = "read"
             }
 
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
                 wiki = try values.decode(String.self, forKey: .wiki)
                 type = try values.decode(String.self, forKey: .type)
+                readDateString = try? values.decode(String.self, forKey: .readDateString)
                 category = try values.decode(String.self, forKey: .category)
                 do {
                     id = String(try values.decode(Int.self, forKey: .id))
