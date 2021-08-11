@@ -141,6 +141,8 @@ extension NotificationCenterViewController: NSFetchedResultsControllerDelegate {
 
 extension NotificationCenterViewController: NotificationCenterTableViewCellDelegate {
     func markNotificationAsRead(_ notification: RemoteNotification) {
-        //self.dataStore.remoteNotificationsController.mark
+        self.dataStore.remoteNotificationsController.markAsRead(notification: notification) {
+            print("marked as read")
+        }
     }
 }

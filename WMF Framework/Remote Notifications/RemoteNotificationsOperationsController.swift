@@ -47,6 +47,21 @@ class RemoteNotificationsOperationsController: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func markAsRead(notification: RemoteNotification, completion: @escaping () -> Void) {
+        
+        guard let modelController = modelController else {
+            assertionFailure("Failure setting up notifications core data stack.")
+            return
+        }
+        
+        let completionOperation = BlockOperation(block: completion)
+        
+        let markAsReadOperation = RemoteNotificationsAlternativeMarkAsReadOperation(with: self.apiController, modelController: modelController, notification: notification)
+        completionOperation.addDependency(markAsReadOperation)
+        self.legacyOperationQueue.addOperation(markAsReadOperation)
+        self.legacyOperationQueue.addOperation(completionOperation)
+    }
+    
     func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
         
         guard let modelController = modelController else {

@@ -13,6 +13,10 @@
         super.init()
     }
     
+    public func markAsRead(notification: RemoteNotification, completion: @escaping () -> Void) {
+        operationsController.markAsRead(notification: notification, completion: completion)
+    }
+    
     public func importPreferredWikiNotificationsIfNeeded(_ completion: @escaping () -> Void) {
         guard needsImport else {
             completion()

@@ -15,8 +15,11 @@ class RemoteNotificationsAlternativeMarkAsReadOperation: RemoteNotificationsOper
                 self.finish(with: error)
             } else {
                 self.managedObjectContext.perform {
-                    //todo: notification here will be from view context, need to pull background context managed object and mark it as read in model controller.
-                    //self.modelController.markAsRead()
+                    if let backgroundRemoteNotification = self.managedObjectContext.object(
+                        with: self.notification.objectID) as? RemoteNotification {
+                        self.modelController.markAsRead(backgroundRemoteNotification)
+                        self.finish()
+                    }
                 }
             }
         }

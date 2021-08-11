@@ -1,7 +1,7 @@
 
 import UIKit
 
-protocol NotificationCenterTableViewCellDelegate: class {
+protocol NotificationCenterTableViewCellDelegate: AnyObject {
     func markNotificationAsRead(_ notification: RemoteNotification)
 }
 
@@ -22,10 +22,12 @@ class NotificationCenterTableViewCell: UITableViewCell {
     private var notification: RemoteNotification?
 
     func configure(notification: RemoteNotification) {
+        self.notification = notification
         addViewsIfNeeded()
         titleLabel?.text = notification.message
         
         if notification.state != .read {
+            markAsReadButton.isEnabled = true
             stackView?.addArrangedSubview(markAsReadButton)
             markAsReadButton.addTarget(self, action: #selector(markAsRead), for: .touchUpInside)
         } else {
@@ -38,6 +40,7 @@ class NotificationCenterTableViewCell: UITableViewCell {
             return
         }
         
+        markAsReadButton.isEnabled = false
         delegate?.markNotificationAsRead(notification)
     }
     
