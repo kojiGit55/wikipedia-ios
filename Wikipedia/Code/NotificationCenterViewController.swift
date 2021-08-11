@@ -55,7 +55,7 @@ class NotificationCenterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        dataStore.remoteNotificationsController.importPreferredWikiNotifications {
+        dataStore.remoteNotificationsController.importPreferredWikiNotificationsIfNeeded {
             print("complete!")
         }
     }

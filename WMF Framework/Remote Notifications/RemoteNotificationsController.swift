@@ -1,6 +1,9 @@
 @objc public final class RemoteNotificationsController: NSObject {
     private let operationsController: RemoteNotificationsOperationsController
     
+    //TODO: Basic prevention of importing multiple times while in memory. Replace with something more robust.
+    private var needsImport = true
+    
     public var viewContext: NSManagedObjectContext? {
         return operationsController.viewContext
     }
@@ -10,8 +13,16 @@
         super.init()
     }
     
-    public func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
-        operationsController.importPreferredWikiNotifications(completion)
+    public func importPreferredWikiNotificationsIfNeeded(_ completion: @escaping () -> Void) {
+        guard needsImport else {
+            completion()
+            return
+        }
+        
+        operationsController.importPreferredWikiNotifications { [weak self] in
+            self?.needsImport = false
+            completion()
+        }
     }
 }
 

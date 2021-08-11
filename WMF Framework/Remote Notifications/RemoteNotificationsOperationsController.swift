@@ -49,7 +49,6 @@ class RemoteNotificationsOperationsController: NSObject {
     
     func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
         
-        //TODO: This should probably represent some irrecoverable state in the Notification Center UI
         guard let modelController = modelController else {
             assertionFailure("Failure setting up notifications core data stack.")
             return
@@ -76,6 +75,7 @@ class RemoteNotificationsOperationsController: NSObject {
             for importOperation in importOperations {
                 self.importAndRefreshOperationQueue.addOperation(importOperation)
             }
+            self.importAndRefreshOperationQueue.addOperation(completionOperation)
         })
     }
 

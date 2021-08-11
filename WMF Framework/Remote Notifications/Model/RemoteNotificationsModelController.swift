@@ -79,8 +79,12 @@ final class RemoteNotificationsModelController: NSObject {
             return nil
         }
         let container = NSPersistentContainer(name: modelName, managedObjectModel: model)
-        self.viewContext = container.viewContext
-        self.viewContext.automaticallyMergesChangesFromParent = true
+        
+        viewContext = container.viewContext
+        viewContext.name = "RemoteNotificationsViewContext"
+        viewContext.automaticallyMergesChangesFromParent = true
+        viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        
         let sharedAppContainerURL = FileManager.default.wmf_containerURL()
         let remoteNotificationsStorageURL = sharedAppContainerURL.appendingPathComponent(modelName)
         let description = NSPersistentStoreDescription(url: remoteNotificationsStorageURL)
@@ -91,7 +95,11 @@ final class RemoteNotificationsModelController: NSObject {
             }
         }
         managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        managedObjectContext.name = "RemoteNotificationsBackgroundContext"
         managedObjectContext.persistentStoreCoordinator = container.persistentStoreCoordinator
+        managedObjectContext.automaticallyMergesChangesFromParent = true
+        managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextDidSave(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: managedObjectContext)
     }
