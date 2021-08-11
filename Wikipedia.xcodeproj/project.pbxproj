@@ -260,6 +260,7 @@
 		670AF1B326C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
 		670AF1B426C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
 		670AF1B526C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
+		670AF1B726C394AF005F76D0 /* RemoteNotificationsAlternativeMarkAsReadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1B626C394AF005F76D0 /* RemoteNotificationsAlternativeMarkAsReadOperation.swift */; };
 		670F765F22B0C10600D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766022B0C48E00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766122B0C48F00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
@@ -3653,6 +3654,7 @@
 		670AF1A526C33838005F76D0 /* RemoteNotificationsRefreshOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationsRefreshOperation.swift; sourceTree = "<group>"; };
 		670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterTableViewCell.swift; sourceTree = "<group>"; };
 		670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterViewController.swift; sourceTree = "<group>"; };
+		670AF1B626C394AF005F76D0 /* RemoteNotificationsAlternativeMarkAsReadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationsAlternativeMarkAsReadOperation.swift; sourceTree = "<group>"; };
 		670F765E22B0C10600D87545 /* FakeProgressLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProgressLoading.swift; sourceTree = "<group>"; };
 		67146031243B885E008CE885 /* SurveyAnnouncementsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyAnnouncementsController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		67146033243B8B4F008CE885 /* AnnouncementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementType.swift; sourceTree = "<group>"; };
@@ -6837,6 +6839,7 @@
 				7A5357AA215552E7007998DC /* RemoteNotificationsOperation.swift */,
 				670AF1A326C33808005F76D0 /* RemoteNotificationsImportOperation.swift */,
 				670AF1A526C33838005F76D0 /* RemoteNotificationsRefreshOperation.swift */,
+				670AF1B626C394AF005F76D0 /* RemoteNotificationsAlternativeMarkAsReadOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -11338,6 +11341,7 @@
 				D880652F218C732800BF7B91 /* WorkerController.swift in Sources */,
 				6773B2042411DCF50022A70E /* ArticleCacheResourceDBWriting.swift in Sources */,
 				0E728D1F1DAEE2B50074EB4B /* WMFFeedArticlePreview.m in Sources */,
+				670AF1B726C394AF005F76D0 /* RemoteNotificationsAlternativeMarkAsReadOperation.swift in Sources */,
 				D83FA6B61D74CDE6008CAB00 /* EventLoggingFunnel.m in Sources */,
 				D8FA18D11E1BD891009675C3 /* WMFMath.m in Sources */,
 				678F512B23A7EE6600CE5357 /* ArticleFetcher.swift in Sources */,
