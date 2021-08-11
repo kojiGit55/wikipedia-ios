@@ -86,7 +86,7 @@ final class RemoteNotificationsModelController: NSObject {
         viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         
         let sharedAppContainerURL = FileManager.default.wmf_containerURL()
-        let remoteNotificationsStorageURL = sharedAppContainerURL.appendingPathComponent(modelName)
+        let remoteNotificationsStorageURL = sharedAppContainerURL.appendingPathComponent("\(modelName).sqlite")
         let description = NSPersistentStoreDescription(url: remoteNotificationsStorageURL)
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { (storeDescription, error) in

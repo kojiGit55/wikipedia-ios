@@ -140,15 +140,16 @@ extension NotificationCenterViewController: NSFetchedResultsControllerDelegate {
             }
             break;
         case .update:
-            if let indexPath = indexPath,
-               let notification = fetchedResultsController?.object(at: indexPath),
-               let cell = tableView.cellForRow(at: indexPath) as? NotificationCenterTableViewCell {
+            if let newIndexPath = newIndexPath,
+               let oldIndexPath = indexPath,
+               let notification = fetchedResultsController?.object(at: newIndexPath),
+               let cell = tableView.cellForRow(at: oldIndexPath) as? NotificationCenterTableViewCell {
                 cell.configure(notification: notification)
             }
         case .move:
-            if let indexPath = indexPath,
+            if let oldIndexPath = indexPath,
                let newIndexPath = newIndexPath {
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.deleteRows(at: [oldIndexPath], with: .fade)
                 tableView.insertRows(at: [newIndexPath], with: .fade)
             }
             break
