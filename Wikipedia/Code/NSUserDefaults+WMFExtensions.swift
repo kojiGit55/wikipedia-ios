@@ -43,6 +43,7 @@ let WMFSendUsageReports = "WMFSendUsageReports"
         static let didShowEditingOnboarding = "WMFDidShowEditingOnboarding"
         static let autoSignTalkPageDiscussions = "WMFAutoSignTalkPageDiscussions"
         static let talkPageForceRefreshRevisionIDs = "WMFTalkPageForceRefreshRevisionIDs"
+        static let hasImportedNotifications = "WMFHasImportedNotifications"
     }
 
     @objc func wmf_dateForKey(_ key: String) -> Date? {
@@ -458,6 +459,15 @@ let WMFSendUsageReports = "WMFSendUsageReports"
         }
         set {
             set(newValue, forKey: UserDefaults.Key.autoSignTalkPageDiscussions)
+        }
+    }
+    
+    var hasImportedNotifications: Bool {
+        get {
+            return bool(forKey: UserDefaults.Key.hasImportedNotifications)
+        }
+        set {
+            set(newValue, forKey: UserDefaults.Key.hasImportedNotifications)
         }
     }
     

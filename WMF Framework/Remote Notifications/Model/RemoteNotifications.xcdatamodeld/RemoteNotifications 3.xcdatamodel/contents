@@ -5,18 +5,18 @@
         <attribute name="agent" optional="YES" attributeType="String"/>
         <attribute name="categoryString" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="key" attributeType="String"/>
         <attribute name="message" optional="YES" attributeType="String"/>
         <attribute name="stateNumber" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="typeString" optional="YES" attributeType="String"/>
-        <attribute name="wiki" optional="YES" attributeType="String"/>
+        <attribute name="wiki" attributeType="String"/>
         <fetchIndex name="byPropertyIndex">
             <fetchIndexElement property="stateNumber" type="Binary" order="ascending"/>
         </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="id"/>
-                <constraint value="wiki"/>
+                <constraint value="key"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -32,7 +32,7 @@
         </fetchIndex>
     </entity>
     <elements>
-        <element name="RemoteNotification" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="RemoteNotification" positionX="-63" positionY="-18" width="128" height="179"/>
         <element name="WMFKeyValue" positionX="-63" positionY="54" width="128" height="103"/>
     </elements>
 </model>

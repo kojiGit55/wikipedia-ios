@@ -28,6 +28,8 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
         NotificationCenter.default.addObserver(self, selector: #selector(exploreFeedPreferencesDidSave(_:)), name: NSNotification.Name.WMFExploreFeedPreferencesDidSave, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(articleDidChange(_:)), name: NSNotification.Name.WMFArticleUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(articleDeleted(_:)), name: NSNotification.Name.WMFArticleDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addNotificationsBadge(_:)), name: NSNotification.Name.addNotificationsBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeNotificationsBadge(_:)), name: NSNotification.Name.removeNotificationsBadge, object: nil)
 #if UI_TEST
         if UserDefaults.standard.wmf_isFastlaneSnapshotInProgress() {
             collectionView.decelerationRate = .fast
@@ -933,6 +935,33 @@ extension ExploreViewController: ExploreCardCollectionViewCellDelegate {
             return
         }
         layoutCache.invalidateArticleKey(articleKey)
+    }
+    
+    @objc func addNotificationsBadge(_ note: Notification) {
+        DispatchQueue.main.async {
+            //Do not badge if notification center is already pushed on
+            if let _ = self.navigationController?.viewControllers[safeIndex:1] as? NotificationCenterViewController {
+                return
+            }
+            
+            if #available(iOS 13.0, *) {
+                self.longTitleButton.setImage(UIImage(systemName: "circle"), for: .normal)
+            } else {
+                // Fallback on earlier versions
+            }
+            self.longTitleButton.tintColor = .red
+        }
+    }
+    
+    @objc func removeNotificationsBadge(_ note: Notification) {
+        DispatchQueue.main.async {
+            if #available(iOS 13.0, *) {
+                self.longTitleButton.setImage(UIImage(systemName: "bell"), for: .normal)
+            } else {
+                // Fallback on earlier versions
+            }
+            self.longTitleButton.tintColor = .black
+        }
     }
 
     private func menuActionSheetForGroup(_ group: WMFContentGroup) -> UIAlertController? {

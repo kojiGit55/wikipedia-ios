@@ -185,10 +185,6 @@ final class RemoteNotificationsModelController: NSObject {
             assertionFailure("Notification should have a date")
             return
         }
-        guard let id = notification.id else {
-            assertionFailure("Notification must have an id")
-            return
-        }
         
         if !bypassValidation {
             guard self.validateCategory(of: notification) else {
@@ -202,7 +198,7 @@ final class RemoteNotificationsModelController: NSObject {
         let message = notification.message?.header?.wmf_stringByRemovingHTML()
         let stateNumber = notification.readDateString != nil ? NSNumber(value: RemoteNotification.State.read.rawValue) : nil
         let _ = managedObjectContext.wmf_create(entityNamed: "RemoteNotification",
-                                                withKeysAndValues: ["id": id,
+                                                withKeysAndValues: ["id": notification.id,
                                                                     "categoryString" : notification.category,
                                                                     "typeString": notification.type,
                                                                     "agent": notification.agent?.name,
@@ -210,7 +206,8 @@ final class RemoteNotificationsModelController: NSObject {
                                                                     "message": message,
                                                                     "wiki": notification.wiki,
                                                                     "stateNumber": stateNumber,
-                                                                    "date": date])
+                                                                    "date": date,
+                                                                    "key": notification.key])
     }
 
     private func date(from dateString: String?) -> Date? {
@@ -236,10 +233,7 @@ final class RemoteNotificationsModelController: NSObject {
             }
 
             for notification in notificationsFetchedFromTheServer {
-                guard let id = notification.id else {
-                    assertionFailure("Expected notification to have id")
-                    continue
-                }
+                let id = notification.id
                 guard !commonIDs.contains(id) else {
                     if let savedNotification = savedNotifications.first(where: { $0.id == id }) {
                         // Update notifications that weren't seen so that moc is notified of the update

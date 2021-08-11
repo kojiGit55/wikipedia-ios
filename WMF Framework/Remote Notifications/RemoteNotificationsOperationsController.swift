@@ -62,6 +62,44 @@ class RemoteNotificationsOperationsController: NSObject {
         self.legacyOperationQueue.addOperation(completionOperation)
     }
     
+    func refreshImportedNotifications(fireNewRemoteNotification: Bool = false, completion: @escaping () -> Void) {
+        
+        guard let modelController = modelController else {
+            assertionFailure("Failure setting up notifications core data stack.")
+            return
+        }
+        
+        //TODO: DRY with importPreferredWikiNotifications
+        preferredLanguageCodesProvider.getPreferredLanguageCodes({ [weak self] (languageCodes) in
+            
+            guard let self = self else {
+                return
+            }
+            
+            let wikis = languageCodes + ["wikidata"]
+            var refreshOperations: [RemoteNotificationsRefreshOperation] = []
+            for wiki in wikis {
+                let refreshOperation = RemoteNotificationsRefreshOperation(with: self.apiController, modelController: modelController, wiki: wiki, fireNewRemoteNotification: fireNewRemoteNotification)
+                refreshOperation.queuePriority = .normal
+                refreshOperations.append(refreshOperation)
+            }
+            
+            let completionOperation = BlockOperation(block: completion)
+            completionOperation.queuePriority = .normal
+            
+            for refreshOperation in refreshOperations {
+                completionOperation.addDependency(refreshOperation)
+            }
+            
+            //TODO: ensure bulk import isn't in the middle of doing stuff
+            for refreshOperation in refreshOperations {
+                self.importAndRefreshOperationQueue.addOperation(refreshOperation)
+            }
+            self.importAndRefreshOperationQueue.addOperation(completionOperation)
+            
+        })
+    }
+    
     func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
         
         guard let modelController = modelController else {
@@ -78,10 +116,13 @@ class RemoteNotificationsOperationsController: NSObject {
             let wikis = languageCodes + ["wikidata"]
             var importOperations: [RemoteNotificationsImportOperation] = []
             for wiki in wikis {
-                importOperations.append(RemoteNotificationsImportOperation(with: self.apiController, modelController: modelController, wiki: wiki))
+                let importOperation = RemoteNotificationsImportOperation(with: self.apiController, modelController: modelController, wiki: wiki)
+                importOperation.queuePriority = .veryHigh
+                importOperations.append(importOperation)
             }
             
             let completionOperation = BlockOperation(block: completion)
+            completionOperation.queuePriority = .veryHigh
             
             for importOperation in importOperations {
                 completionOperation.addDependency(importOperation)

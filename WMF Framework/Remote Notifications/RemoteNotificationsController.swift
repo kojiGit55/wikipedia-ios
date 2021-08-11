@@ -1,9 +1,6 @@
 @objc public final class RemoteNotificationsController: NSObject {
     private let operationsController: RemoteNotificationsOperationsController
     
-    //TODO: Basic prevention of importing multiple times while in memory. Replace with something more robust.
-    private var needsImport = true
-    
     public var viewContext: NSManagedObjectContext? {
         return operationsController.viewContext
     }
@@ -11,6 +8,23 @@
     @objc public required init(session: Session, configuration: Configuration, preferredLanguageCodesProvider: WMFPreferredLanguageInfoProvider) {
         operationsController = RemoteNotificationsOperationsController(session: session, configuration: configuration, preferredLanguageCodesProvider: preferredLanguageCodesProvider)
         super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc private func didBecomeActive() {
+
+        guard UserDefaults.standard.hasImportedNotifications else {
+            return
+        }
+        
+        refreshImportedNotifications(fireNewRemoteNotification: true) {
+            //do nothing
+        }
+    }
+    
+    public func refreshImportedNotifications(fireNewRemoteNotification: Bool = false, completion: @escaping () -> Void) {
+        operationsController.refreshImportedNotifications(fireNewRemoteNotification: fireNewRemoteNotification, completion: completion)
     }
     
     public func markAsRead(notification: RemoteNotification, completion: @escaping () -> Void) {
@@ -18,13 +32,14 @@
     }
     
     public func importPreferredWikiNotificationsIfNeeded(_ completion: @escaping () -> Void) {
-        guard needsImport else {
+        //TODO: need more robust method of determining import status (like if preferredLanguages change, etc.)
+        guard !UserDefaults.standard.hasImportedNotifications else {
             completion()
             return
         }
         
-        operationsController.importPreferredWikiNotifications { [weak self] in
-            self?.needsImport = false
+        operationsController.importPreferredWikiNotifications {
+            UserDefaults.standard.hasImportedNotifications = true
             completion()
         }
     }

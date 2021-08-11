@@ -21,10 +21,10 @@ class RemoteNotificationsAPIController: Fetcher {
 
     struct NotificationsResult: Decodable {
         struct Notification: Decodable, Hashable {
-            let wiki: String?
+            let wiki: String
             let type: String?
             let category: String?
-            let id: String?
+            let id: String
             let message: Message?
             let timestamp: Timestamp?
             let agent: Agent?
@@ -42,6 +42,10 @@ class RemoteNotificationsAPIController: Fetcher {
                 case affectedPageID = "title"
                 case readDateString = "read"
             }
+            
+            public var key: String {
+                return "\(wiki)-\(id)"
+            }
 
             init(from decoder: Decoder) throws {
                 let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -52,7 +56,7 @@ class RemoteNotificationsAPIController: Fetcher {
                 do {
                     id = String(try values.decode(Int.self, forKey: .id))
                 } catch {
-                    id = try? values.decode(String.self, forKey: .id)
+                    id = try values.decode(String.self, forKey: .id)
                 }
                 message = try values.decode(Message.self, forKey: .message)
                 timestamp = try values.decode(Timestamp.self, forKey: .timestamp)

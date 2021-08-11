@@ -1,6 +1,10 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let removeNotificationsBadge = Notification.Name("removeNotificationsBadge")
+}
+
 class NotificationCenterViewController: UIViewController {
     
     private let tableView: UITableView = {
@@ -10,6 +14,8 @@ class NotificationCenterViewController: UIViewController {
     
     private let reuseIdentifier = "NotificationCenterTableViewCell"
     private let dataStore: MWKDataStore
+    
+    private let refreshControl = UIRefreshControl()
     
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<RemoteNotification>? = {
         
@@ -56,8 +62,10 @@ class NotificationCenterViewController: UIViewController {
         super.viewDidAppear(animated)
         
         dataStore.remoteNotificationsController.importPreferredWikiNotificationsIfNeeded {
-            print("complete!")
+            print("import complete")
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name.removeNotificationsBadge, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,8 +77,19 @@ class NotificationCenterViewController: UIViewController {
     private func setupTableView() {
         tableView.dataSource = self
         tableView.register(NotificationCenterTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         view.addSubview(tableView)
         view.wmf_addConstraintsToEdgesOfView(tableView)
+    }
+    
+    @objc private func refresh(_ sender: Any) {
+        dataStore.remoteNotificationsController.refreshImportedNotifications { [weak self] in
+            DispatchQueue.main.async {
+                print("refresh complete")
+                self?.refreshControl.endRefreshing()
+            }
+        }
     }
 }
 
