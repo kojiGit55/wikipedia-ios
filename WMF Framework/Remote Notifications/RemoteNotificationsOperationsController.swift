@@ -47,7 +47,7 @@ class RemoteNotificationsOperationsController: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
     
-    public func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
+    func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
         
         //TODO: This should probably represent some irrecoverable state in the Notification Center UI
         guard let modelController = modelController else {

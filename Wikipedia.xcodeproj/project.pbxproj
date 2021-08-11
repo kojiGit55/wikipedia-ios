@@ -252,10 +252,14 @@
 		6707C03B237F0A6E0017E7B6 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */; };
 		670AF1A426C33808005F76D0 /* RemoteNotificationsImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A326C33808005F76D0 /* RemoteNotificationsImportOperation.swift */; };
 		670AF1A626C33838005F76D0 /* RemoteNotificationsRefreshOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A526C33838005F76D0 /* RemoteNotificationsRefreshOperation.swift */; };
-		670AF1A826C3746A005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */; };
-		670AF1A926C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */; };
-		670AF1AA26C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */; };
-		670AF1AB26C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */; };
+		670AF1AE26C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */; };
+		670AF1AF26C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */; };
+		670AF1B026C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */; };
+		670AF1B126C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */; };
+		670AF1B226C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
+		670AF1B326C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
+		670AF1B426C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
+		670AF1B526C37653005F76D0 /* NotificationCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */; };
 		670F765F22B0C10600D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766022B0C48E00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766122B0C48F00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
@@ -3647,7 +3651,8 @@
 		670AF1A226C335ED005F76D0 /* RemoteNotifications 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RemoteNotifications 3.xcdatamodel"; sourceTree = "<group>"; };
 		670AF1A326C33808005F76D0 /* RemoteNotificationsImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationsImportOperation.swift; sourceTree = "<group>"; };
 		670AF1A526C33838005F76D0 /* RemoteNotificationsRefreshOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationsRefreshOperation.swift; sourceTree = "<group>"; };
-		670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterViewController.swift; sourceTree = "<group>"; };
+		670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterTableViewCell.swift; sourceTree = "<group>"; };
+		670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenterViewController.swift; sourceTree = "<group>"; };
 		670F765E22B0C10600D87545 /* FakeProgressLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProgressLoading.swift; sourceTree = "<group>"; };
 		67146031243B885E008CE885 /* SurveyAnnouncementsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyAnnouncementsController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		67146033243B8B4F008CE885 /* AnnouncementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementType.swift; sourceTree = "<group>"; };
@@ -6954,9 +6959,10 @@
 		7A60E9D5215D4FD900F2D325 /* Remote Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				670AF1AC26C37652005F76D0 /* NotificationCenterTableViewCell.swift */,
+				670AF1AD26C37653005F76D0 /* NotificationCenterViewController.swift */,
 				7A60E9D1215D444100F2D325 /* ReadMoreAboutRevertedEditViewController.swift */,
 				7AF4B71A215D6EF400F582E0 /* ReadMoreAboutRevertedEditViewController.xib */,
-				670AF1A726C3746A005F76D0 /* NotificationCenterViewController.swift */,
 			);
 			name = "Remote Notifications";
 			sourceTree = "<group>";
@@ -10542,6 +10548,7 @@
 			files = (
 				8361474B24223689003E49D3 /* ArticleViewController+Announcements.swift in Sources */,
 				B0524B29214854E900D8FD8D /* DescriptionWelcomePanelViewController.swift in Sources */,
+				670AF1B226C37653005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				7A1C498F227254EC00230ED2 /* InsertMediaSearchViewController.swift in Sources */,
 				D8A6BAED1E4C9BF400A981C8 /* UserLocationAnnotationView.swift in Sources */,
 				6798331A22C174ED0073CE6F /* LinkOnlyTextView.swift in Sources */,
@@ -10750,7 +10757,6 @@
 				8330532E23EF107D00123141 /* MediaListGalleryViewController.swift in Sources */,
 				83E3E7252440F1FE00AA2E9A /* LoadingAnimationViewController.swift in Sources */,
 				D87914DD1DFA04E10012C5DA /* NSUserDefaults+WMFApplicationDefaults.swift in Sources */,
-				670AF1A826C3746A005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				67E0691B223B32F1008550AC /* FocusNavigationView.swift in Sources */,
 				83DAA9B023FEB611002D5716 /* ReferenceBackLinksViewController.swift in Sources */,
 				7A4FE53F1FA00AEF009FA199 /* ArticlePeekPreviewViewController.swift in Sources */,
@@ -10999,6 +11005,7 @@
 				D8E6FF6C24056AC300686272 /* ArticleViewController+ContextMenu.swift in Sources */,
 				6734117022773122005B31DA /* TalkPageReplyCell.swift in Sources */,
 				7A2432BE1FCF401900FB4BA5 /* CreateReadingListViewController.swift in Sources */,
+				670AF1AE26C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */,
 				7A0DE50020CEEC760032AB57 /* ExploreFeedSettingsViewController.swift in Sources */,
 				B0E805611C0CE0DC0065EBC0 /* WKWebView+ElementLocation.m in Sources */,
 				B09B30CF1DB813760012281F /* UIViewController+WMFStoryboardUtilities.swift in Sources */,
@@ -11404,6 +11411,7 @@
 			files = (
 				B0524B2C214854E900D8FD8D /* DescriptionWelcomePanelViewController.swift in Sources */,
 				7A1C4992227254EC00230ED2 /* InsertMediaSearchViewController.swift in Sources */,
+				670AF1B526C37653005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				D8A42A571E815A9C00D8E281 /* UserLocationAnnotationView.swift in Sources */,
 				6798331D22C174F00073CE6F /* LinkOnlyTextView.swift in Sources */,
 				D8A42A581E815A9C00D8E281 /* WMFSearchFunnel.m in Sources */,
@@ -11612,7 +11620,6 @@
 				8382F8DC20D9371E00AE5250 /* WMFContentGroup+DetailViewControllers.swift in Sources */,
 				834C26A1240D49F400245BE7 /* ReferenceViewController.swift in Sources */,
 				8330533123EF107D00123141 /* MediaListGalleryViewController.swift in Sources */,
-				670AF1AB26C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				D80BF0A62347735E00B3B522 /* AppSearchButton.swift in Sources */,
 				D8A42ADF1E815A9C00D8E281 /* AboutViewController.m in Sources */,
 				7A4FE5421FA00AF1009FA199 /* ArticlePeekPreviewViewController.swift in Sources */,
@@ -11861,6 +11868,7 @@
 				83F1096223D09F80003F3E9E /* ArticleViewController+WIconPopover.swift in Sources */,
 				7A25367A21B5AA4F00F841A1 /* ContextualHighlightEditToolbarView.swift in Sources */,
 				6754E44B22773588005EEAD1 /* TalkPageReplyCell.swift in Sources */,
+				670AF1B126C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */,
 				7A0DE50320CEEC760032AB57 /* ExploreFeedSettingsViewController.swift in Sources */,
 				7A2432C11FCF401900FB4BA5 /* CreateReadingListViewController.swift in Sources */,
 				D8A42B8D1E815A9C00D8E281 /* UIViewController+WMFStoryboardUtilities.swift in Sources */,
@@ -11906,7 +11914,6 @@
 			files = (
 				D8CE24E11E698E2400DAE2E0 /* UserLocationAnnotationView.swift in Sources */,
 				7ABAD6B520338CFB006A364C /* ReadingListDetailUnderBarViewController.swift in Sources */,
-				670AF1AA26C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				D8CE24E21E698E2400DAE2E0 /* WMFSearchFunnel.m in Sources */,
 				D8CE24E31E698E2400DAE2E0 /* WMFImageURLActivitySource.swift in Sources */,
 				D8B3D7671EC34F5B00930C21 /* SaveButtonsController.swift in Sources */,
@@ -11948,6 +11955,7 @@
 				D8CE24F61E698E2400DAE2E0 /* WMFReferencePageBackgroundView.swift in Sources */,
 				833D6B49229EE872003CB650 /* TalkPageTopic+Extensions.swift in Sources */,
 				FFD7B85B24B3CAA0005C2471 /* ReferenceShowing.swift in Sources */,
+				670AF1B026C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */,
 				67E8B086226A57E900537BC9 /* TalkPageTopicNewViewController.swift in Sources */,
 				83E52BB51F681F940045E776 /* ShareAFactViewController.swift in Sources */,
 				D8CE24F81E698E2400DAE2E0 /* UIApplication+RTL.swift in Sources */,
@@ -12129,6 +12137,7 @@
 				7ABE173C2239DEF0006BA309 /* WelcomeAnimationView.swift in Sources */,
 				7A196F5B21BF199500D9E4B5 /* SectionEditorWebView.swift in Sources */,
 				D8CE257B1E698E2400DAE2E0 /* WMFImageTextActivitySource.swift in Sources */,
+				670AF1B426C37653005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				830D71C41F703C980080078B /* ArticleURLListViewController.swift in Sources */,
 				D8CE257F1E698E2400DAE2E0 /* ToCInteractionFunnel.m in Sources */,
 				D8703DC01EE84533001A4BAB /* PreviewingViewController.swift in Sources */,
@@ -12395,7 +12404,6 @@
 			files = (
 				E1CFD6E6210C103900D8E37C /* ExploreCardViewController.swift in Sources */,
 				D8EC3DD81E9BDA35006712EB /* UserLocationAnnotationView.swift in Sources */,
-				670AF1A926C3746B005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				7ABAD6B620338CFB006A364C /* ReadingListDetailUnderBarViewController.swift in Sources */,
 				D8EC3DD91E9BDA35006712EB /* WMFSearchFunnel.m in Sources */,
 				D8EC3DDA1E9BDA35006712EB /* WMFImageURLActivitySource.swift in Sources */,
@@ -12437,6 +12445,7 @@
 				B0432346210680A900A9A6B6 /* WMFContentGroupKind+FeedCustomization.swift in Sources */,
 				BA45241A1F324C3100439C42 /* FontSizeSliderViewController.swift in Sources */,
 				833D6B4A229EE872003CB650 /* TalkPageTopic+Extensions.swift in Sources */,
+				670AF1AF26C37653005F76D0 /* NotificationCenterTableViewCell.swift in Sources */,
 				67E8B08D226A57E900537BC9 /* TalkPageTopicNewViewController.swift in Sources */,
 				D8EC3DED1E9BDA35006712EB /* WMFReferencePageBackgroundView.swift in Sources */,
 				83E52BB61F681F940045E776 /* ShareAFactViewController.swift in Sources */,
@@ -12618,6 +12627,7 @@
 				7ABE173D2239DEF0006BA309 /* WelcomeAnimationView.swift in Sources */,
 				D8EC3E6E1E9BDA35006712EB /* WMFDeleteBackwardReportingTextField.swift in Sources */,
 				7A196F5C21BF199500D9E4B5 /* SectionEditorWebView.swift in Sources */,
+				670AF1B326C37653005F76D0 /* NotificationCenterViewController.swift in Sources */,
 				830D71C51F703C980080078B /* ArticleURLListViewController.swift in Sources */,
 				D8EC3E701E9BDA35006712EB /* MWKLanguageLinkFetcher.m in Sources */,
 				D8EC3E741E9BDA35006712EB /* WMFImageTextActivitySource.swift in Sources */,

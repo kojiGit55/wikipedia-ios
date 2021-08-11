@@ -121,7 +121,7 @@ class RemoteNotificationsAPIController: Fetcher {
         return Set(list)
     }
     
-    public func getAllNotifications(from subdomain: String, continueId: String?, completion: @escaping (NotificationsResult.Notifications?, Error?) -> Void) {
+    public func getAllNotifications(from languageCode: String, continueId: String?, completion: @escaping (NotificationsResult.Notifications?, Error?) -> Void) {
         let completion: (NotificationsResult?, URLResponse?, Error?) -> Void = { result, _, error in
             guard error == nil else {
                 completion(nil, error)
@@ -129,10 +129,11 @@ class RemoteNotificationsAPIController: Fetcher {
             }
             completion(result?.query?.notifications, result?.error)
         }
-        request(Query.notifications(from: [subdomain], limit: .max, filter: .none, continueId: continueId), completion: completion)
+        
+        request(languageCode: languageCode, queryParameters: Query.notifications(from: [languageCode], limit: .max, filter: .none, continueId: continueId), completion: completion)
     }
 
-    public func getAllUnreadNotifications(from subdomains: [String], completion: @escaping (Set<NotificationsResult.Notification>?, Error?) -> Void) {
+    public func getAllUnreadNotifications(from languageCodes: [String], completion: @escaping (Set<NotificationsResult.Notification>?, Error?) -> Void) {
         let completion: (NotificationsResult?, URLResponse?, Error?) -> Void = { result, _, error in
             guard error == nil else {
                 completion([], error)
@@ -141,7 +142,7 @@ class RemoteNotificationsAPIController: Fetcher {
             let notifications = self.notifications(from: result)
             completion(notifications, result?.error)
         }
-        request(Query.notifications(from: subdomains, limit: .max, filter: .unread), completion: completion)
+        request(languageCode: nil, queryParameters: Query.notifications(from: languageCodes, limit: .max, filter: .unread), completion: completion)
     }
 
     public func markAsRead(_ notifications: Set<RemoteNotification>, completion: @escaping (Error?) -> Void) {
@@ -150,7 +151,7 @@ class RemoteNotificationsAPIController: Fetcher {
         let split = notifications.chunked(into: maxNumberOfNotificationsPerRequest)
 
         split.asyncCompactMap({ (notifications, completion: @escaping (Error?) -> Void) in
-            request(Query.markAsRead(notifications: notifications), method: .post) { (result: MarkReadResult?, _, error) in
+            request(languageCode: nil, queryParameters: Query.markAsRead(notifications: notifications), method: .post) { (result: MarkReadResult?, _, error) in
                 if let error = error {
                     completion(error)
                     return
@@ -180,18 +181,34 @@ class RemoteNotificationsAPIController: Fetcher {
         }
     }
 
-    private func request<T: Decodable>(_ queryParameters: Query.Parameters?, method: Session.Request.Method = .get, completion: @escaping (T?, URLResponse?, Error?) -> Void) {
-        var components = NotificationsAPI.components
-        components.replacePercentEncodedQueryWithQueryParameters(queryParameters)
-        if method == .get {
-            session.jsonDecodableTask(with: components.url, method: .get, completionHandler: completion)
+    private func request<T: Decodable>(languageCode: String?, queryParameters: Query.Parameters?, method: Session.Request.Method = .get, completion: @escaping (T?, URLResponse?, Error?) -> Void) {
+        
+        let url: URL?
+        if let languageCode = languageCode {
+            if languageCode == "wikidata" {
+                url = configuration.wikidataAPIURLComponents(with: queryParameters).url
+            } else {
+                url = configuration.mediaWikiAPIURLForWikiLanguage(languageCode, with: queryParameters).url
+            }
         } else {
-            requestMediaWikiAPIAuthToken(for: components.url, type: .csrf) { (result) in
+            var components = NotificationsAPI.components
+            components.replacePercentEncodedQueryWithQueryParameters(queryParameters)
+            url = components.url
+        }
+        
+        guard let url = url else {
+            return
+        }
+        
+        if method == .get {
+            session.jsonDecodableTask(with: url, method: .get, completionHandler: completion)
+        } else {
+            requestMediaWikiAPIAuthToken(for: url, type: .csrf) { (result) in
                 switch result {
                 case .failure(let error):
                     completion(nil, nil, error)
                 case .success(let token):
-                    self.session.jsonDecodableTask(with: components.url, method: method, bodyParameters: ["token": token.value], bodyEncoding: .form, completionHandler: completion)
+                    self.session.jsonDecodableTask(with: url, method: method, bodyParameters: ["token": token.value], bodyEncoding: .form, completionHandler: completion)
                 }
             }
         }
@@ -222,7 +239,7 @@ class RemoteNotificationsAPIController: Fetcher {
             case none = "read|!read"
         }
 
-        static func notifications(from subdomains: [String] = [], limit: Limit = .max, filter: Filter = .none, continueId: String? = nil) -> Parameters {
+        static func notifications(from languageCodes: [String] = [], limit: Limit = .max, filter: Filter = .none, continueId: String? = nil) -> Parameters {
             var dictionary = ["action": "query",
                     "format": "json",
                     "formatversion": "2",
@@ -235,7 +252,7 @@ class RemoteNotificationsAPIController: Fetcher {
                 dictionary["notcontinue"] = continueId
             }
 
-            let wikis = subdomains.compactMap { $0.replacingOccurrences(of: "-", with: "_").appending("wiki") }
+            let wikis = languageCodes.compactMap { $0.replacingOccurrences(of: "-", with: "_").appending("wiki") }
             dictionary["notwikis"] = wikis.joined(separator: "|")
             return dictionary
         }

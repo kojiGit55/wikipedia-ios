@@ -1,13 +1,17 @@
 @objc public final class RemoteNotificationsController: NSObject {
     private let operationsController: RemoteNotificationsOperationsController
     
-    var viewContext: NSManagedObjectContext? {
+    public var viewContext: NSManagedObjectContext? {
         return operationsController.viewContext
     }
     
     @objc public required init(session: Session, configuration: Configuration, preferredLanguageCodesProvider: WMFPreferredLanguageInfoProvider) {
         operationsController = RemoteNotificationsOperationsController(session: session, configuration: configuration, preferredLanguageCodesProvider: preferredLanguageCodesProvider)
         super.init()
+    }
+    
+    public func importPreferredWikiNotifications(_ completion: @escaping () -> Void) {
+        operationsController.importPreferredWikiNotifications(completion)
     }
 }
 

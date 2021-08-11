@@ -88,7 +88,7 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
     
     @objc func titleBarButtonPressed(_ sender: UIButton?) {
         //scrollToTop()
-        let notificationCenterViewController = NotificationCenterViewController(nibName: nil, bundle: nil)
+        let notificationCenterViewController = NotificationCenterViewController(dataStore: self.dataStore)
         push(notificationCenterViewController)
     }
     
