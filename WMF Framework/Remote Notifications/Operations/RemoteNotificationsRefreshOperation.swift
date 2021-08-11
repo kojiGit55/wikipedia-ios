@@ -7,8 +7,6 @@ public extension Notification.Name {
 
 class RemoteNotificationsRefreshOperation: RemoteNotificationsOperation {
     
-    static let foundNewRemoteNotification = Notification.Name("foundNewRemoteNotifications")
-    
     private let wiki: String
     private let fireNewRemoteNotification: Bool
     private var foundNewNotifications: Bool = false
