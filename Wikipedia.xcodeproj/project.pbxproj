@@ -250,7 +250,7 @@
 		6707C039237F0A6E0017E7B6 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */; };
 		6707C03A237F0A6E0017E7B6 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */; };
 		6707C03B237F0A6E0017E7B6 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */; };
-		670AF1BC26C58E27005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1BB26C58E27005F76D0 /* RemoteNotification+CoreDataProperties.swift */; };
+		670AF1C226C7034B005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1C126C7034B005F76D0 /* RemoteNotification+CoreDataProperties.swift */; };
 		670F765F22B0C10600D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766022B0C48E00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
 		670F766122B0C48F00D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
@@ -3639,7 +3639,7 @@
 		6707C031237DBCEA0017E7B6 /* DiffRevisionTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffRevisionTransition.swift; sourceTree = "<group>"; };
 		6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		670AF1B826C573EB005F76D0 /* RemoteNotifications 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RemoteNotifications 3.xcdatamodel"; sourceTree = "<group>"; };
-		670AF1BB26C58E27005F76D0 /* RemoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		670AF1C126C7034B005F76D0 /* RemoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		670F765E22B0C10600D87545 /* FakeProgressLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProgressLoading.swift; sourceTree = "<group>"; };
 		67146031243B885E008CE885 /* SurveyAnnouncementsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyAnnouncementsController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		67146033243B8B4F008CE885 /* AnnouncementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementType.swift; sourceTree = "<group>"; };
@@ -6830,7 +6830,7 @@
 			children = (
 				7A9133A822B162E7002AEBCF /* RemoteNotifications.xcdatamodeld */,
 				7A96C4B72155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift */,
-				670AF1BB26C58E27005F76D0 /* RemoteNotification+CoreDataProperties.swift */,
+				670AF1C126C7034B005F76D0 /* RemoteNotification+CoreDataProperties.swift */,
 				7A0312F62153C4990095C953 /* RemoteNotificationsModelController.swift */,
 			);
 			path = Model;
@@ -11053,7 +11053,7 @@
 				83D5EC871F755E1F003DE6F2 /* SwipeableCell.swift in Sources */,
 				7A96C4B92155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift in Sources */,
 				B0B423481EF1FEE000D3DC4C /* WMFFeedOnThisDayEvent.m in Sources */,
-				670AF1BC26C58E27005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */,
+				670AF1C226C7034B005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */,
 				83EE477020D01A9A00A21F34 /* ExploreCardCollectionViewCell.swift in Sources */,
 				D84C36411F3245CD00895FA1 /* ArticleCollectionViewCell+WMFFeedContentDisplaying.swift in Sources */,
 				D84448591DDCE49D00425630 /* WMFContentGroup+CoreDataClass.m in Sources */,
