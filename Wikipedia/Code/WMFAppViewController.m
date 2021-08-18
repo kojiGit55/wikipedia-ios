@@ -357,7 +357,6 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     [self.periodicWorkerController start];
     [self.savedArticlesFetcher start];
     [self.mobileViewToMobileHTMLMigrationController start];
-    self.notificationsController.applicationActive = YES;
 }
 
 - (void)performTasksThatShouldOccurAfterAnnouncementsUpdated {
@@ -965,7 +964,6 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
     [[NSUserDefaults standardUserDefaults] wmf_setDidShowSyncDisabledPanel:NO];
 
-    self.notificationsController.applicationActive = NO;
     [self.reachabilityNotifier stop];
     [self.periodicWorkerController stop];
     [self.savedArticlesFetcher stop];
@@ -1348,7 +1346,6 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
 
 - (WMFNotificationsController *)notificationsController {
     WMFNotificationsController *controller = self.dataStore.notificationsController;
-    controller.applicationActive = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
     return controller;
 }
 
@@ -1995,6 +1992,10 @@ static NSString *const WMFDidShowOnboarding = @"DidShowOnboarding5.3";
 }
 
 #pragma mark - Remote Notifications
+
+- (void)setRemoteNotificationRegistrationStatusWithDeviceToken: (nullable NSData *)deviceToken error: (nullable NSError *)error{
+    [self.notificationsController setRemoteNotificationRegistrationStatusWithDeviceToken:deviceToken error:error];
+}
 
 - (void)showReadMoreAboutRevertedEditViewControllerWithArticleURL:(NSURL *)articleURL completion:(void (^)(void))completion {
     ReadMoreAboutRevertedEditViewController *readMoreViewController = [[ReadMoreAboutRevertedEditViewController alloc] initWithNibName:@"ReadMoreAboutRevertedEditViewController" bundle:nil];
