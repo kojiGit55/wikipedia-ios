@@ -25,6 +25,12 @@ final class NotificationsCenterViewModel: NSObject {
 
 		return nil
 	}
+    
+    func populateInitialNotifications() {
+        remoteNotificationsController.fetchFirstPageNotifications {
+            print("fetched first page")
+        }
+    }
 
 }
 

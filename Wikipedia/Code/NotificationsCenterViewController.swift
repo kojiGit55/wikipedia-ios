@@ -10,6 +10,7 @@ final class NotificationsCenterViewController: ViewController {
 	}
 
 	let viewModel: NotificationsCenterViewModel
+    private var collectionViewUpdater: CollectionViewUpdater<RemoteNotification>!
 
 	// MARK: - Lifecycle
 
@@ -38,14 +39,20 @@ final class NotificationsCenterViewController: ViewController {
 
 		setupBarButtons()
 		bind()
+        setupCollectionViewUpdater()
+        viewModel.populateInitialNotifications()
 	}
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-
-		viewModel.fetchedResultsController?.delegate = self
-		try? viewModel.fetchedResultsController?.performFetch()
-	}
+    
+    func setupCollectionViewUpdater() {
+        
+        guard let fetchedResultsController = viewModel.fetchedResultsController else {
+            return
+        }
+        
+        collectionViewUpdater = CollectionViewUpdater(fetchedResultsController: fetchedResultsController, collectionView: notificationsView.collectionView)
+        collectionViewUpdater?.delegate = self
+        collectionViewUpdater?.performFetch()
+    }
 
 	// MARK: - Configuration
 
@@ -99,10 +106,19 @@ extension NotificationsCenterViewController: UICollectionViewDelegate, UICollect
 
 }
 
-extension NotificationsCenterViewController: NSFetchedResultsControllerDelegate {	
+//MARK: CollectionViewUpdaterDelegate
 
-	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-		notificationsView.collectionView.reloadData()
-	}
-
+extension NotificationsCenterViewController: CollectionViewUpdaterDelegate {
+    func collectionViewUpdater<T>(_ updater: CollectionViewUpdater<T>, didUpdate collectionView: UICollectionView) where T : NSFetchRequestResult {
+        for indexPath in collectionView.indexPathsForVisibleItems {
+            if let cellModel = viewModel.notificationCellViewModel(indexPath: indexPath),
+            let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell {
+                cell.configure(viewModel: cellModel)
+            }
+        }
+    }
+    
+    func collectionViewUpdater<T>(_ updater: CollectionViewUpdater<T>, updateItemAtIndexPath indexPath: IndexPath, in collectionView: UICollectionView) where T : NSFetchRequestResult {
+        //no-op
+    }
 }
