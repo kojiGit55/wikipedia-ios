@@ -93,5 +93,14 @@ extension WMFAppViewController: NotificationsCenterPresentationDelegate {
 		let notificationsCenterViewController = NotificationsCenterViewController(theme: theme, viewModel: viewModel)
 		navigationController?.pushViewController(notificationsCenterViewController, animated: true)
 	}
+    
+    @objc func userDidTapPushNotification() {
+        dismissPresentedViewControllers()
+        navigationController?.popToRootViewController(animated: false)
+        //TODO: Probably need to take same migration care as showInTheNewsForNotificationInfo method.
+        let viewModel = NotificationsCenterViewModel(remoteNotificationsController: dataStore.remoteNotificationsController)
+        let notificationsCenterViewController = NotificationsCenterViewController(theme: theme, viewModel: viewModel)
+        navigationController?.pushViewController(notificationsCenterViewController, animated: true)
+    }
 
 }

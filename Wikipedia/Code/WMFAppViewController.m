@@ -1641,6 +1641,9 @@ static NSString *const WMFDidShowOnboarding = @"DidShowOnboarding5.3";
             [self showInTheNewsForNotificationInfo:info];
         } else if ([actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
         }
+    } else {
+        //Go to notification center
+        [self userDidTapPushNotification];
     }
 
     completionHandler();
