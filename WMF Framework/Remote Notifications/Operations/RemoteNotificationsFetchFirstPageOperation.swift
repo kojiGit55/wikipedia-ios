@@ -30,8 +30,11 @@ class RemoteNotificationsFetchFirstPageOperation: RemoteNotificationsOperation {
                     return
                 }
                 
+                //for now only show thanks, that's the only cell designed
+                let filteredNotifications = fetchedNotifications.filter { $0.type == "edit-thank" }
+                
                 do {
-                    try self.modelController.createNewNotifications(from: Set(fetchedNotifications), completion: { [weak self] in
+                    try self.modelController.createNewNotifications(from: Set(filteredNotifications), completion: { [weak self] in
                         
                         guard let self = self else {
                             return

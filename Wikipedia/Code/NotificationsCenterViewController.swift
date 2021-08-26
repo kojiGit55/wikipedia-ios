@@ -99,7 +99,7 @@ extension NotificationsCenterViewController: UICollectionViewDelegate, UICollect
 		cell.apply(theme: theme)
 
 		if let cellModel = viewModel.notificationCellViewModel(indexPath: indexPath) {
-			cell.configure(viewModel: cellModel)
+            cell.configure(viewModel: cellModel, theme: theme)
 		}
 		return cell
 	}
@@ -113,7 +113,7 @@ extension NotificationsCenterViewController: CollectionViewUpdaterDelegate {
         for indexPath in collectionView.indexPathsForVisibleItems {
             if let cellModel = viewModel.notificationCellViewModel(indexPath: indexPath),
             let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell {
-                cell.configure(viewModel: cellModel)
+                cell.configure(viewModel: cellModel, theme: theme)
             }
         }
     }

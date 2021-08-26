@@ -131,7 +131,7 @@ final class NoticeCollectionViewCell: UICollectionViewCell, Themeable {
 			messageLabel.leadingAnchor.constraint(equalTo: imageContainer.trailingAnchor, constant: 20),
 			messageLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
 			messageLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-			messageLabel.trailingAnchor.constraint(equalTo: projectLabel.leadingAnchor),
+            messageLabel.trailingAnchor.constraint(equalTo: projectLabel.leadingAnchor, constant: -10),
 
 			projectLabel.widthAnchor.constraint(equalToConstant: 22),
 			projectLabel.heightAnchor.constraint(equalToConstant: 22),
@@ -146,9 +146,10 @@ final class NoticeCollectionViewCell: UICollectionViewCell, Themeable {
 
 	// MARK: - Configure
 
-	func configure(viewModel: NotificationsCenterCellViewModel) {
-		let dateString = (viewModel.date as NSDate).wmf_localizedRelativeDateFromMidnightUTCDate()
-		messageLabel.text = viewModel.message.removingHTML + " " + dateString
+    func configure(viewModel: NotificationsCenterCellViewModel, theme: Theme) {
+		
+        messageLabel.attributedText = viewModel.attributedMessageForTheme(theme)
+        //dateString
 	}
 
 	// MARK: - Themeable
