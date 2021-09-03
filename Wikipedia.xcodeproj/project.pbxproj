@@ -272,7 +272,6 @@
 		670AF19026BDE6E7005F76D0 /* EmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671F5E0A236B8CAF00111116 /* EmptyViewController.xib */; };
 		670AF19126BDE6E8005F76D0 /* EmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671F5E0A236B8CAF00111116 /* EmptyViewController.xib */; };
 		670AF19226BDE6E9005F76D0 /* EmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671F5E0A236B8CAF00111116 /* EmptyViewController.xib */; };
-		670AF1CC26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1CB26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift */; };
 		670AF1CE26CA188B005F76D0 /* RemoteNotificationLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF1CD26CA188B005F76D0 /* RemoteNotificationLinks.swift */; };
 		670AF1CF26CD74A6005F76D0 /* EchoSubscriptionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670AF19A26C1CA38005F76D0 /* EchoSubscriptionFetcher.swift */; };
 		670F765F22B0C10600D87545 /* FakeProgressLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670F765E22B0C10600D87545 /* FakeProgressLoading.swift */; };
@@ -570,6 +569,8 @@
 		67A239E226E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A239E026E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift */; };
 		67A239E326E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A239E026E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift */; };
 		67A239E426E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A239E026E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift */; };
+		67A239F526E2B48100EBB283 /* RemoteNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A239F326E2B48100EBB283 /* RemoteNotification+CoreDataClass.swift */; };
+		67A239F626E2B48100EBB283 /* RemoteNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A239F426E2B48100EBB283 /* RemoteNotification+CoreDataProperties.swift */; };
 		67A5E657236775C3007749FB /* GlobalUserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A5E656236775C3007749FB /* GlobalUserInfoFetcher.swift */; };
 		67A6F13823BFB75300736539 /* ImageCacheDBWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A6F13723BFB75300736539 /* ImageCacheDBWriter.swift */; };
 		67A6F13A23BFEA0400736539 /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A6F13923BFEA0400736539 /* ImageFetcher.swift */; };
@@ -3672,7 +3673,6 @@
 		6707C037237F0A6E0017E7B6 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		670AF19A26C1CA38005F76D0 /* EchoSubscriptionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EchoSubscriptionFetcher.swift; sourceTree = "<group>"; };
 		670AF1B826C573EB005F76D0 /* RemoteNotifications 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "RemoteNotifications 3.xcdatamodel"; sourceTree = "<group>"; };
-		670AF1CB26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		670AF1CD26CA188B005F76D0 /* RemoteNotificationLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationLinks.swift; sourceTree = "<group>"; };
 		670F765E22B0C10600D87545 /* FakeProgressLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeProgressLoading.swift; sourceTree = "<group>"; };
 		67146031243B885E008CE885 /* SurveyAnnouncementsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyAnnouncementsController.swift; sourceTree = "<group>"; usesTabs = 0; };
@@ -3763,6 +3763,8 @@
 		679F0AAC24574AD400EF4A6A /* ArticleViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewControllerTests.swift; sourceTree = "<group>"; };
 		679FA103242E651C0095F3C6 /* ArticleManualPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleManualPerformanceTests.swift; sourceTree = "<group>"; };
 		67A239E026E2A4A300EBB283 /* NotificationsCenterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCenterCellViewModel.swift; sourceTree = "<group>"; };
+		67A239F326E2B48100EBB283 /* RemoteNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataClass.swift"; sourceTree = "<group>"; };
+		67A239F426E2B48100EBB283 /* RemoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		67A5E656236775C3007749FB /* GlobalUserInfoFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUserInfoFetcher.swift; sourceTree = "<group>"; };
 		67A6F13723BFB75300736539 /* ImageCacheDBWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheDBWriter.swift; sourceTree = "<group>"; };
 		67A6F13923BFEA0400736539 /* ImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
@@ -6877,8 +6879,9 @@
 			children = (
 				7A9133A822B162E7002AEBCF /* RemoteNotifications.xcdatamodeld */,
 				7A96C4B72155413E00E8E0C1 /* RemoteNotificationType.swift */,
+				67A239F326E2B48100EBB283 /* RemoteNotification+CoreDataClass.swift */,
+				67A239F426E2B48100EBB283 /* RemoteNotification+CoreDataProperties.swift */,
 				670AF1CD26CA188B005F76D0 /* RemoteNotificationLinks.swift */,
-				670AF1CB26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift */,
 				7A0312F62153C4990095C953 /* RemoteNotificationsModelController.swift */,
 			);
 			path = Model;
@@ -11114,7 +11117,6 @@
 				83D5EC871F755E1F003DE6F2 /* SwipeableCell.swift in Sources */,
 				7A96C4B92155413E00E8E0C1 /* RemoteNotificationType.swift in Sources */,
 				B0B423481EF1FEE000D3DC4C /* WMFFeedOnThisDayEvent.m in Sources */,
-				670AF1CC26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */,
 				83EE477020D01A9A00A21F34 /* ExploreCardCollectionViewCell.swift in Sources */,
 				D84C36411F3245CD00895FA1 /* ArticleCollectionViewCell+WMFFeedContentDisplaying.swift in Sources */,
 				D84448591DDCE49D00425630 /* WMFContentGroup+CoreDataClass.m in Sources */,
@@ -11127,6 +11129,7 @@
 				D84C361F1F32404700895FA1 /* OnThisDayCollectionViewCell.swift in Sources */,
 				702096B9256C3D5700E27041 /* SamplingController.swift in Sources */,
 				D826C51521766E570012F940 /* Collection+AsyncMap.swift in Sources */,
+				67A239F526E2B48100EBB283 /* RemoteNotification+CoreDataClass.swift in Sources */,
 				D8987E061E325D8A00E75DA6 /* QuadKey.swift in Sources */,
 				D8FA18B11E1BD891009675C3 /* NSBundle+WMFInfoUtils.m in Sources */,
 				D8FA18FB1E1BDA4C009675C3 /* UIImage+WMFStyle.m in Sources */,
@@ -11190,6 +11193,7 @@
 				D84448291DDB632100425630 /* WMFArticle+CoreDataClass.m in Sources */,
 				7A2432ED1FCF469100FB4BA5 /* SetupView.swift in Sources */,
 				833D4FFB20A9E20800B44E7C /* String+HTML.swift in Sources */,
+				67A239F626E2B48100EBB283 /* RemoteNotification+CoreDataProperties.swift in Sources */,
 				67146034243B8B4F008CE885 /* AnnouncementType.swift in Sources */,
 				B019FED02029347300BDE9C9 /* UIStackView+SubviewVerification.swift in Sources */,
 				83C643582239508600FC16BF /* RandomArticleFetcher.swift in Sources */,
