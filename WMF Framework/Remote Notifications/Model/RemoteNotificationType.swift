@@ -11,17 +11,17 @@ public enum RemoteNotificationType {
     case flowMention
     case editReverted
     case userRightsChange
-    case pageReviewed
-    case pageLinked
-    case connectionWithWikidata
+    //case pageReviewed
+    //case pageLinked
+    //case connectionWithWikidata
     case thanks
     case flowThanks
-    case translationMilestone(Int)
+    //case translationMilestone(Int)
     case editMilestone
     case welcome
-    case loginFailUnknownDevice
-    case loginFailKnownDevice
-    case loginSuccessUnknownDevice
+    //case loginFailUnknownDevice
+    //case loginFailKnownDevice
+    //case loginSuccessUnknownDevice
     case unknownSystem
     case unknown
 }
