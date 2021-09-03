@@ -1026,7 +1026,7 @@
 		7A9524DD22669A8B00C55CDC /* InsertMediaSettingsButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A9524D622669A8B00C55CDC /* InsertMediaSettingsButtonView.xib */; };
 		7A9524DE22669A8B00C55CDC /* InsertMediaSettingsButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A9524D622669A8B00C55CDC /* InsertMediaSettingsButtonView.xib */; };
 		7A9524DF22669A8B00C55CDC /* InsertMediaSettingsButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A9524D622669A8B00C55CDC /* InsertMediaSettingsButtonView.xib */; };
-		7A96C4B92155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A96C4B72155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift */; };
+		7A96C4B92155413E00E8E0C1 /* RemoteNotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A96C4B72155413E00E8E0C1 /* RemoteNotificationType.swift */; };
 		7A96EBA922CFDA4B0037C8A8 /* PageNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4170D8229EFC2A00251582 /* PageNamespace.swift */; };
 		7A998AC11FE20F3B007FE06E /* CollectionViewEditControllerNavigationDelegate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A998AC01FE20F3B007FE06E /* CollectionViewEditControllerNavigationDelegate+Extensions.swift */; };
 		7A998AC21FE20F3B007FE06E /* CollectionViewEditControllerNavigationDelegate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A998AC01FE20F3B007FE06E /* CollectionViewEditControllerNavigationDelegate+Extensions.swift */; };
@@ -3918,7 +3918,7 @@
 		7A9524CA22665E6400C55CDC /* InsertMediaSettingsImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InsertMediaSettingsImageView.xib; sourceTree = "<group>"; };
 		7A9524D522669A8B00C55CDC /* InsertMediaSettingsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaSettingsButtonView.swift; sourceTree = "<group>"; };
 		7A9524D622669A8B00C55CDC /* InsertMediaSettingsButtonView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InsertMediaSettingsButtonView.xib; sourceTree = "<group>"; };
-		7A96C4B72155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteNotification+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7A96C4B72155413E00E8E0C1 /* RemoteNotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationType.swift; sourceTree = "<group>"; };
 		7A998AC01FE20F3B007FE06E /* CollectionViewEditControllerNavigationDelegate+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewEditControllerNavigationDelegate+Extensions.swift"; sourceTree = "<group>"; };
 		7A9A611721124CF500403154 /* CreateNewReadingListButtonView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewReadingListButtonView.xib; sourceTree = "<group>"; };
 		7A9A611D21124D0E00403154 /* CreateNewReadingListButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewReadingListButtonView.swift; sourceTree = "<group>"; };
@@ -6876,7 +6876,7 @@
 			isa = PBXGroup;
 			children = (
 				7A9133A822B162E7002AEBCF /* RemoteNotifications.xcdatamodeld */,
-				7A96C4B72155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift */,
+				7A96C4B72155413E00E8E0C1 /* RemoteNotificationType.swift */,
 				670AF1CD26CA188B005F76D0 /* RemoteNotificationLinks.swift */,
 				670AF1CB26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift */,
 				7A0312F62153C4990095C953 /* RemoteNotificationsModelController.swift */,
@@ -11112,7 +11112,7 @@
 				D826C51721766F1A0012F940 /* BackgroundFetcher.swift in Sources */,
 				D84C36401F3245A200895FA1 /* ArticleCollectionViewCell+Themeable.swift in Sources */,
 				83D5EC871F755E1F003DE6F2 /* SwipeableCell.swift in Sources */,
-				7A96C4B92155413E00E8E0C1 /* RemoteNotification+CoreDataClass.swift in Sources */,
+				7A96C4B92155413E00E8E0C1 /* RemoteNotificationType.swift in Sources */,
 				B0B423481EF1FEE000D3DC4C /* WMFFeedOnThisDayEvent.m in Sources */,
 				670AF1CC26CA13DC005F76D0 /* RemoteNotification+CoreDataProperties.swift in Sources */,
 				83EE477020D01A9A00A21F34 /* ExploreCardCollectionViewCell.swift in Sources */,
