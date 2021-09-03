@@ -3,7 +3,7 @@ import CoreData
 
 @objc(RemoteNotification)
 public class RemoteNotification: NSManagedObject {
-    lazy var type: RemoteNotificationType = {
+    public lazy var type: RemoteNotificationType = {
         return calculateRemoteNotificationType()
     }()
     
