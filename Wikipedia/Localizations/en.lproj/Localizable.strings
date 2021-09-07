@@ -551,8 +551,11 @@
 "no-internet-connection" = "No internet connection";
 "no-internet-connection-article-reload" = "A newer version of this article might be available, but cannot be loaded without a connection to the internet";
 "no-internet-connection-article-reload-button" = "Return to last saved version";
+"notifications-alert-project-title" = "Alert from $1";
 "notifications-center-edit-button" = "Edit";
 "notifications-center-title" = "Notifications";
+"notifications-mention-title" = "To: $1";
+"notifications-notice-project-title" = "Notice from $1";
 "number-billions" = "$1B";
 "number-millions" = "$1M";
 "number-thousands" = "$1K";
@@ -631,6 +634,7 @@
 "potd-widget-title" = "Picture of the day";
 "preference-summary-eventlogging-opt-in" = "Allow Wikimedia Foundation to collect information about how you use the app to make the app better";
 "preference-title-eventlogging-opt-in" = "Send usage reports";
+"project-name-format" = "$1 $2";
 "rank-accessibility-label" = "Number $1";
 "readers-accessibility-label" = "$1 readers";
 "reading-list-add-generic-hint-title" = "Add this article to a reading list?";
