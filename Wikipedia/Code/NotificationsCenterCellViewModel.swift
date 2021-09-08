@@ -227,9 +227,49 @@ final class NotificationsCenterCellViewModel {
         return "TODO"
     }
     
-    private static func determineBodyText(for remoteNotification: RemoteNotification) -> String {
-        //TODO: finish
-        return "TODO"
+    private static func determineBodyText(for remoteNotification: RemoteNotification) -> String? {
+        switch remoteNotification.type {
+        case .userTalkPageMessage:
+            return remoteNotification.messageBody?.removingHTML
+        case .mentionInTalkPage:
+            return remoteNotification.messageBody?.removingHTML
+        case .mentionInEditSummary:
+            return remoteNotification.messageBody?.removingHTML
+        case .successfulMention:
+            return remoteNotification.messageHeader?.removingHTML
+        case .failedMention:
+            return remoteNotification.messageHeader?.removingHTML
+        case .editReverted:
+            return nil
+        case .userRightsChange:
+            return remoteNotification.messageHeader?.removingHTML
+        case .pageReviewed:
+            return remoteNotification.messageHeader?.removingHTML
+        case .pageLinked:
+            return remoteNotification.messageHeader?.removingHTML
+        case .connectionWithWikidata:
+            return remoteNotification.messageHeader?.removingHTML
+        case .emailFromOtherUser:
+            return remoteNotification.messageHeader?.removingHTML
+        case .thanks:
+            return remoteNotification.messageHeader?.removingHTML
+        case .translationMilestone:
+            return remoteNotification.messageHeader?.removingHTML
+        case .editMilestone:
+            return remoteNotification.messageHeader?.removingHTML
+        case .welcome:
+            return remoteNotification.messageHeader?.removingHTML
+        case .loginFailUnknownDevice:
+            return remoteNotification.messageHeader?.removingHTML
+        case .loginFailKnownDevice:
+            return remoteNotification.messageHeader?.removingHTML
+        case .loginSuccessUnknownDevice:
+            return remoteNotification.messageHeader?.removingHTML
+        case .unknownSystem:
+            return remoteNotification.messageBody?.removingHTML
+        case .unknown:
+            return remoteNotification.messageBody?.removingHTML
+        }
     }
     
     private static func determineFooterText(for remoteNotification: RemoteNotification) -> String? {
