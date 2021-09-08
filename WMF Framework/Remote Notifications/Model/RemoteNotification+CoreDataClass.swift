@@ -11,6 +11,10 @@ public class RemoteNotification: NSManagedObject {
         return calculateRemoteNotificationSectionType()
     }()
     
+    public lazy var namespace: PageNamespace? = {
+        return calculateNamespace()
+    }()
+    
     public override func didChangeValue(forKey key: String,
         withSetMutation mutationKind: NSKeyValueSetMutationKind,
         using objects: Set<AnyHashable>) {
@@ -18,12 +22,18 @@ public class RemoteNotification: NSManagedObject {
             type = calculateRemoteNotificationType()
         } else if key == "section" {
             sectionType = calculateRemoteNotificationSectionType()
+        } else if key == "titleNamespaceKey" {
+            namespace = calculateNamespace()
         }
         super.didChangeValue(forKey: key, withSetMutation: mutationKind, using: objects)
     }
 }
 
 private extension RemoteNotification {
+    func calculateNamespace() -> PageNamespace? {
+        return PageNamespace(rawValue: Int(titleNamespaceKey))
+    }
+    
     func calculateRemoteNotificationType() -> RemoteNotificationType {
         switch (categoryString, typeString) {
         case ("edit-user-talk", "edit-user-talk"):

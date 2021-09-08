@@ -7,29 +7,31 @@ final class NotificationsCenterCellViewModel {
     enum IconType {
         case singleMessage
         case doubleMessage
-        case tagUser
+        case atSymbol
         case undo
         case user
+        case checkbox
+        case link
         case thanks
         case heart
         case exclamationPoint
-        case unknown
+        case email
+        case bell
     }
     
-    enum SecondaryActionIconType {
+    enum FooterIconType {
         case user
         case document
         case image
         case lock
         case link
-        case unknown
+        case none
     }
     
     enum ProjectIconType {
         case language(String)
         case commons
         case wikidata
-        case unknown
     }
     
     struct Action {
@@ -48,7 +50,7 @@ final class NotificationsCenterCellViewModel {
     let subtitleText: String
     let bodyText: String?
     let iconType: IconType
-    let secondaryActionIconType: SecondaryActionIconType
+    let footerIconType: FooterIconType?
     let projectIconType: ProjectIconType
 
     // MARK: - Lifecycle
@@ -60,15 +62,18 @@ final class NotificationsCenterCellViewModel {
             return nil
         }
         
-        guard notification.sectionType == .alert ||
-                notification.sectionType == .message else {
+        guard let iconType = Self.determineIconType(for: notification) else {
+            return nil
+        }
+        
+        guard let projectIconType = Self.determineProjectIconType(wiki: wiki, languageLinkController: languageLinkController) else {
             return nil
         }
 
         self.notification = notification
-        self.iconType = Self.determineIconType(for: notification)
-        self.secondaryActionIconType = Self.determineSecondaryActionIconType(for: notification)
-        self.projectIconType = Self.determineProjectIconType(for: notification)
+        self.iconType = iconType
+        self.footerIconType = Self.determineFooterIconType(for: notification)
+        self.projectIconType = projectIconType
         self.titleText = Self.determineTitleText(wiki: wiki, notification: notification, languageLinkController: languageLinkController)
         self.subtitleText = Self.determineSubtitleText(for: notification)
         self.bodyText = Self.determineBodyText(for: notification)
@@ -77,35 +82,97 @@ final class NotificationsCenterCellViewModel {
         self.swipeActions = Self.determineSwipeActions(for: notification)
     }
     
-    private static func determineIconType(for remoteNotification: RemoteNotification) -> IconType {
+    private static func determineIconType(for remoteNotification: RemoteNotification) -> IconType? {
         switch remoteNotification.type {
         case .userTalkPageMessage:
             return .singleMessage
         case .mentionInTalkPage,
-             .mentionInEditSummary:
-            return .tagUser
+             .mentionInEditSummary,
+             .successfulMention,
+             .failedMention:
+            return .atSymbol
         case .editReverted:
             return .undo
         case .userRightsChange:
             return .user
+        case .pageReviewed:
+            return .checkbox
+        case .pageLinked,
+             .connectionWithWikidata:
+            return .link
         case .thanks:
             return .thanks
         case .editMilestone,
+             .translationMilestone,
              .welcome:
             return .heart
-        default:
-            return .unknown
+        case .loginFailKnownDevice,
+             .loginFailUnknownDevice,
+             .loginSuccessUnknownDevice:
+            return .exclamationPoint
+        case .emailFromOtherUser:
+            return .email
+        case .unknownSystem,
+             .unknown:
+            switch remoteNotification.sectionType {
+            case .alert:
+                return .bell
+            case .message:
+                return .exclamationPoint
+            default:
+                return nil
+            }
         }
     }
     
-    private static func determineSecondaryActionIconType(for remoteNotification: RemoteNotification) -> SecondaryActionIconType {
-        //TODO: finish
-        return .unknown
+    private static func determineFooterIconType(for remoteNotification: RemoteNotification) -> FooterIconType {
+        
+        switch remoteNotification.type {
+        case .userRightsChange:
+            return .document
+        case .loginFailKnownDevice,
+             .loginFailUnknownDevice,
+             .loginSuccessUnknownDevice:
+            return .lock
+        case .emailFromOtherUser,
+             .welcome:
+            return .none
+        case .unknown,
+             .unknownSystem:
+            return .link
+        default:
+            break
+        }
+        
+        switch remoteNotification.namespace {
+        case .main, .talk:
+            return .document
+        case .userTalk:
+            return .user
+        case .file:
+            return .image
+        default:
+            break
+        }
+        
+        return .none
     }
     
-    private static func determineProjectIconType(for notification: RemoteNotification) -> ProjectIconType {
-        //TODO: finish, switch on notification.wiki
-        return .unknown
+    private static func determineProjectIconType(wiki: String, languageLinkController: MWKLanguageLinkController) -> ProjectIconType? {
+        let projectCode = projectCode(wiki: wiki)
+        if let _ = wikipediaLanguageLink(projectCode: projectCode, languageLinkController: languageLinkController) {
+            //recognized language code
+            return .language(projectCode)
+        } else {
+            switch projectCode {
+            case "commons":
+                return .commons
+            case "wikidata":
+                return .wikidata
+            default:
+                return nil
+            }
+        }
     }
     
     private static func determineTitleText(wiki: String, notification: RemoteNotification, languageLinkController: MWKLanguageLinkController) -> String {
