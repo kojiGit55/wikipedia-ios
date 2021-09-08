@@ -31,7 +31,7 @@ public class RemoteNotificationLink: NSObject, NSSecureCoding, Codable {
     public static var supportsSecureCoding: Bool = true
     
     let type: String?
-    let url: URL?
+    public let url: URL?
     public let label: String?
 
     init(type: NSString?, url: URL?, label: NSString?) {
