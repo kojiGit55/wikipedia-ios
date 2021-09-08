@@ -43,7 +43,7 @@ final class NotificationsCenterCellViewModel {
 
     private let notification: RemoteNotification
     
-    let primaryDestination: Router.Destination
+    let primaryDestination: Router.Destination?
     let secondaryDestination: Router.Destination?
     let swipeActions: [Action]
     let titleText: String
@@ -56,7 +56,7 @@ final class NotificationsCenterCellViewModel {
 
     // MARK: - Lifecycle
 
-    init?(notification: RemoteNotification, languageLinkController: MWKLanguageLinkController) {
+    init?(notification: RemoteNotification, languageLinkController: MWKLanguageLinkController, configuration: Configuration, router: Router) {
 
         //Validation
         guard let wiki = notification.wiki else {
@@ -79,7 +79,17 @@ final class NotificationsCenterCellViewModel {
         self.subtitleText = Self.determineSubtitleText(for: notification)
         self.bodyText = Self.determineBodyText(for: notification)
         self.footerText = Self.determineFooterText(for: notification)
-        self.primaryDestination = Self.determinePrimaryDestination(for: notification)
+        
+        //Begin populating destination logic
+        guard let data = Self.destinationData(for: notification, languageLinkController: languageLinkController),
+              let destinationURLs = Self.destinationURLs(for: notification, data: data, configuration: configuration, languageLinkController: languageLinkController) else {
+            self.primaryDestination = nil
+            self.secondaryDestination = nil
+            self.swipeActions = []
+            return nil
+        }
+        
+        self.primaryDestination = Self.determinePrimaryDestination(for: notification, data: data, destinationURLs: destinationURLs, router: router)
         self.secondaryDestination = Self.determineSecondaryDestination(for: notification)
         self.swipeActions = Self.determineSwipeActions(for: notification)
     }
@@ -358,9 +368,226 @@ final class NotificationsCenterCellViewModel {
         }
     }
     
-    private static func determinePrimaryDestination(for remoteNotification: RemoteNotification) -> Router.Destination {
-        //TODO: finish
-        return .externalLink(URL(string:"https://en.wikipedia.org")!)
+    struct DestinationData {
+        let host: String
+        let wiki: String
+        let title: String
+        let agent: String
+        let revisionId: Int
+        let namespace: PageNamespace
+        let languageVariantCode: String?
+    }
+    
+    struct DestinationURLs {
+        var agentUserPage: URL?
+        var titleDiffPage: URL?
+        var titleTalkPage: URL?
+        var titlePage: URL?
+    }
+    
+    //Extracts common data needed in determining various destinations for RemoteNotificaitons
+    private static func destinationData(for remoteNotification: RemoteNotification, languageLinkController: MWKLanguageLinkController) -> DestinationData? {
+        
+        guard let host = remoteNotification.messageLinks?.primary?.url?.host,
+              let wiki = remoteNotification.wiki,
+              let title = remoteNotification.titleText?.denormalizedPageTitle,
+              let agent = remoteNotification.agentName?.denormalizedPageTitle,
+              let namespace = remoteNotification.namespace else {
+            return nil
+        }
+        
+        //todo: add revision ID to managed object.
+        let revisionId = 1
+        
+        var languageVariantCode: String? = nil
+        let projectCode = projectCode(wiki: wiki)
+        if projectCode != "commons" && projectCode != "wikidata" {
+            languageVariantCode = languageLinkController.preferredLanguageVariantCode(forLanguageCode: projectCode)
+        }
+        
+        return DestinationData(host: host, wiki: wiki, title: title, agent: agent, revisionId: revisionId, namespace: namespace, languageVariantCode: languageVariantCode)
+    }
+    
+    private static func destinationURLs(for remoteNotification: RemoteNotification, data: DestinationData, configuration: Configuration, languageLinkController: MWKLanguageLinkController) -> DestinationURLs? {
+        
+        var destinationURLs = DestinationURLs()
+        populateTitleTalkPage(configuration: configuration, data: data, urls: &destinationURLs)
+        populateTitlePage(configuration: configuration, data: data, urls: &destinationURLs)
+        populateUserPage(configuration: configuration, data: data, urls: &destinationURLs)
+        populateTitleDiffPage(configuration: configuration, data: data, urls: &destinationURLs)
+        return destinationURLs
+    }
+    
+    private static func populateTitleTalkPage(configuration: Configuration, data: DestinationData, urls: inout DestinationURLs) {
+        let prefix: String
+        switch data.namespace {
+        case .talk:
+            prefix = data.namespace.canonicalName
+        case .userTalk:
+            prefix = data.namespace.canonicalName
+        default:
+            return
+        }
+        
+        guard !prefix.isEmpty else {
+            return
+        }
+        
+        guard let talkPageURL = configuration.articleURLForHost(data.host, languageVariantCode: data.languageVariantCode, appending: ["\(prefix):\(data.title)"]) else {
+            return
+        }
+        
+        urls.titleTalkPage = talkPageURL
+    }
+    
+    private static func populateTitlePage(configuration: Configuration, data: DestinationData, urls: inout DestinationURLs) {
+        guard let titlePageURL = configuration.articleURLForHost(data.host, languageVariantCode: data.languageVariantCode, appending: [data.title]) else {
+            return
+        }
+        
+        urls.titlePage = titlePageURL
+    }
+    
+    private static func populateUserPage(configuration: Configuration, data: DestinationData, urls: inout DestinationURLs) {
+        
+        let prefix = PageNamespace.user.canonicalName
+        guard !prefix.isEmpty else {
+            return
+        }
+        
+        guard let userPageURL = configuration.articleURLForHost(data.host, languageVariantCode: data.languageVariantCode, appending: ["\(prefix):\(data.agent)"]) else {
+            return
+        }
+        
+        urls.agentUserPage = userPageURL
+    }
+    
+    private static func populateTitleDiffPage(configuration: Configuration, data: DestinationData, urls: inout DestinationURLs) {
+        
+        guard let titleDiffURL = configuration.expandedArticleURLForHost(data.host, languageVariantCode: data.languageVariantCode, queryParameters: ["title": data.title, "oldid": data.revisionId]) else {
+            return
+        }
+        
+        urls.titleDiffPage = titleDiffURL
+    }
+    
+    private static func determinePrimaryDestination(for remoteNotification: RemoteNotification, data: DestinationData, destinationURLs: DestinationURLs, router: Router) -> Router.Destination? {
+        
+        switch remoteNotification.type {
+        case .userTalkPageMessage:
+                
+            guard let talkPageURL = destinationURLs.titleTalkPage else {
+                return nil
+            }
+            
+            return .userTalk(talkPageURL)
+        case .mentionInTalkPage:
+            
+            guard let talkPageURL = destinationURLs.titleTalkPage else {
+                return nil
+            }
+            
+            if data.namespace == .userTalk {
+                return .userTalk(talkPageURL)
+            } else {
+                return .inAppLink(talkPageURL)
+            }
+        case .mentionInEditSummary:
+            
+            //TODO: confirm diff usage here
+            guard let diffURL = destinationURLs.titleDiffPage else {
+                return nil
+            }
+            
+            return .articleDiffSingle(diffURL, fromRevID: nil, toRevID: data.revisionId)
+        case .successfulMention:
+            guard let userPageURL = destinationURLs.agentUserPage else {
+                return nil
+            }
+            
+            return .inAppLink(userPageURL)
+        case .failedMention:
+            guard let titlePageURL = destinationURLs.titlePage else {
+                return nil
+            }
+            
+            return router.destination(for: titlePageURL)
+        case .editReverted:
+            guard let diffURL = destinationURLs.titleDiffPage else {
+                return nil
+            }
+            
+            return .articleDiffSingle(diffURL, fromRevID: nil, toRevID: data.revisionId)
+        case .userRightsChange:
+            //TODO: is mediawiki ok for this or should it differ per-wiki?
+            guard let url = URL(string: "https://www.mediawiki.org/wiki/Special:ListGroupRights") else {
+                return nil
+            }
+            
+            return .inAppLink(url)
+        case .pageReviewed:
+            guard let titlePageURL = destinationURLs.titlePage else {
+                return nil
+            }
+            
+            return router.destination(for: titlePageURL)
+        case .pageLinked:
+            guard let titlePageURL = destinationURLs.titlePage else {
+                return nil
+            }
+            
+            return router.destination(for: titlePageURL)
+        case .connectionWithWikidata:
+            //TODO: Fix this routing, for now default to primary url
+            guard let primaryLinkUrl = remoteNotification.messageLinks?.primary?.url else {
+                return nil
+            }
+            
+            return router.destination(for: primaryLinkUrl)
+        case .emailFromOtherUser:
+            guard let userPageURL = destinationURLs.agentUserPage else {
+                return nil
+            }
+            
+            return .inAppLink(userPageURL)
+        case .thanks:
+            guard let diffURL = destinationURLs.titleDiffPage else {
+                return nil
+            }
+            
+            return .articleDiffSingle(diffURL, fromRevID: nil, toRevID: data.revisionId)
+        case .translationMilestone(_):
+            return nil
+        case .editMilestone:
+            guard let titlePageURL = destinationURLs.titlePage else {
+                return nil
+            }
+            
+            return router.destination(for: titlePageURL)
+        case .welcome:
+            //Note: It's not easy to suss out the getting started link from every possible wiki, but it seems like the primary link url from the API is the Getting Started url
+            guard let primaryLinkUrl = remoteNotification.messageLinks?.primary?.url else {
+                return nil
+            }
+            
+            return router.destination(for: primaryLinkUrl)
+        case .loginFailUnknownDevice,
+             .loginFailKnownDevice,
+             .loginSuccessUnknownDevice:
+            //TODO: is mediawiki ok for this or should it differ per-wiki?
+            guard let url = URL(string: "https://www.mediawiki.org/wiki/Help:Login_notifications") else {
+                return nil
+            }
+            
+            return .inAppLink(url)
+        case .unknownSystem,
+             .unknown:
+            guard let primaryLinkUrl = remoteNotification.messageLinks?.primary?.url else {
+                return nil
+            }
+            
+            return router.destination(for: primaryLinkUrl)
+        }
     }
     
     private static func determineSecondaryDestination(for remoteNotification: RemoteNotification) -> Router.Destination? {
