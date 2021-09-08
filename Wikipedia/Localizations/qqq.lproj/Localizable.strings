@@ -551,11 +551,13 @@
 "no-internet-connection" = "String used in various places to indicate no internet connection";
 "no-internet-connection-article-reload" = "Subtitle for letting users know article cannot be reloaded without internet connection.";
 "no-internet-connection-article-reload-button" = "Title for button to return to last saved version of article.";
-"notifications-alert-project-title" = "Header text for login and default alert notification cell types in Notification Center. $1 is replaced with a coded project name such as \"EN-Wikipedia\".";
 "notifications-center-edit-button" = "Title for navigation bar button to toggle mode for editing notification read status";
 "notifications-center-title" = "Title for Notifications Center interface.";
-"notifications-mention-title" = "Header text for successful mention notification cell types in Notification Center. $1 is replaced with the mentioned username (e.g. To: LadyTanner).";
-"notifications-notice-project-title" = "Header text for login and default notifce notification cell types in Notification Center. $1 is replaced with a coded project name such as \"EN-Wikipedia\".";
+"notifications-footer-change-password" = "Footer text for login-related notifications. Indicates that the user should consider changing their password.";
+"notifications-title-alert-project" = "Header text for login and default alert notification cell types in Notification Center. $1 is replaced with a coded project name such as \"EN-Wikipedia\".";
+"notifications-title-mention" = "Header text for successful mention notification cell types in Notification Center. $1 is replaced with the mentioned username (e.g. To: LadyTanner).";
+"notifications-title-notice-project" = "Header text for login and default notifce notification cell types in Notification Center. $1 is replaced with a coded project name such as \"EN-Wikipedia\".";
+"notifications-title-project-name-format" = "Format used for the ordering of project name descriptions. For example, \"English Wikipedia\". Use this format to reorder words or insert additional connecting words. For example, \"$2 de la $1\" would become \"Wikipedia de la inglés\" for devices set to Spanish. Parameters: $1 = localized language name (\"English\"), $2 = localized name for Wikipedia (\"Wikipedia\")";
 "number-billions" = "$1B - $1 is replaced with a number represented in billions. In English 'B' is commonly used after a number to indicate that number is in 'billions'. So the 'B' should be changed to a character or short string indicating billions. For example 5,100,000,000 would become 5.1B. If there is no simple translation for this in the target language, make the translation $1 with no other characters and the full number will be shown.";
 "number-millions" = "$1M - $1 is replaced with a number represented in millions. In English 'M' is commonly used after a number to indicate that number is in 'millions'. So the 'M' should be changed to a character or short string indicating millions. For example 500,000,000 would become 500M. If there is no simple translation for this in the target language, make the translation $1 with no other characters and the full number will be shown.";
 "number-thousands" = "$1K - $1 is replaced with a number represented in thousands. In English the letter 'K' is commonly used after a number to indicate that number is in 'thousands'. So the letter 'K' should be changed to a character or short string indicating thousands. For example 500,000 would become 500K. If there is no simple translation for this in the target language, make the translation $1 with no other characters and the full number will be shown. {{Identical|$1k}}";
@@ -634,7 +636,6 @@
 "potd-widget-title" = "Text for title of Picture of the day widget.";
 "preference-summary-eventlogging-opt-in" = "Description of preference that when checked enables data collection of user behavior.";
 "preference-title-eventlogging-opt-in" = "Title of preference that when checked enables data collection of user behavior.";
-"project-name-format" = "Format used for the ordering of project name descriptions. For example, \"English Wikipedia\". Use this format to reorder words or insert additional connecting words. For example, \"$2 de la $1\" would become \"Wikipedia de la inglés\" for devices set to Spanish. Parameters: $1 = localized language name (\"English\"), $2 = localized name for Wikipedia (\"Wikipedia\")";
 "rank-accessibility-label" = "Accessibility label read aloud to sight impared users to indicate a ranking - Number 1, Number 2, etc. $1 is replaced with the ranking {{Identical|Number}}";
 "readers-accessibility-label" = "Accessibility label read aloud to sight impared users to indicate number of readers for a given article - $1 is replaced with the number of readers {{Identical|Reader}}";
 "reading-list-add-generic-hint-title" = "Title of the reading list hint that appears after an article is saved.";

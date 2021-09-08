@@ -36,19 +36,20 @@ final class NotificationsCenterCellViewModel {
     
     struct Action {
         let label: String
-        let link: URL?
+        let destination: Router.Destination?
     }
 
     // MARK: - Properties
 
     private let notification: RemoteNotification
     
-    let primaryAction: Action?
-    let secondaryAction: Action?
+    let primaryDestination: Router.Destination
+    let secondaryDestination: Router.Destination?
     let swipeActions: [Action]
     let titleText: String
     let subtitleText: String
     let bodyText: String?
+    let footerText: String?
     let iconType: IconType
     let footerIconType: FooterIconType?
     let projectIconType: ProjectIconType
@@ -77,8 +78,9 @@ final class NotificationsCenterCellViewModel {
         self.titleText = Self.determineTitleText(wiki: wiki, notification: notification, languageLinkController: languageLinkController)
         self.subtitleText = Self.determineSubtitleText(for: notification)
         self.bodyText = Self.determineBodyText(for: notification)
-        self.primaryAction = Self.determinePrimaryAction(for: notification)
-        self.secondaryAction = Self.determineSecondaryAction(for: notification)
+        self.footerText = Self.determineFooterText(for: notification)
+        self.primaryDestination = Self.determinePrimaryDestination(for: notification)
+        self.secondaryDestination = Self.determineSecondaryDestination(for: notification)
         self.swipeActions = Self.determineSwipeActions(for: notification)
     }
     
@@ -218,7 +220,6 @@ final class NotificationsCenterCellViewModel {
         case .unknownSystem:
             return genericTitleText(notification: notification, wiki: wiki, languageLinkController: languageLinkController)
         }
-        
     }
     
     private static func determineSubtitleText(for remoteNotification: RemoteNotification) -> String {
@@ -231,21 +232,54 @@ final class NotificationsCenterCellViewModel {
         return "TODO"
     }
     
-    private static func determinePrimaryAction(for remoteNotification: RemoteNotification) -> Action {
-        //TODO: finish
-        return Action(label: "TODO", link: nil)
+    private static func determineFooterText(for remoteNotification: RemoteNotification) -> String? {
+        switch remoteNotification.type {
+        case .welcome,
+             .emailFromOtherUser:
+            return nil
+        case .loginFailKnownDevice,
+             .loginFailUnknownDevice,
+             .loginSuccessUnknownDevice:
+            return WMFLocalizedString("notifications-footer-change-password", value: "Change password", comment: "Footer text for login-related notifications. Indicates that the user should consider changing their password.")
+        case .unknown,
+             .unknownSystem:
+            guard let primaryLinkTitle = remoteNotification.messageLinks?.primary?.label else {
+                return nil
+            }
+            
+            return primaryLinkTitle
+        case .userTalkPageMessage,
+             .mentionInTalkPage,
+             .mentionInEditSummary,
+             .successfulMention,
+             .failedMention,
+             .editReverted,
+             .userRightsChange,
+             .pageReviewed,
+             .pageLinked,
+            .connectionWithWikidata,
+            .thanks,
+            .translationMilestone,
+            .editMilestone:
+            return remoteNotification.titleFull
+        }
     }
     
-    private static func determineSecondaryAction(for remoteNotification: RemoteNotification) -> Action {
+    private static func determinePrimaryDestination(for remoteNotification: RemoteNotification) -> Router.Destination {
         //TODO: finish
-        return Action(label: "TODO", link: nil)
+        return .externalLink(URL(string:"https://en.wikipedia.org")!)
+    }
+    
+    private static func determineSecondaryDestination(for remoteNotification: RemoteNotification) -> Router.Destination? {
+        //TODO: finish
+        return .externalLink(URL(string:"https://en.wikipedia.org")!)
     }
     
     private static func determineSwipeActions(for remoteNotification: RemoteNotification) -> [Action] {
         //TODO: finish
-        return [Action(label: "TODO", link: nil),
-                Action(label: "TODO", link: nil),
-                Action(label: "TODO", link: nil)]
+        return [Action(label: "TODO", destination: nil),
+                Action(label: "TODO", destination: nil),
+                Action(label: "TODO", destination: nil)]
     }
 }
 
@@ -272,7 +306,7 @@ private extension NotificationsCenterCellViewModel {
             return wiki
         }
 
-        let format = WMFLocalizedString("project-name-format", value: "%1$@ %2$@", comment: "Format used for the ordering of project name descriptions. For example, \"English Wikipedia\". Use this format to reorder words or insert additional connecting words. For example, \"%2$@ de la %1$@\" would become \"Wikipedia de la inglés\" for devices set to Spanish. Parameters: %1$@ = localized language name (\"English\"), %2$@ = localized name for Wikipedia (\"Wikipedia\")")
+        let format = WMFLocalizedString("notifications-title-project-name-format", value: "%1$@ %2$@", comment: "Format used for the ordering of project name descriptions. For example, \"English Wikipedia\". Use this format to reorder words or insert additional connecting words. For example, \"%2$@ de la %1$@\" would become \"Wikipedia de la inglés\" for devices set to Spanish. Parameters: %1$@ = localized language name (\"English\"), %2$@ = localized name for Wikipedia (\"Wikipedia\")")
 
         let localizedLanguageName = recognizedLanguage.localizedName
         return String.localizedStringWithFormat(format, localizedLanguageName, CommonStrings.plainWikipediaName)
@@ -310,18 +344,18 @@ private extension NotificationsCenterCellViewModel {
     }
     
     static func noticeText(wiki: String, languageLinkController: MWKLanguageLinkController) -> String {
-        let format = WMFLocalizedString("notifications-notice-project-title", value: "Notice from %1$@", comment: "Header text for login and default notifce notification cell types in Notification Center. %1$@ is replaced with a coded project name such as \"EN-Wikipedia\".")
+        let format = WMFLocalizedString("notifications-title-notice-project", value: "Notice from %1$@", comment: "Header text for login and default notifce notification cell types in Notification Center. %1$@ is replaced with a coded project name such as \"EN-Wikipedia\".")
         return textInsertingCodedProjectName(to: format, wiki: wiki, languageLinkController: languageLinkController)
     }
     
     static func alertText(wiki: String, languageLinkController: MWKLanguageLinkController) -> String {
 
-        let format = WMFLocalizedString("notifications-alert-project-title", value: "Alert from %1$@", comment: "Header text for login and default alert notification cell types in Notification Center. %1$@ is replaced with a coded project name such as \"EN-Wikipedia\".")
+        let format = WMFLocalizedString("notifications-title-alert-project", value: "Alert from %1$@", comment: "Header text for login and default alert notification cell types in Notification Center. %1$@ is replaced with a coded project name such as \"EN-Wikipedia\".")
         return textInsertingCodedProjectName(to: format, wiki: wiki, languageLinkController: languageLinkController)
     }
     
     static func mentionText(agentName: String) -> String {
-        let format = WMFLocalizedString("notifications-mention-title", value: "To: %1$@", comment: "Header text for successful mention notification cell types in Notification Center. %1$@ is replaced with the mentioned username (e.g. To: LadyTanner).")
+        let format = WMFLocalizedString("notifications-title-mention", value: "To: %1$@", comment: "Header text for successful mention notification cell types in Notification Center. %1$@ is replaced with the mentioned username (e.g. To: LadyTanner).")
         return String.localizedStringWithFormat(format, agentName)
     }
 }
