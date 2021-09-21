@@ -48,7 +48,7 @@ class RemoteNotificationsOperationsController: NSObject {
         operationQueue.cancelAllOperations()
     }
     
-    func fetchFirstPageNotifications(_ completion: @escaping () -> Void) {
+    func importNotifications(_ completion: @escaping () -> Void) {
     
         let completeEarly = {
             self.operationQueue.addOperation(completion)
@@ -77,9 +77,9 @@ class RemoteNotificationsOperationsController: NSObject {
             }
 
             let languageCodes = preferredLanguageCodes + ["wikidata", "commons"]
-            var operations: [RemoteNotificationsFetchFirstPageOperation] = []
+            var operations: [RemoteNotificationsImportOperation] = []
             for languageCode in languageCodes {
-                let operation = RemoteNotificationsFetchFirstPageOperation(with: self.apiController, modelController: modelController, languageCode: languageCode)
+                let operation = RemoteNotificationsImportOperation(with: self.apiController, modelController: modelController, languageCode: languageCode)
                 operations.append(operation)
             }
 

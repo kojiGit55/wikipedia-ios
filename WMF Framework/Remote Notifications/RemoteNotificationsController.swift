@@ -20,8 +20,8 @@ import CocoaLumberjackSwift
         }
     }
     
-    public func fetchFirstPageNotifications(_ completion: @escaping () -> Void) {
-        operationsController.fetchFirstPageNotifications(completion)
+    public func importNotifications(_ completion: @escaping () -> Void) {
+        operationsController.importNotifications(completion)
     }
     
     public func fetchedResultsController() -> NSFetchedResultsController<RemoteNotification>? {
