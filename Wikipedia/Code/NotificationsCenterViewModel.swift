@@ -7,9 +7,9 @@ protocol NotificationCenterViewModelDelegate: AnyObject {
 @objc
 final class NotificationsCenterViewModel: NSObject {
 
-	// MARK: - Properties
+    // MARK: - Properties
 
-	let remoteNotificationsController: RemoteNotificationsController
+    let remoteNotificationsController: RemoteNotificationsController
 
 	fileprivate let fetchedResultsController: NSFetchedResultsController<RemoteNotification>?
 	fileprivate var collectionViewUpdater: CollectionViewUpdater<RemoteNotification>?
@@ -28,7 +28,7 @@ final class NotificationsCenterViewModel: NSObject {
 		remoteNotificationsController.fetchFirstPageNotifications {}
 	}
 
-	// MARK: - Public
+    // MARK: - Public
 
 	func fetchNotifications(collectionView: UICollectionView) {
 		guard let fetchedResultsController = fetchedResultsController else {

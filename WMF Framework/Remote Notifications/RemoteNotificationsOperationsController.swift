@@ -36,16 +36,8 @@ class RemoteNotificationsOperationsController: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(modelControllerDidLoadPersistentStores(_:)), name: RemoteNotificationsModelController.didLoadPersistentStoresNotification, object: nil)
     }
     
-    func deleteOldDatabaseFiles() throws {
-        let modelName = RemoteNotificationsModelController.modelName
-        let sharedAppContainerURL = FileManager.default.wmf_containerURL()
-        let legacyRemoteNotificationsStorageUrl = sharedAppContainerURL.appendingPathComponent(modelName)
-        let legecyJournalShmUrl = sharedAppContainerURL.appendingPathComponent("\(modelName)-shm")
-        let legecyJournalWalUrl = sharedAppContainerURL.appendingPathComponent("\(modelName)-wal")
-        
-        try FileManager.default.removeItem(at: legacyRemoteNotificationsStorageUrl)
-        try FileManager.default.removeItem(at: legecyJournalShmUrl)
-        try FileManager.default.removeItem(at: legecyJournalWalUrl)
+    func deleteLegacyDatabaseFiles() throws {
+        modelController?.deleteLegacyDatabaseFiles()
     }
 
     deinit {
@@ -83,22 +75,21 @@ class RemoteNotificationsOperationsController: NSObject {
             guard let self = self else {
                 return
             }
-            
+
             let languageCodes = preferredLanguageCodes + ["wikidata", "commons"]
             var operations: [RemoteNotificationsFetchFirstPageOperation] = []
             for languageCode in languageCodes {
                 let operation = RemoteNotificationsFetchFirstPageOperation(with: self.apiController, modelController: modelController, languageCode: languageCode)
                 operations.append(operation)
             }
-            
+
             let completionOperation = BlockOperation(block: completion)
             completionOperation.queuePriority = .veryHigh
-            
+
             for operation in operations {
                 completionOperation.addDependency(operation)
             }
-            
-            
+
             self.operationQueue.addOperations(operations + [completionOperation], waitUntilFinished: false)
         })
     }
