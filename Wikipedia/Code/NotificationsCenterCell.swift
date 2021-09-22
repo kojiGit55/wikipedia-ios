@@ -320,6 +320,13 @@ final class NotificationsCenterCell: UICollectionViewCell {
 		subheaderLabel.text = viewModel.notification.messageHeader
 		messageSummaryLabel.text = "This is the notification's body text" // from viewModel
 		relativeTimeAgoLabel.text = "12 minutes ago" // from viewModel
+        if let date = viewModel.notification.date {
+            let butWhy = (date as NSDate).wmf_localizedRelativeDateStringFromLocalDateToNow()
+            relativeTimeAgoLabel.text = butWhy
+        } else {
+            relativeTimeAgoLabel.text = nil
+        }
+        
 
 		updateCellStyle(forDisplayState: viewModel.displayState)
 

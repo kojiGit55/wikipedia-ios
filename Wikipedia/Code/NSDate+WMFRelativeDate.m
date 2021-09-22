@@ -61,7 +61,7 @@ NSString *const WMFAbbreviatedRelativeDate = @"excludingAgo";
     NSCalendar *calendar = [NSCalendar wmf_gregorianCalendar];
     NSInteger days = [calendar wmf_daysFromDate:self toDate:date]; // Calendar days - less than 24 hours ago that is yesterday returns 1 day ago
     if (days > 2) {
-        return [[NSDateFormatter wmf_dayNameMonthNameDayOfMonthNumberDateFormatter] stringFromDate:self];
+        return [[NSDateFormatter wmf_monthNameDayOfMonthNumberYearDateFormatter] stringFromDate:self];
     } else if (days > 0) {
         return [NSString localizedStringWithFormat:[WMFLocalizedDateFormatStrings daysAgo], days];
     } else {

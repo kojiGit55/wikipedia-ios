@@ -2,6 +2,7 @@ import CocoaLumberjackSwift
 
 @objc public final class RemoteNotificationsController: NSObject {
     private let operationsController: RemoteNotificationsOperationsController
+    private var alreadyImportedThisSession = false
     
     public var viewContext: NSManagedObjectContext? {
         return operationsController.viewContext
@@ -20,11 +21,18 @@ import CocoaLumberjackSwift
         }
     }
     
-    public func importNotifications(_ completion: @escaping () -> Void) {
-        operationsController.importNotifications(completion)
+    public func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
+        guard !alreadyImportedThisSession else {
+            completion()
+            return
+        }
+        
+        operationsController.importNotificationsIfNeeded(completion)
+        alreadyImportedThisSession = true
     }
     
-    public func fetchedResultsController() -> NSFetchedResultsController<RemoteNotification>? {
+    //todo: input param of filter enums/option sets
+    public func fetchedResultsController(fetchLimit: Int = 10, fetchOffset: Int = 0) -> NSFetchedResultsController<RemoteNotification>? {
         
         guard let viewContext = self.viewContext else {
             return nil
@@ -32,6 +40,8 @@ import CocoaLumberjackSwift
         
         let fetchRequest: NSFetchRequest<RemoteNotification> = RemoteNotification.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.fetchLimit = fetchLimit
+        fetchRequest.fetchOffset = fetchOffset
 
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
 

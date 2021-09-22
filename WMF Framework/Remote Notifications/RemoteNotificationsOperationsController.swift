@@ -48,8 +48,8 @@ class RemoteNotificationsOperationsController: NSObject {
         operationQueue.cancelAllOperations()
     }
     
-    func importNotifications(_ completion: @escaping () -> Void) {
-    
+    func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
+
         let completeEarly = {
             self.operationQueue.addOperation(completion)
         }

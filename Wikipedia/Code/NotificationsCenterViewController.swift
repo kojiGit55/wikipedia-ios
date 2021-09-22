@@ -10,6 +10,10 @@ final class NotificationsCenterViewController: ViewController {
     }
 
     let viewModel: NotificationsCenterViewModel
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<NotificationsCenterSection, NotificationsCenterCellViewModel>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<NotificationsCenterSection, NotificationsCenterCellViewModel>
+    private lazy var dataSource = makeDataSource()
 
     // MARK: - Lifecycle
 
@@ -35,12 +39,49 @@ final class NotificationsCenterViewController: ViewController {
 
 		title = CommonStrings.notificationsCenterTitle
 		setupBarButtons()
-
-		notificationsView.collectionView.delegate = self
-		notificationsView.collectionView.dataSource = self
-
-		viewModel.fetchNotifications(collectionView: notificationsView.collectionView)
+        notificationsView.collectionView.delegate = self
+        
+        viewModel.delegate = self
+        viewModel.fetchFirstPage()
 	}
+    
+    func makeDataSource() -> DataSource {
+      // 1
+      let dataSource = DataSource(
+        collectionView: notificationsView.collectionView,
+        cellProvider: { [weak self] (collectionView, indexPath, viewModel) -> 
+          UICollectionViewCell? in
+            //2
+            guard let self = self,
+                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationsCenterCell.reuseIdentifier, for: indexPath) as? NotificationsCenterCell else {
+                return nil
+            }
+
+            cell.configure(viewModel: viewModel, theme: self.theme)
+            return cell
+      })
+      return dataSource
+    }
+    
+    // 1
+//originally tried calling this in viewDidLoad(), then adding progressive snapshot checking in applySnapshot (see commented out note)
+//    func setupInitialSnapshot() {
+//        var snapshot = Snapshot()
+//        snapshot.appendSections([.main])
+//        snapshot.appendItems([])
+//        dataSource.apply(snapshot, animatingDifferences: false)
+//    }
+    
+    func applySnapshot(animatingDifferences: Bool = true) {
+      //NOTE: if we build off of the last snapshot, the sorting defined in NSFetchedResultsController could get thrown off upon import, so we are creating a brand new snapshot each time to consider.
+      //  var snapshot = dataSource.snapshot()
+
+        print("applySnapshot")
+      var snapshot = Snapshot()
+      snapshot.appendSections([.main]) //tried commenting this out to get progressive working.
+      snapshot.appendItems(self.viewModel.cellViewModels)
+      dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
 
 	// MARK: - Configuration
 
@@ -57,42 +98,23 @@ final class NotificationsCenterViewController: ViewController {
 	@objc func userDidTapEditButton() {
 
 	}
-
-	// MARK: - Public
-
 }
-
-extension NotificationsCenterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-
-	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		return viewModel.numberOfSections
-	}
-
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return viewModel.numberOfItems(section: section)
-	}
-
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationsCenterCell.reuseIdentifier, for: indexPath) as? NotificationsCenterCell, let cellViewModel = viewModel.cellViewModel(indexPath: indexPath) else {
-			fatalError()
-		}
-
-		cell.configure(viewModel: cellViewModel, theme: theme)
-		return cell
-	}
-
-}
-
-// MARK: - NotificationCenterViewModelDelegate
 
 extension NotificationsCenterViewController: NotificationCenterViewModelDelegate {
+    func cellViewModelsDidChange() {
+        applySnapshot(animatingDifferences: true)
+    }
+}
 
-	func collectionViewUpdaterDidUpdate() {
-		for indexPath in notificationsView.collectionView.indexPathsForVisibleItems {
-			if let cellViewModel = viewModel.cellViewModel(indexPath: indexPath), let cell = notificationsView.collectionView.cellForItem(at: indexPath) as? NotificationsCenterCell {
-				cell.configure(viewModel: cellViewModel, theme: theme)
-			}
-		}
-	}
-
+extension NotificationsCenterViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let count = dataSource.collectionView(collectionView, numberOfItemsInSection: indexPath.section)
+        let isLast = indexPath.row == count - 1
+        if isLast {
+            //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                self.viewModel.fetchNextPage()
+            //}
+            
+        }
+    }
 }
