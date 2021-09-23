@@ -37,8 +37,7 @@ final class NotificationsCenterViewModel: NSObject {
         super.init()
 	}
     
-    private func kickoffImport() {
-        assert(delegate != nil, "Delegate must not be nil.")
+    private func kickoffImportIfNeeded() {
         
         isImporting = true
         remoteNotificationsController.importNotificationsIfNeeded {
@@ -49,9 +48,7 @@ final class NotificationsCenterViewModel: NSObject {
         }
     }
     
-    //call after delegate is set
     public func fetchFirstPage() {
-        assert(delegate != nil, "Delegate must not be nil.")
         
         guard let fetchedResultsController = remoteNotificationsController.fetchedResultsController() else {
             assertionFailure("Failure setting up first page fetched results controller")
@@ -62,9 +59,9 @@ final class NotificationsCenterViewModel: NSObject {
         fetchedResultsController.delegate = self
         
         try? fetchedResultsController.performFetch()
-        syncCellViewModels() //need to call sync once just in case we've already imported
+        syncCellViewModels()
         
-        kickoffImport()
+        kickoffImportIfNeeded()
     }
     
     public func fetchNextPage() {
@@ -87,7 +84,8 @@ final class NotificationsCenterViewModel: NSObject {
         appendFetchedResultsController(fetchedResultsController: nextFetchedResultsController)
         nextFetchedResultsController.delegate = self
         try? nextFetchedResultsController.performFetch()
-        if (nextFetchedResultsController.fetchedObjects ?? []).count == 0 {
+        
+        guard (nextFetchedResultsController.fetchedObjects ?? []).count > 0 else {
             isPagingEnabled = false
             return
         }
@@ -95,28 +93,20 @@ final class NotificationsCenterViewModel: NSObject {
     }
     
     private func appendFetchedResultsController(fetchedResultsController: NSFetchedResultsController<RemoteNotification>) {
-        //serialBackgroundQueue.async {
-            self.fetchedResultsControllers.append(fetchedResultsController)
-        //}
+        self.fetchedResultsControllers.append(fetchedResultsController)
     }
 
     fileprivate func syncCellViewModels() {
+    
+        var managedObjects: [RemoteNotification] = []
+        for fetchedResultsController in self.fetchedResultsControllers {
+            managedObjects.append(contentsOf: (fetchedResultsController.fetchedObjects ?? []))
+        }
         
-        //Maybe we could move *something* to a background thread here since it's called so much. Not sure.
-        //serialBackgroundQueue.async {
-            var managedObjects: [RemoteNotification] = []
-            for fetchedResultsController in self.fetchedResultsControllers {
-                managedObjects.append(contentsOf: (fetchedResultsController.fetchedObjects ?? []))
-            }
+        let cellViewModels = managedObjects.map { NotificationsCenterCellViewModel(notification: $0) }
             
-            let cellViewModels = managedObjects.map { NotificationsCenterCellViewModel(notification: $0) }
-
-            //DispatchQueue.main.async {
-                
-                self.cellViewModels = cellViewModels
-                self.delegate?.cellViewModelsDidChange()
-            //}
-        //}
+        self.cellViewModels = cellViewModels
+        delegate?.cellViewModelsDidChange()
     }
 }
 

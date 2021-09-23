@@ -21,6 +21,7 @@ final class NotificationsCenterViewController: ViewController {
     init(theme: Theme, viewModel: NotificationsCenterViewModel) {
         self.viewModel = viewModel
         super.init(theme: theme)
+        viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,7 +42,6 @@ final class NotificationsCenterViewController: ViewController {
 		setupBarButtons()
         notificationsView.collectionView.delegate = self
         
-        viewModel.delegate = self
         viewModel.fetchFirstPage()
 	}
     
@@ -63,22 +63,9 @@ final class NotificationsCenterViewController: ViewController {
       return dataSource
     }
     
-    // 1
-//originally tried calling this in viewDidLoad(), then adding progressive snapshot checking in applySnapshot (see commented out note)
-//    func setupInitialSnapshot() {
-//        var snapshot = Snapshot()
-//        snapshot.appendSections([.main])
-//        snapshot.appendItems([])
-//        dataSource.apply(snapshot, animatingDifferences: false)
-//    }
-    
     func applySnapshot(animatingDifferences: Bool = true) {
-      //NOTE: if we build off of the last snapshot, the sorting defined in NSFetchedResultsController could get thrown off upon import, so we are creating a brand new snapshot each time to consider.
-      //  var snapshot = dataSource.snapshot()
-
-        print("applySnapshot")
       var snapshot = Snapshot()
-      snapshot.appendSections([.main]) //tried commenting this out to get progressive working.
+      snapshot.appendSections([.main])
       snapshot.appendItems(self.viewModel.cellViewModels)
       dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
