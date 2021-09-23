@@ -11,7 +11,7 @@ final class NotificationsCenterCell: UICollectionViewCell {
 	static let reuseIdentifier = "NotificationsCenterCell"
 
 	fileprivate var theme: Theme = .light
-	fileprivate weak var viewModel: NotificationsCenterCellViewModel?
+	fileprivate var viewModel: NotificationsCenterCellViewModel?
 
 	// MARK: - UI Elements
 

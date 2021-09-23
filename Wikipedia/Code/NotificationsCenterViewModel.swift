@@ -25,9 +25,9 @@ final class NotificationsCenterViewModel: NSObject {
     private var isImporting = true
     private var isPagingEnabled = true
     
-    private let serialBackgroundQueue: DispatchQueue = {
-        return DispatchQueue(label: "org.wikipedia.notifications.syncCells", qos: .userInitiated)
-    }()
+//    private let serialBackgroundQueue: DispatchQueue = {
+//        return DispatchQueue(label: "org.wikipedia.notifications.syncCells", qos: .userInitiated)
+//    }()
 
 	// MARK: - Lifecycle
 
@@ -95,15 +95,15 @@ final class NotificationsCenterViewModel: NSObject {
     }
     
     private func appendFetchedResultsController(fetchedResultsController: NSFetchedResultsController<RemoteNotification>) {
-        serialBackgroundQueue.async {
+        //serialBackgroundQueue.async {
             self.fetchedResultsControllers.append(fetchedResultsController)
-        }
+        //}
     }
 
     fileprivate func syncCellViewModels() {
         
         //Maybe we could move *something* to a background thread here since it's called so much. Not sure.
-        serialBackgroundQueue.async {
+        //serialBackgroundQueue.async {
             var managedObjects: [RemoteNotification] = []
             for fetchedResultsController in self.fetchedResultsControllers {
                 managedObjects.append(contentsOf: (fetchedResultsController.fetchedObjects ?? []))
@@ -111,12 +111,12 @@ final class NotificationsCenterViewModel: NSObject {
             
             let cellViewModels = managedObjects.map { NotificationsCenterCellViewModel(notification: $0) }
 
-            DispatchQueue.main.async {
+            //DispatchQueue.main.async {
                 
                 self.cellViewModels = cellViewModels
                 self.delegate?.cellViewModelsDidChange()
-            }
-        }
+            //}
+        //}
     }
 }
 
@@ -129,4 +129,5 @@ extension NotificationsCenterViewModel: NSFetchedResultsControllerDelegate {
         print("controllerDidChangeContent")
         syncCellViewModels()
     }
+    
 }

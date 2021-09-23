@@ -111,10 +111,7 @@ extension NotificationsCenterViewController: UICollectionViewDelegate {
         let count = dataSource.collectionView(collectionView, numberOfItemsInSection: indexPath.section)
         let isLast = indexPath.row == count - 1
         if isLast {
-            //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.viewModel.fetchNextPage()
-            //}
-            
         }
     }
 }

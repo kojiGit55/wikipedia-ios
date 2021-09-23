@@ -1,6 +1,6 @@
 import Foundation
 
-final class NotificationsCenterCellViewModel {
+struct NotificationsCenterCellViewModel {
 
 	// MARK: - Properties
 
@@ -27,7 +27,7 @@ extension NotificationsCenterCellViewModel: Hashable {
     }
 
     static func == (lhs: NotificationsCenterCellViewModel, rhs: NotificationsCenterCellViewModel) -> Bool {
-        lhs.notification.key == rhs.notification.key &&
+        return lhs.notification.key == rhs.notification.key &&
         lhs.isRead == rhs.isRead
     }
 }
