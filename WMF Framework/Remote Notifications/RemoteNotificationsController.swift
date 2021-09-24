@@ -21,12 +21,16 @@ import CocoaLumberjackSwift
         }
     }
     
+    public func toggleNotificationReadStatus(notification: RemoteNotification) {
+        operationsController.toggleNotificationReadStatus(notification: notification)
+    }
+    
     public func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
         guard !alreadyImportedThisSession else {
             completion()
             return
         }
-        
+
         operationsController.importNotificationsIfNeeded(completion)
         alreadyImportedThisSession = true
     }

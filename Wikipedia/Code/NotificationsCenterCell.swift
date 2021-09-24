@@ -2,6 +2,7 @@ import UIKit
 
 protocol NotificationsCenterCellDelegate: AnyObject {
 	func userDidTapSecondaryActionForCellIdentifier(id: String)
+    func toggleReadStatus(notification: RemoteNotification)
 }
 
 final class NotificationsCenterCell: UICollectionViewCell {
@@ -11,23 +12,41 @@ final class NotificationsCenterCell: UICollectionViewCell {
 	static let reuseIdentifier = "NotificationsCenterCell"
 
 	fileprivate var theme: Theme = .light
-	fileprivate var viewModel: NotificationsCenterCellViewModel?
+	private(set) weak var viewModel: NotificationsCenterCellViewModel?
+    let edgeMargin: CGFloat = 11
+    weak var delegate: NotificationsCenterCellDelegate?
 
 	// MARK: - UI Elements
 
-	lazy var leadingImageView: RoundedImageView = {
-		if #available(iOS 13.0, *) {
-			let view = RoundedImageView()
-			view.translatesAutoresizingMaskIntoConstraints = false
-			view.imageView.contentMode = .scaleAspectFit
-			view.layer.borderWidth = 2
-			view.layer.borderColor = UIColor.clear.cgColor
-			view.insets = UIEdgeInsets(top: 6, left: 6, bottom: -6, right: -6)
-			return view
-		} else {
-			fatalError()
-		}
-	}()
+//	lazy var leadingImageView: RoundedImageView = {
+//		if #available(iOS 13.0, *) {
+//			let view = RoundedImageView()
+//			view.translatesAutoresizingMaskIntoConstraints = false
+//			view.imageView.contentMode = .scaleAspectFit
+//			view.layer.borderWidth = 2
+//			view.layer.borderColor = UIColor.clear.cgColor
+//			view.insets = UIEdgeInsets(top: 6, left: 6, bottom: -6, right: -6)
+//			return view
+//		} else {
+//			fatalError()
+//		}
+//	}()
+    
+    lazy var readButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "0.circle"), for: .normal)
+        button.addTarget(self, action: #selector(tappedReadButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var unreadButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "0.square"), for: .normal)
+        button.addTarget(self, action: #selector(tappedUnReadButton), for: .touchUpInside)
+        return button
+    }()
 
 	lazy var projectSourceLabel: InsetLabelView = {
 		let label = InsetLabelView()
@@ -221,7 +240,6 @@ final class NotificationsCenterCell: UICollectionViewCell {
 	}
 
 	func setup() {
-		let edgeMargin: CGFloat = 11
 
 		selectedBackgroundView = UIView()
 
@@ -229,7 +247,7 @@ final class NotificationsCenterCell: UICollectionViewCell {
 		contentView.addSubview(mainVerticalStackView)
 		contentView.addSubview(cellSeparator)
 
-		leadingContainer.addSubview(leadingImageView)
+		//leadingContainer.addSubview(unreadButton)
 
 		headerTextContainer.addSubview(headerLabel)
 		headerTextContainer.addSubview(relativeTimeAgoLabel)
@@ -269,15 +287,15 @@ final class NotificationsCenterCell: UICollectionViewCell {
 			cellSeparator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 		])
 
-		// Leading Image Constraints
-
-		NSLayoutConstraint.activate([
-			leadingImageView.heightAnchor.constraint(equalToConstant: 32),
-			leadingImageView.widthAnchor.constraint(equalToConstant: 32),
-			leadingImageView.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
-			leadingImageView.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
-			leadingImageView.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
-		])
+//		// Leading Image Constraints
+//
+//		NSLayoutConstraint.activate([
+//			leadingImageView.heightAnchor.constraint(equalToConstant: 32),
+//			leadingImageView.widthAnchor.constraint(equalToConstant: 32),
+//			leadingImageView.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
+//			leadingImageView.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
+//			leadingImageView.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
+//		])
 
 		// Header label constraints
 
@@ -327,6 +345,29 @@ final class NotificationsCenterCell: UICollectionViewCell {
             relativeTimeAgoLabel.text = nil
         }
         
+        unreadButton.removeFromSuperview()
+        readButton.removeFromSuperview()
+        if viewModel.isRead {
+            leadingContainer.addSubview(readButton)
+            NSLayoutConstraint.activate([
+                readButton.heightAnchor.constraint(equalToConstant: 32),
+                readButton.widthAnchor.constraint(equalToConstant: 32),
+                readButton.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
+                readButton.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
+                readButton.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
+            ])
+        } else {
+            leadingContainer.addSubview(unreadButton)
+            
+            NSLayoutConstraint.activate([
+                unreadButton.heightAnchor.constraint(equalToConstant: 32),
+                unreadButton.widthAnchor.constraint(equalToConstant: 32),
+                unreadButton.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
+                unreadButton.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
+                unreadButton.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
+            ])
+        }
+        
 
 		updateCellStyle(forDisplayState: viewModel.displayState)
 
@@ -367,12 +408,23 @@ final class NotificationsCenterCell: UICollectionViewCell {
 		metaActionButton.titleLabel?.font = cellStyle.metadataFont(displayState)
 		projectSourceLabel.label.font = cellStyle.projectSourceFont(displayState)
 
-		// Image
-
-		leadingImageView.backgroundColor = cellStyle.leadingImageBackgroundColor(displayState)
-		leadingImageView.imageView.image = cellStyle.leadingImage(displayState)
-		leadingImageView.imageView.tintColor = cellStyle.leadingImageTintColor
-		leadingImageView.layer.borderColor = cellStyle.leadingImageBorderColor(displayState).cgColor
+//		// Image
+//
+//		leadingImageView.backgroundColor = cellStyle.leadingImageBackgroundColor(displayState)
+//		leadingImageView.imageView.image = cellStyle.leadingImage(displayState)
+//		leadingImageView.imageView.tintColor = cellStyle.leadingImageTintColor
+//		leadingImageView.layer.borderColor = cellStyle.leadingImageBorderColor(displayState).cgColor
 	}
+    
+    @objc func tappedReadButton() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        delegate?.toggleReadStatus(notification: viewModel.notification)
+    }
+    @objc func tappedUnReadButton() {
+        
+    }
 
 }

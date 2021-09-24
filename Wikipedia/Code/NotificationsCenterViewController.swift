@@ -56,7 +56,7 @@ final class NotificationsCenterViewController: ViewController {
                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationsCenterCell.reuseIdentifier, for: indexPath) as? NotificationsCenterCell else {
                 return nil
             }
-
+            cell.delegate = self
             cell.configure(viewModel: viewModel, theme: self.theme)
             return cell
       })
@@ -64,10 +64,10 @@ final class NotificationsCenterViewController: ViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool = true) {
-      var snapshot = Snapshot()
-      snapshot.appendSections([.main])
-      snapshot.appendItems(self.viewModel.cellViewModels)
-      dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(viewModel.cellViewModels)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 
 	// MARK: - Configuration
@@ -91,6 +91,18 @@ extension NotificationsCenterViewController: NotificationCenterViewModelDelegate
     func cellViewModelsDidChange() {
         applySnapshot(animatingDifferences: true)
     }
+    
+    func reloadCellWithViewModelIfNeeded(_ viewModel: NotificationsCenterCellViewModel) {
+        for cell in notificationsView.collectionView.visibleCells {
+            guard let cell = cell as? NotificationsCenterCell,
+                  let cellViewModel = cell.viewModel,
+                  cellViewModel == viewModel else {
+                continue
+            }
+            
+            cell.configure(viewModel: viewModel, theme: theme)
+        }
+    }
 }
 
 extension NotificationsCenterViewController: UICollectionViewDelegate {
@@ -98,7 +110,18 @@ extension NotificationsCenterViewController: UICollectionViewDelegate {
         let count = dataSource.collectionView(collectionView, numberOfItemsInSection: indexPath.section)
         let isLast = indexPath.row == count - 1
         if isLast {
-                self.viewModel.fetchNextPage()
+            viewModel.fetchNextPage()
         }
+    }
+}
+
+extension NotificationsCenterViewController: NotificationsCenterCellDelegate {
+    func userDidTapSecondaryActionForCellIdentifier(id: String) {
+        //nothing
+    }
+    
+    func toggleReadStatus(notification: RemoteNotification) {
+        //todo: mark as read/unread API call will be buried in here somewhere, for now just flip the read toggle on background context to demonstrate update flow
+        self.viewModel.remoteNotificationsController.toggleNotificationReadStatus(notification: notification)
     }
 }

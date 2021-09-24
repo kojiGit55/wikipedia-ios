@@ -36,6 +36,10 @@ class RemoteNotificationsOperationsController: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(modelControllerDidLoadPersistentStores(_:)), name: RemoteNotificationsModelController.didLoadPersistentStoresNotification, object: nil)
     }
     
+    func toggleNotificationReadStatus(notification: RemoteNotification) {
+        modelController?.toggleReadStatus(notification)
+    }
+    
     func deleteLegacyDatabaseFiles() throws {
         modelController?.deleteLegacyDatabaseFiles()
     }
