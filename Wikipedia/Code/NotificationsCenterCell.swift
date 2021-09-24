@@ -424,7 +424,11 @@ final class NotificationsCenterCell: UICollectionViewCell {
         delegate?.toggleReadStatus(notification: viewModel.notification)
     }
     @objc func tappedUnReadButton() {
+        guard let viewModel = viewModel else {
+            return
+        }
         
+        delegate?.toggleReadStatus(notification: viewModel.notification)
     }
 
 }
