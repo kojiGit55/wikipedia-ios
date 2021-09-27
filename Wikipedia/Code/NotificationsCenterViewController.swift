@@ -91,14 +91,16 @@ final class NotificationsCenterViewController: ViewController {
         enableToolbar()
         setToolbarHidden(false, animated: false)
 
-        let editButton = UIBarButtonItem(title: WMFLocalizedString("notifications-center-edit-button", value: "Edit", comment: "Title for navigation bar button to toggle mode for editing notification read status"), style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = editButton
+        let filtersButton = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(userDidTapFilterButton))
+        navigationItem.rightBarButtonItem = filtersButton
     }
 
 	// MARK: - Edit button
 
-	@objc func userDidTapEditButton() {
-
+	@objc func userDidTapFilterButton() {
+        let filtersVC = NotificationsCenterFilterViewController()
+        filtersVC.delegate = self
+        present(filtersVC, animated: true, completion: nil)
 	}
 }
 
@@ -138,5 +140,11 @@ extension NotificationsCenterViewController: NotificationsCenterCellDelegate {
     func toggleReadStatus(notification: RemoteNotification) {
         //todo: mark as read/unread API call will be buried in here somewhere, for now just flip the read toggle on background context to demonstrate update flow
         self.viewModel.remoteNotificationsController.toggleNotificationReadStatus(notification: notification)
+    }
+}
+
+extension NotificationsCenterViewController: NotificationsCenterFilterViewControllerDelegate {
+    func tappedToggleFilterButton() {
+        viewModel.toggledFilter()
     }
 }

@@ -54,13 +54,16 @@ import CocoaLumberjackSwift
     }
     
     //todo: input param of filter enums/option sets
-    public func fetchedResultsController(fetchLimit: Int = 10, fetchOffset: Int = 0) -> NSFetchedResultsController<RemoteNotification>? {
+    public func fetchedResultsController(isFilteringOn: Bool = false, fetchLimit: Int = 10, fetchOffset: Int = 0) -> NSFetchedResultsController<RemoteNotification>? {
         
         guard let viewContext = self.viewContext else {
             return nil
         }
         
         let fetchRequest: NSFetchRequest<RemoteNotification> = RemoteNotification.fetchRequest()
+        if isFilteringOn {
+            fetchRequest.predicate = NSPredicate(format: "typeString == %@", "thank-you-edit")
+        }
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         fetchRequest.fetchLimit = fetchLimit
         fetchRequest.fetchOffset = fetchOffset

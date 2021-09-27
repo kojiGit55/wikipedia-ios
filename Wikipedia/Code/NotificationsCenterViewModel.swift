@@ -26,6 +26,7 @@ final class NotificationsCenterViewModel: NSObject {
     
     private var isImporting = true
     private var isPagingEnabled = true
+    private var isFilteringOn = false
 
 	// MARK: - Lifecycle
 
@@ -43,6 +44,12 @@ final class NotificationsCenterViewModel: NSObject {
                 print("import complete")
             }
         }
+    }
+    
+    public func toggledFilter() {
+        resetData()
+        isFilteringOn.toggle()
+        fetchFirstPage()
     }
     
     public func refreshImportedNotifications(shouldResetData: Bool = false, completion: @escaping () -> Void) {
@@ -68,7 +75,7 @@ final class NotificationsCenterViewModel: NSObject {
     
     public func fetchFirstPage() {
         
-        guard let fetchedResultsController = remoteNotificationsController.fetchedResultsController() else {
+        guard let fetchedResultsController = remoteNotificationsController.fetchedResultsController(isFilteringOn: isFilteringOn) else {
             assertionFailure("Failure setting up first page fetched results controller")
             return
         }
@@ -94,7 +101,7 @@ final class NotificationsCenterViewModel: NSObject {
             return
         }
         
-        guard let nextFetchedResultsController = remoteNotificationsController.fetchedResultsController(fetchOffset: cellViewModels.count) else {
+        guard let nextFetchedResultsController = remoteNotificationsController.fetchedResultsController(isFilteringOn: isFilteringOn, fetchOffset: cellViewModels.count) else {
             assertionFailure("Falure setting up next page fetched results controller")
             return
         }
