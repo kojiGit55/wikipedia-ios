@@ -54,7 +54,30 @@ import CocoaLumberjackSwift
         alreadyImportedThisSession = true
     }
     
-    //todo: input param of filter enums/option sets
+    public func fetchNotifications(isFilteringOn: Bool = false, fetchLimit: Int = 10, fetchOffset: Int = 0) -> [RemoteNotification] {
+        assert(Thread.isMainThread)
+        
+        guard let viewContext = self.viewContext else {
+            DDLogError("Failure fetching notifications from persistence: missing viewContext")
+            return []
+        }
+        
+        let fetchRequest: NSFetchRequest<RemoteNotification> = RemoteNotification.fetchRequest()
+        if isFilteringOn {
+            fetchRequest.predicate = NSPredicate(format: "typeString == %@", "thank-you-edit")
+        }
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        fetchRequest.fetchLimit = fetchLimit
+        fetchRequest.fetchOffset = fetchOffset
+        
+        do {
+            return try viewContext.fetch(fetchRequest)
+        } catch {
+            DDLogError("Failure fetching notifications from persistence: \(error)")
+            return []
+        }
+    }
+    
     public func fetchedResultsController(isFilteringOn: Bool = false, fetchLimit: Int = 10, fetchOffset: Int = 0) -> NSFetchedResultsController<RemoteNotification>? {
         
         guard let viewContext = self.viewContext else {
