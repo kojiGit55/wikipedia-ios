@@ -21,12 +21,19 @@ final class NotificationsCenterViewModel: NSObject {
 
     weak var delegate: NotificationCenterViewModelDelegate?
     
-    private var cellViewModelsSet: Set<NotificationsCenterCellViewModel> = []
+    private var cellViewModelsDict: [String: NotificationsCenterCellViewModel] = [:]
     private(set) var cellViewModels: [NotificationsCenterCellViewModel] = []
     
     private var isImporting = true
     private var isPagingEnabled = true
     private var isFilteringOn = false
+    var editMode = false {
+        didSet {
+            if oldValue != editMode {
+                syncCellViewModels()
+            }
+        }
+    }
 
 	// MARK: - Lifecycle
 
@@ -38,11 +45,11 @@ final class NotificationsCenterViewModel: NSObject {
     
     private func kickoffImportIfNeeded() {
         
-        remoteNotificationsController.importNotificationsIfNeeded {
-            DispatchQueue.main.async { [weak self] in
-                self?.isImporting = false
-                print("import complete")
-            }
+        remoteNotificationsController.importNotificationsIfNeeded { [weak self] in
+            self?.isImporting = false
+            print("primary language import check complete")
+        } allProjectsCompletion: {
+            print("all projects import check complete")
         }
     }
     
@@ -68,7 +75,7 @@ final class NotificationsCenterViewModel: NSObject {
     
     private func resetData() {
         fetchedResultsControllers.removeAll()
-        cellViewModelsSet.removeAll()
+        cellViewModelsDict.removeAll()
         cellViewModels.removeAll()
         isPagingEnabled = true
     }
@@ -89,7 +96,12 @@ final class NotificationsCenterViewModel: NSObject {
         kickoffImportIfNeeded()
     }
     
-    public func fetchNextPage() {
+    func toggleCheckedStatus(cellViewModel: NotificationsCenterCellViewModel) {
+        cellViewModel.toggleCheckedStatus()
+        syncCellViewModels()
+    }
+    
+    func fetchNextPage() {
         
         guard isImporting == false else {
             DDLogDebug("Request to fetch next page while importing. Ignoring.")
@@ -130,10 +142,13 @@ final class NotificationsCenterViewModel: NSObject {
             }
             
             for notification in persistedNotifications {
-                let newViewModel = NotificationsCenterCellViewModel(notification: notification)
-                if let currentIndex = cellViewModelsSet.firstIndex(of: newViewModel) {
+                guard let key = notification.key else {
+                    continue
+                }
+                
+                if let currentViewModel = cellViewModelsDict[key] {
                     
-                    //view model already exists in data set. update existing view model with any valueable new data from the new view model (i.e., basically did the underlying core data notification change at all from the server). if it's not on screen, new data will be reflected when it scrolls on screen (this could probably be tested when we refresh. on current screen, when we refresh, if a notification comes back from the server looking different and that notification is persisted locally but not on screen yet, this section of code updates it to display the right thing when it is on screen).
+                    //view model already exists. Update existing view model with any valueable new data from managed object (i.e., basically did the underlying core data notification change at all from the server). if it's not on screen, new data will be reflected when it scrolls on screen (this could probably be tested when we refresh. on current screen, when we refresh, if a notification comes back from the server looking different and that notification is persisted locally but not on screen yet, this section of code updates it to display the right thing when it is on screen).
                     
                     // if it IS on screen, trigger a cell reconfiguration from here.
                     
@@ -141,16 +156,15 @@ final class NotificationsCenterViewModel: NSObject {
                     //notifications that have changed in core data while a view model is on screen.
                     //it seems to me a proper implementation of == in NotificationsCenterCellViewModel should automatically work
                     //but it doesn't (causes duplicate cells, etc).
-                    let currentViewModel = cellViewModelsSet[currentIndex]
-                    currentViewModel.copyAnyValueableNewDataFromNewViewModel(newViewModel)
+                    currentViewModel.copyAnyValuableNewDataFromNotification(notification, editMode: self.editMode)
                     delegate?.reloadCellWithViewModelIfNeeded(currentViewModel)
                 } else {
-                    cellViewModelsSet.insert(newViewModel)
+                    cellViewModelsDict[key] = NotificationsCenterCellViewModel(notification: notification, editMode: self.editMode)
                 }
             }
         }
         
-        self.cellViewModels = self.cellViewModelsSet.sorted { lhs, rhs in
+        self.cellViewModels = self.cellViewModelsDict.values.sorted { lhs, rhs in
             guard let lhsDate = lhs.notification.date,
                   let rhsDate = rhs.notification.date else {
                 return false

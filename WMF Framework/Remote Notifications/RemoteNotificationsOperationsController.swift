@@ -52,10 +52,11 @@ class RemoteNotificationsOperationsController: NSObject {
         operationQueue.cancelAllOperations()
     }
     
-    func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
+    func importNotificationsIfNeeded(primaryLanguageCompletion: @escaping () -> Void, allProjectsCompletion: @escaping () -> Void) {
 
         let completeEarly = {
-            self.operationQueue.addOperation(completion)
+            self.operationQueue.addOperation(primaryLanguageCompletion)
+            self.operationQueue.addOperation(allProjectsCompletion)
         }
 
         guard !isLocked else {
@@ -74,27 +75,37 @@ class RemoteNotificationsOperationsController: NSObject {
             return
         }
         
+        let primaryLanguageCompletionOperation = BlockOperation(block: primaryLanguageCompletion)
+        let allProjectsCompletionOperation = BlockOperation(block: allProjectsCompletion)
+        allProjectsCompletionOperation.queuePriority = .veryHigh
+        
         preferredLanguageCodesProvider.getPreferredLanguageCodes({ [weak self] (preferredLanguageCodes) in
             
             guard let self = self else {
                 return
             }
+            
+            //todo: better determination of primary language
+            let primaryLanguageCode = preferredLanguageCodes.first!
 
             let languageCodes = preferredLanguageCodes + ["wikidata", "commons"]
             var operations: [RemoteNotificationsImportOperation] = []
             for languageCode in languageCodes {
                 let operation = RemoteNotificationsImportOperation(with: self.apiController, modelController: modelController, languageCode: languageCode)
+                
+                if languageCode == primaryLanguageCode {
+                    operation.queuePriority = .veryHigh
+                    primaryLanguageCompletionOperation.addDependency(operation)
+                }
+                
                 operations.append(operation)
             }
 
-            let completionOperation = BlockOperation(block: completion)
-            completionOperation.queuePriority = .veryHigh
-
             for operation in operations {
-                completionOperation.addDependency(operation)
+                allProjectsCompletionOperation.addDependency(operation)
             }
 
-            self.operationQueue.addOperations(operations + [completionOperation], waitUntilFinished: false)
+            self.operationQueue.addOperations(operations + [primaryLanguageCompletionOperation, allProjectsCompletionOperation], waitUntilFinished: false)
         })
     }
     

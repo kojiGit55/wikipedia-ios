@@ -91,11 +91,16 @@ final class NotificationsCenterViewController: ViewController {
         enableToolbar()
         setToolbarHidden(false, animated: false)
 
-        let filtersButton = UIBarButtonItem(title: "Filters", style: .plain, target: self, action: #selector(userDidTapFilterButton))
-        navigationItem.rightBarButtonItem = filtersButton
+        let filtersButton = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), style: .plain, target: self, action: #selector(userDidTapFilterButton))
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(userDidTapEditButton))
+        navigationItem.rightBarButtonItems = [editButton, filtersButton]
     }
 
 	// MARK: - Edit button
+    
+    @objc func userDidTapEditButton() {
+        viewModel.editMode.toggle()
+    }
 
 	@objc func userDidTapFilterButton() {
         let filtersVC = NotificationsCenterFilterViewController()
@@ -133,6 +138,10 @@ extension NotificationsCenterViewController: UICollectionViewDelegate {
 }
 
 extension NotificationsCenterViewController: NotificationsCenterCellDelegate {
+    func toggleCheckedStatus(viewModel: NotificationsCenterCellViewModel) {
+        self.viewModel.toggleCheckedStatus(cellViewModel: viewModel)
+    }
+    
     func userDidTapSecondaryActionForCellIdentifier(id: String) {
         //nothing
     }

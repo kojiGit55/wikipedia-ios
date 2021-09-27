@@ -43,13 +43,14 @@ import CocoaLumberjackSwift
         operationsController.refreshImportedNotifications(fireNewRemoteNotification: fireNewRemoteNotification, completion: completion)
     }
     
-    public func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
+    public func importNotificationsIfNeeded(primaryLanguageCompletion: @escaping () -> Void, allProjectsCompletion: @escaping () -> Void) {
         guard !alreadyImportedThisSession else {
-            completion()
+            primaryLanguageCompletion()
+            allProjectsCompletion()
             return
         }
 
-        operationsController.importNotificationsIfNeeded(completion)
+        operationsController.importNotificationsIfNeeded(primaryLanguageCompletion: primaryLanguageCompletion, allProjectsCompletion: allProjectsCompletion)
         alreadyImportedThisSession = true
     }
     

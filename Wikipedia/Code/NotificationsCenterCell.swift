@@ -3,6 +3,7 @@ import UIKit
 protocol NotificationsCenterCellDelegate: AnyObject {
 	func userDidTapSecondaryActionForCellIdentifier(id: String)
     func toggleReadStatus(notification: RemoteNotification)
+    func toggleCheckedStatus(viewModel: NotificationsCenterCellViewModel)
 }
 
 final class NotificationsCenterCell: UICollectionViewCell {
@@ -36,6 +37,10 @@ final class NotificationsCenterCell: UICollectionViewCell {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "book.fill"), for: .normal)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 32),
+            button.widthAnchor.constraint(equalToConstant: 32)
+        ])
         button.addTarget(self, action: #selector(tappedReadButton), for: .touchUpInside)
         return button
     }()
@@ -44,7 +49,35 @@ final class NotificationsCenterCell: UICollectionViewCell {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "book"), for: .normal)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 32),
+            button.widthAnchor.constraint(equalToConstant: 32)
+        ])
         button.addTarget(self, action: #selector(tappedUnReadButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var uncheckedButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "circle"), for: .normal)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 32),
+            button.widthAnchor.constraint(equalToConstant: 32)
+        ])
+        button.addTarget(self, action: #selector(tappedUncheckedButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var checkedButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 32),
+            button.widthAnchor.constraint(equalToConstant: 32)
+        ])
+        button.addTarget(self, action: #selector(tappedCheckedButton), for: .touchUpInside)
         return button
     }()
 
@@ -193,6 +226,15 @@ final class NotificationsCenterCell: UICollectionViewCell {
 		stackView.alignment = .leading
 		return stackView
 	}()
+    
+    lazy var interactableButtonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .leading
+        return stackView
+    }()
 
 	// MARK: - UI Elements - Containers
 
@@ -247,7 +289,12 @@ final class NotificationsCenterCell: UICollectionViewCell {
 		contentView.addSubview(mainVerticalStackView)
 		contentView.addSubview(cellSeparator)
 
-		//leadingContainer.addSubview(unreadButton)
+		leadingContainer.addSubview(interactableButtonsStackView)
+        NSLayoutConstraint.activate([
+            interactableButtonsStackView.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
+            interactableButtonsStackView.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
+            interactableButtonsStackView.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
+        ])
 
 		headerTextContainer.addSubview(headerLabel)
 		headerTextContainer.addSubview(relativeTimeAgoLabel)
@@ -345,30 +392,6 @@ final class NotificationsCenterCell: UICollectionViewCell {
             relativeTimeAgoLabel.text = nil
         }
         
-        unreadButton.removeFromSuperview()
-        readButton.removeFromSuperview()
-        if viewModel.isRead {
-            leadingContainer.addSubview(readButton)
-            NSLayoutConstraint.activate([
-                readButton.heightAnchor.constraint(equalToConstant: 32),
-                readButton.widthAnchor.constraint(equalToConstant: 32),
-                readButton.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
-                readButton.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
-                readButton.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
-            ])
-        } else {
-            leadingContainer.addSubview(unreadButton)
-            
-            NSLayoutConstraint.activate([
-                unreadButton.heightAnchor.constraint(equalToConstant: 32),
-                unreadButton.widthAnchor.constraint(equalToConstant: 32),
-                unreadButton.leadingAnchor.constraint(equalTo: leadingContainer.leadingAnchor, constant: edgeMargin),
-                unreadButton.trailingAnchor.constraint(equalTo: leadingContainer.trailingAnchor, constant: -edgeMargin),
-                unreadButton.topAnchor.constraint(equalTo: leadingContainer.topAnchor, constant: edgeMargin),
-            ])
-        }
-        
-
 		updateCellStyle(forDisplayState: viewModel.displayState)
 
 		// Show or hide project source label and image
@@ -414,6 +437,27 @@ final class NotificationsCenterCell: UICollectionViewCell {
 //		leadingImageView.imageView.image = cellStyle.leadingImage(displayState)
 //		leadingImageView.imageView.tintColor = cellStyle.leadingImageTintColor
 //		leadingImageView.layer.borderColor = cellStyle.leadingImageBorderColor(displayState).cgColor
+        
+        unreadButton.removeFromSuperview()
+        readButton.removeFromSuperview()
+        checkedButton.removeFromSuperview()
+        uncheckedButton.removeFromSuperview()
+        
+        switch displayState {
+        case .defaultRead, .editSelectedRead, .editUnselectedRead:
+            interactableButtonsStackView.addArrangedSubview(readButton)
+        case .defaultUnread, .editSelectedUnread, .editUnselectedUnread:
+            interactableButtonsStackView.addArrangedSubview(unreadButton)
+        }
+        
+        switch displayState {
+        case .editSelectedRead, .editSelectedUnread:
+            interactableButtonsStackView.addArrangedSubview(checkedButton)
+        case .editUnselectedRead, .editUnselectedUnread:
+            interactableButtonsStackView.addArrangedSubview(uncheckedButton)
+        default:
+            break
+        }
 	}
     
     @objc func tappedReadButton() {
@@ -429,6 +473,21 @@ final class NotificationsCenterCell: UICollectionViewCell {
         }
         
         delegate?.toggleReadStatus(notification: viewModel.notification)
+    }
+    
+    @objc func tappedCheckedButton() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        delegate?.toggleCheckedStatus(viewModel: viewModel)
+    }
+    @objc func tappedUncheckedButton() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        delegate?.toggleCheckedStatus(viewModel: viewModel)
     }
 
 }
