@@ -45,6 +45,27 @@ final class NotificationsCenterViewModel: NSObject {
         }
     }
     
+    public func refreshImportedNotifications(shouldResetData: Bool = false, completion: @escaping () -> Void) {
+        
+        if (shouldResetData) {
+            resetData()
+        }
+        
+        remoteNotificationsController.refreshImportedNotifications { [weak self] in
+            DispatchQueue.main.async {
+                self?.fetchFirstPage()
+                completion()
+            }
+        }
+    }
+    
+    private func resetData() {
+        fetchedResultsControllers.removeAll()
+        cellViewModelsSet.removeAll()
+        cellViewModels.removeAll()
+        isPagingEnabled = true
+    }
+    
     public func fetchFirstPage() {
         
         guard let fetchedResultsController = remoteNotificationsController.fetchedResultsController() else {

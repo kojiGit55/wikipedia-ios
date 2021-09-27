@@ -14,6 +14,8 @@ final class NotificationsCenterViewController: ViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<NotificationsCenterSection, NotificationsCenterCellViewModel>
     typealias Snapshot = NSDiffableDataSourceSnapshot<NotificationsCenterSection, NotificationsCenterCellViewModel>
     private lazy var dataSource = makeDataSource()
+    
+    private let refreshControl = UIRefreshControl()
 
     // MARK: - Lifecycle
 
@@ -40,10 +42,23 @@ final class NotificationsCenterViewController: ViewController {
 
 		title = CommonStrings.notificationsCenterTitle
 		setupBarButtons()
-        notificationsView.collectionView.delegate = self
+        setupCollectionView()
         
         viewModel.fetchFirstPage()
 	}
+    
+    func setupCollectionView() {
+        notificationsView.collectionView.delegate = self
+        notificationsView.collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refresh(_ sender: Any) {
+        viewModel.refreshImportedNotifications(shouldResetData: true) { [weak self] in
+            print("refresh complete")
+            self?.refreshControl.endRefreshing()
+        }
+    }
     
     func makeDataSource() -> DataSource {
       // 1
@@ -66,8 +81,8 @@ final class NotificationsCenterViewController: ViewController {
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.cellViewModels)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        snapshot.appendItems(self.viewModel.cellViewModels)
+        self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 
 	// MARK: - Configuration

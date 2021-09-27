@@ -10,7 +10,21 @@ import CocoaLumberjackSwift
     
     @objc public required init(session: Session, configuration: Configuration, preferredLanguageCodesProvider: WMFPreferredLanguageInfoProvider) {
         operationsController = RemoteNotificationsOperationsController(session: session, configuration: configuration, preferredLanguageCodesProvider: preferredLanguageCodesProvider)
+        
         super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc private func didBecomeActive() {
+
+        guard alreadyImportedThisSession else {
+            return
+        }
+        
+        refreshImportedNotifications(fireNewRemoteNotification: true) {
+            //do nothing
+        }
     }
     
     @objc func deleteLegacyDatabaseFiles() {
@@ -23,6 +37,10 @@ import CocoaLumberjackSwift
     
     public func toggleNotificationReadStatus(notification: RemoteNotification) {
         operationsController.toggleNotificationReadStatus(notification: notification)
+    }
+    
+    public func refreshImportedNotifications(fireNewRemoteNotification: Bool = false, completion: @escaping () -> Void) {
+        operationsController.refreshImportedNotifications(fireNewRemoteNotification: fireNewRemoteNotification, completion: completion)
     }
     
     public func importNotificationsIfNeeded(_ completion: @escaping () -> Void) {
