@@ -35,7 +35,7 @@ final class NotificationsCenterCell: UICollectionViewCell {
     lazy var readButton: UIButton = {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "0.circle"), for: .normal)
+        button.setImage(UIImage(systemName: "book.fill"), for: .normal)
         button.addTarget(self, action: #selector(tappedReadButton), for: .touchUpInside)
         return button
     }()
@@ -43,7 +43,7 @@ final class NotificationsCenterCell: UICollectionViewCell {
     lazy var unreadButton: UIButton = {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "0.square"), for: .normal)
+        button.setImage(UIImage(systemName: "book"), for: .normal)
         button.addTarget(self, action: #selector(tappedUnReadButton), for: .touchUpInside)
         return button
     }()
