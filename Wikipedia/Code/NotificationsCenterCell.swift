@@ -3,6 +3,7 @@ import UIKit
 protocol NotificationsCenterCellDelegate: AnyObject {
 	func userDidTapSecondaryActionForCellIdentifier(id: String)
     func toggleCheckedStatus(viewModel: NotificationsCenterCellViewModel)
+    func toggleReadStatus(viewModel: NotificationsCenterCellViewModel)
 }
 
 final class NotificationsCenterCell: UICollectionViewCell {
@@ -30,6 +31,12 @@ final class NotificationsCenterCell: UICollectionViewCell {
     lazy var leadingImageTapGestureRecognizer: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedLeadingImage))
         leadingImageView.addGestureRecognizer(tap)
+        return tap
+    }()
+    
+    lazy var backgroundTapGestureRecognizer: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedBackground))
+        contentView.addGestureRecognizer(tap)
         return tap
     }()
 
@@ -341,6 +348,8 @@ final class NotificationsCenterCell: UICollectionViewCell {
         leadingImageView.imageView.tintColor = cellStyle.leadingImageTintColor
         leadingImageView.layer.borderColor = cellStyle.leadingImageBorderColor(displayState).cgColor
         leadingImageTapGestureRecognizer.isEnabled = cellStyle.isLeadingImageTapGestureEnabled(displayState)
+        
+        backgroundTapGestureRecognizer.isEnabled = true
     }
 
     func updateLabels(forViewModel viewModel: NotificationsCenterCellViewModel) {
@@ -391,5 +400,13 @@ final class NotificationsCenterCell: UICollectionViewCell {
         }
         
         delegate?.toggleCheckedStatus(viewModel: viewModel)
+    }
+    
+    @objc func tappedBackground() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        delegate?.toggleReadStatus(viewModel: viewModel)
     }
 }

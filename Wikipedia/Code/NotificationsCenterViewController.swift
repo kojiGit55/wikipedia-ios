@@ -21,6 +21,7 @@ final class NotificationsCenterViewController: ViewController {
     private lazy var editButton = {
         return UIBarButtonItem(title: editTitle, style: .plain, target: self, action: #selector(userDidTapEditButton))
     }()
+    private let refreshControl = UIRefreshControl()
 
     // MARK: - Lifecycle
 
@@ -95,6 +96,14 @@ final class NotificationsCenterViewController: ViewController {
 private extension NotificationsCenterViewController {
     func setupCollectionView() {
         notificationsView.collectionView.delegate = self
+        notificationsView.collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+    }
+    
+    @objc private func refresh(_ sender: Any) {
+        // Fetch Weather Data
+        viewModel.fetchFirstPage()
+        refreshControl.endRefreshing()
     }
     
     func setupDataSource() {
@@ -170,5 +179,9 @@ extension NotificationsCenterViewController: NotificationsCenterCellDelegate {
     
     func toggleCheckedStatus(viewModel: NotificationsCenterCellViewModel) {
         self.viewModel.toggleCheckedStatus(cellViewModel: viewModel)
+    }
+    
+    func toggleReadStatus(viewModel: NotificationsCenterCellViewModel) {
+        self.viewModel.toggleReadStatus(cellViewModel: viewModel)
     }
 }

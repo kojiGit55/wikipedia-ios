@@ -48,6 +48,11 @@ class RemoteNotificationsOperationsController: NSObject {
         operationQueue.cancelAllOperations()
     }
     
+    public func toggleReadStatus(viewNotification: RemoteNotification) {
+        //TODO: Mark as Read operation that hits API and flips and saves local flag on managed object. For now just doing local part.
+        modelController?.toggleReadStatus(viewNotification)
+    }
+    
     func fetchFirstPageNotifications(_ completion: @escaping () -> Void) {
     
         let completeEarly = {

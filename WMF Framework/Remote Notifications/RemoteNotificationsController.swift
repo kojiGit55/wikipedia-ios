@@ -24,6 +24,10 @@ import CocoaLumberjackSwift
         operationsController.fetchFirstPageNotifications(completion)
     }
     
+    public func toggleReadStatus(viewNotification: RemoteNotification) {
+        operationsController.toggleReadStatus(viewNotification: viewNotification)
+    }
+    
     public func fetchNotifications(fetchLimit: Int = 10, fetchOffset: Int = 0) -> [RemoteNotification] {
         assert(Thread.isMainThread)
         
